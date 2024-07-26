@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HumateApplication {
+public class HuMateApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HumateApplication.class, args);
+		SpringApplication.run(HuMateApplication.class, args);
 	}
 
 }
