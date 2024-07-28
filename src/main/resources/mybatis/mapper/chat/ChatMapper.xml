@@ -3,11 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.otclub.humate.domain.chat.mapper.ChatRoomMapper">
 
-    <insert id="insertChatRoom" parameterType="ChatRoomVO" useGeneratedKeys="true" keyProperty="roomId">
-
+    <insert id="insertChatRoom" parameterType="ChatRoomVO" useGeneratedKeys="true" keyProperty="chatRoomId">
+        <selectKey keyProperty="chatRoomId" resultType="int" order="BEFORE">
+            SELECT seq_chat_room.nextval FROM dual
+        </selectKey>
         <![CDATA[
-           insert into (chat_room_id, post_id)
-           values (seq_chat_room.nextval, #{postId})
+            insert into chat_room (chat_room_id, post_id)
+            values (#{chatRoomId}, #{postId})
         ]]>
     </insert>
+
 </mapper>
