@@ -1,14 +1,11 @@
 package com.otclub.humate.domain.activity.controller;
 
 import com.otclub.humate.domain.activity.dto.ActivitiesResponseDTO;
+import com.otclub.humate.domain.activity.dto.NewActivityResponseDTO;
 import com.otclub.humate.domain.activity.service.ActivityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/activities")
 @RestController
@@ -23,8 +20,31 @@ public class ActivityController {
      * @param : 동행 ID
      *
      */
-    @GetMapping("/{companionId}")
-    public ResponseEntity<ActivitiesResponseDTO> activityList(@PathVariable("companionId") int companionId) {
+    @GetMapping
+    public ResponseEntity<ActivitiesResponseDTO> activityList(@RequestParam("companionId") int companionId) {
         return ResponseEntity.ok(activityService.findActivities(companionId));
+    }
+
+    /**
+     * 완료된 활동 상세 조회
+     * @author : 손승완
+     * @param : 활동 인증 내역 ID
+     */
+    @GetMapping("/histories/{companionActivityHistoryId}")
+    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityHistoryId") int companionActivityHistoryId) {
+
+
+        return null;
+    }
+
+
+    /**
+     * 새로운 활동 상세 조회
+     * @author : 손승완
+     * @param : 활동 인증 내역 ID
+     */
+    @GetMapping("/{activityId}")
+    public ResponseEntity<NewActivityResponseDTO> NewActivityDetails(@PathVariable("activityId") int activityId) {
+        return ResponseEntity.ok(activityService.findActivity(activityId));
     }
 }

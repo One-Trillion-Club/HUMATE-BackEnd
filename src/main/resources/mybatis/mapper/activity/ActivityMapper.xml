@@ -22,5 +22,9 @@
         from activity
     </select>
 
-
+    <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewActivityResponseDTO">
+        select activity_id, title, content, point, img_url
+        from activity
+        where activity_id = #{activityId}
+    </select>
 </mapper>

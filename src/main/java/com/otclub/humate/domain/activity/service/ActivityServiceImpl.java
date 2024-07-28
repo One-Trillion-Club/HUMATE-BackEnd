@@ -3,6 +3,7 @@ package com.otclub.humate.domain.activity.service;
 import com.otclub.humate.common.entity.ActivityEntity;
 import com.otclub.humate.domain.activity.dto.ActivitiesResponseDTO;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO;
+import com.otclub.humate.domain.activity.dto.NewActivityResponseDTO;
 import com.otclub.humate.domain.activity.mapper.ActivityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,10 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
         return ActivitiesResponseDTO.of(companionActivityHistories, activities);
+    }
+
+    @Override
+    public NewActivityResponseDTO findActivity(int activityId) {
+        return activityMapper.selectActivityById(activityId);
     }
 }

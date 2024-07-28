@@ -12,6 +12,8 @@ import java.util.List;
 public class NewActivityResponseDTO {
     private int activityId;
     private String title;
+    private String content;
+    private int point;
     private String imgUrl;
 
     public static List<NewActivityResponseDTO> ofList(List<ActivityEntity> activities) {
