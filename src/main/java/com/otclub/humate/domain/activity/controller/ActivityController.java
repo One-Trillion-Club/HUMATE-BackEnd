@@ -26,19 +26,6 @@ public class ActivityController {
     }
 
     /**
-     * 완료된 활동 상세 조회
-     * @author : 손승완
-     * @param : 활동 인증 내역 ID
-     */
-    @GetMapping("/histories/{companionActivityHistoryId}")
-    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityHistoryId") int companionActivityHistoryId) {
-
-
-        return null;
-    }
-
-
-    /**
      * 새로운 활동 상세 조회
      * @author : 손승완
      * @param : 활동 인증 내역 ID
@@ -47,4 +34,15 @@ public class ActivityController {
     public ResponseEntity<NewActivityResponseDTO> NewActivityDetails(@PathVariable("activityId") int activityId) {
         return ResponseEntity.ok(activityService.findActivity(activityId));
     }
+
+    /**
+     * 완료된 활동 상세 조회
+     * @author : 손승완
+     * @param : 활동 인증 내역 ID
+     */
+    @GetMapping("/histories/{companionActivityId}")
+    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityId") int companionActivityId) {
+        return ResponseEntity.ok(activityService.findCompanionActivityHistory(companionActivityId));
+    }
+
 }

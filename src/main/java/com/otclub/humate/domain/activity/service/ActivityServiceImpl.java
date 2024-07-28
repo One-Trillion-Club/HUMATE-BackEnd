@@ -2,6 +2,7 @@ package com.otclub.humate.domain.activity.service;
 
 import com.otclub.humate.common.entity.ActivityEntity;
 import com.otclub.humate.domain.activity.dto.ActivitiesResponseDTO;
+import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO;
 import com.otclub.humate.domain.activity.dto.NewActivityResponseDTO;
 import com.otclub.humate.domain.activity.mapper.ActivityMapper;
@@ -20,11 +21,12 @@ public class ActivityServiceImpl implements ActivityService {
         List<CompanionActivityHistoryResponseDTO> companionActivityHistories = activityMapper.selectCompanionActivityHistoryList(companionId);
         List<ActivityEntity> activities = activityMapper.selectActivityList();
 
-        for (ActivityEntity activity : activities) {
-            for (CompanionActivityHistoryResponseDTO companionActivityHistory : companionActivityHistories) {
+        for (CompanionActivityHistoryResponseDTO companionActivityHistory : companionActivityHistories) {
+            for (ActivityEntity activity : activities) {
                 if (companionActivityHistory.getTitle().equals(activity.getTitle())) {
                     companionActivityHistory.setTitle(activity.getTitle());
                     activities.remove(activity);
+                    break;
                 }
             }
         }
@@ -35,5 +37,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public NewActivityResponseDTO findActivity(int activityId) {
         return activityMapper.selectActivityById(activityId);
+    }
+
+    @Override
+    public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId) {
+        return activityMapper.selectCompanionActivityHistoryById(companionActivityId);
     }
 }
