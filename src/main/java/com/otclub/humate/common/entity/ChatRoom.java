@@ -1,4 +1,4 @@
-package com.otclub.humate.domain.chat.domain;
+package com.otclub.humate.common.entity;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ChatRoomVO {
+public class ChatRoom {
     private int chatRoomId;
     private int postId;
     private String postTitle;
