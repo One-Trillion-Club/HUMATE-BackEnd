@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompanionActivityHistoryEntity {
+public class CompanionActivityHistory {
     private int companionActivityId;
     private int companionId;
     private int activityId;

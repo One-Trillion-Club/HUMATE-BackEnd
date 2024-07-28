@@ -6,7 +6,7 @@
     <select id="selectCompanionActivityHistoryList"
             resultType="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO">
 
-        select cah.companion_activity_id, cah.status, cai.img_url
+        select cah.companion_activity_id, cah.activity_title, cah.status, cai.img_url
         from companion_activity_history cah
                  join (select cai1.companion_activity_id, cai1.img_url, cai1.created_at
                        from companion_activity_img cai1
@@ -17,10 +17,36 @@
         where cah.companion_id = #{companionId}
     </select>
 
-    <select id="selectActivityList" resultType="com.otclub.humate.common.entity.ActivityEntity">
+    <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
         select *
         from activity
     </select>
 
+    <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewActivityResponseDTO">
+        select activity_id, title, content, point, img_url
+        from activity
+        where activity_id = #{activityId}
+    </select>
+
+    <resultMap id="companionActivityHistoryDetails"
+               type="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO">
+        <result property="activityTitle" column="activity_title"/>
+        <result property="createdAt" column="created_at"/>
+        <collection property="imgUrls" javaType="java.util.ArrayList" ofType="string"
+                    column="companion_activity_id" select="selectImgUrlListById"/>
+    </resultMap>
+
+    <select id="selectCompanionActivityHistoryById"
+            resultMap="companionActivityHistoryDetails">
+        select activity_title, created_at, companion_activity_id
+        from companion_activity_history
+        where companion_activity_id = #{companionActivityId}
+    </select>
+
+    <select id="selectImgUrlListById" resultType="string">
+        select img_url
+        from companion_activity_img
+        where companion_activity_id = #{companionActivityId}
+    </select>
 
 </mapper>
