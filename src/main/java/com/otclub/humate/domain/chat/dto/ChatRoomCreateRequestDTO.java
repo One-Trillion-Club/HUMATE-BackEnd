@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatRoomCreateRequestDTO {
     private int postId;
-    private int memberId;
-    private int writerId;
+    private String applicantId;
+    private String writerId;
 }
