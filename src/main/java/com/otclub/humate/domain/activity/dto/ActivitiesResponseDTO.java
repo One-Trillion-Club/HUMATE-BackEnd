@@ -1,6 +1,6 @@
 package com.otclub.humate.domain.activity.dto;
 
-import com.otclub.humate.common.entity.ActivityEntity;
+import com.otclub.humate.common.entity.Activity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ public class ActivitiesResponseDTO {
     private List<CompanionActivityHistoryResponseDTO> companionActivityHistories;
     private List<NewActivityResponseDTO> newActivities;
 
-    public static ActivitiesResponseDTO of(List<CompanionActivityHistoryResponseDTO> companionActivityHistories, List<ActivityEntity> activities) {
+    public static ActivitiesResponseDTO of(List<CompanionActivityHistoryResponseDTO> companionActivityHistories, List<Activity> activities) {
         return ActivitiesResponseDTO.builder()
                 .companionActivityHistories(companionActivityHistories)
                 .newActivities(NewActivityResponseDTO.ofList(activities))

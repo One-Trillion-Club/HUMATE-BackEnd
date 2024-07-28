@@ -1,6 +1,6 @@
 package com.otclub.humate.domain.activity.mapper;
 
-import com.otclub.humate.common.entity.ActivityEntity;
+import com.otclub.humate.common.entity.Activity;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO;
 import com.otclub.humate.domain.activity.dto.NewActivityResponseDTO;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface ActivityMapper {
     List<CompanionActivityHistoryResponseDTO> selectCompanionActivityHistoryList(int companionId);
 
-    List<ActivityEntity> selectActivityList();
+    List<Activity> selectActivityList();
 
     NewActivityResponseDTO selectActivityById(int activityId);
 

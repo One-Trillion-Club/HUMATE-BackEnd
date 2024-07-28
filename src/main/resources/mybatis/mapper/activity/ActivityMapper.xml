@@ -17,7 +17,7 @@
         where cah.companion_id = #{companionId}
     </select>
 
-    <select id="selectActivityList" resultType="com.otclub.humate.common.entity.ActivityEntity">
+    <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
         select *
         from activity
     </select>

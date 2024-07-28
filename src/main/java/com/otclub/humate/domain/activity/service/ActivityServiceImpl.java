@@ -1,6 +1,6 @@
 package com.otclub.humate.domain.activity.service;
 
-import com.otclub.humate.common.entity.ActivityEntity;
+import com.otclub.humate.common.entity.Activity;
 import com.otclub.humate.domain.activity.dto.ActivitiesResponseDTO;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO;
 import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO;
@@ -19,10 +19,10 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivitiesResponseDTO findActivities(int companionId) {
         // 완료된 활동 목록과 새로운 활동 목록 2개를 조회해야한다.
         List<CompanionActivityHistoryResponseDTO> companionActivityHistories = activityMapper.selectCompanionActivityHistoryList(companionId);
-        List<ActivityEntity> activities = activityMapper.selectActivityList();
+        List<Activity> activities = activityMapper.selectActivityList();
 
         for (CompanionActivityHistoryResponseDTO companionActivityHistory : companionActivityHistories) {
-            for (ActivityEntity activity : activities) {
+            for (Activity activity : activities) {
                 if (companionActivityHistory.getTitle().equals(activity.getTitle())) {
                     companionActivityHistory.setTitle(activity.getTitle());
                     activities.remove(activity);

@@ -1,6 +1,6 @@
 package com.otclub.humate.domain.activity.dto;
 
-import com.otclub.humate.common.entity.ActivityEntity;
+import com.otclub.humate.common.entity.Activity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,9 +16,9 @@ public class NewActivityResponseDTO {
     private int point;
     private String imgUrl;
 
-    public static List<NewActivityResponseDTO> ofList(List<ActivityEntity> activities) {
+    public static List<NewActivityResponseDTO> ofList(List<Activity> activities) {
         List<NewActivityResponseDTO> newActivitiesResponseDTO = new ArrayList<>();
-        for (ActivityEntity activity : activities) {
+        for (Activity activity : activities) {
             newActivitiesResponseDTO.add(NewActivityResponseDTO.builder()
                     .activityId(activity.getActivityId())
                     .title(activity.getTitle())

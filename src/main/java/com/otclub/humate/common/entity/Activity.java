@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityEntity {
+public class Activity {
     private int activityId;
     private String title;
     private String content;
