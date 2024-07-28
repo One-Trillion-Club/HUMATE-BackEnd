@@ -1,14 +1,17 @@
-package com.otclub.humate.domain.activity.dto;
+package com.otclub.humate.common.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Getter
-@Builder
-public class ActivityVO {
-    private Long activityId;
+@AllArgsConstructor
+@NoArgsConstructor
+public class ActivityEntity {
+    private int activityId;
     private String title;
     private String content;
     private int point;
