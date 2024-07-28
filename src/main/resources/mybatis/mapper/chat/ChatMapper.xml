@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.otclub.humate.domain.chat.mapper.ChatMapper">
+<mapper namespace="com.otclub.humate.domain.chat.mapper.ChatRoomMapper">
+
+    <insert id="insertChatRoom" parameterType="ChatRoomVO" useGeneratedKeys="true" keyProperty="roomId">
+
+        <![CDATA[
+           insert into (chat_room_id, post_id)
+           values (seq_chat_room.nextval, #{postId})
+        ]]>
+    </insert>
 </mapper>
