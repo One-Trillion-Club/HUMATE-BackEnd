@@ -1,5 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+ * 회원 도메인 Mybatis 매퍼
+ * @author 조영욱
+ * @since 2024.07.28
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.07.28  	조영욱        최초 생성
+ * </pre>
+ -->
 <mapper namespace="com.otclub.humate.domain.member.mapper.MemberMapper">
+
+    <insert id="insertMember">
+        insert into member (
+            member_id,
+            nationality,
+            login_id,
+            password,
+            gender,
+            birthdate,
+            nickname,
+            introduction,
+            profile_img_url,
+            language
+        )
+        values (
+            <choose>
+                <when test="nationality == 1">
+                    'K_'||seq_member_korean.NEXTVAL,
+                </when>
+                <otherwise>
+                    'F_'||seq_member_foreigner.NEXTVAL,
+                </otherwise>
+            </choose>
+            #{nationality},
+            #{loginId},
+            #{password},
+            #{gender},
+            #{birthdate},
+            #{nickname},
+            #{introduction},
+            #{profileImgUrl},
+            #{language}
+        )
+    </insert>
+
+    <select id="selectMemberByLoginId">
+        select
+            member_id
+        from
+            member
+        where
+            login_id=#{loginId}
+    </select>
+
+    <select id="selectMemberByNickname">
+        select
+            member_id
+        from
+            member
+        where
+            nickname=#{nickname}
+    </select>
 </mapper>
