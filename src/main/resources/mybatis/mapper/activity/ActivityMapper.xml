@@ -6,20 +6,20 @@
     <select id="selectCompanionActivityHistoryList"
             resultType="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO">
 
-        SELECT cah.COMPANION_ACTIVITY_ID, cah.STATUS, cai.img_url
-        FROM COMPANION_ACTIVITY_HISTORY cah
-                 JOIN (SELECT cai1.COMPANION_ACTIVITY_ID, cai1.IMG_URL, cai1.created_at
-                       FROM COMPANION_ACTIVITY_IMG cai1
-                       WHERE cai1.created_at = (SELECT MIN(cai2.created_at)
-                                                FROM COMPANION_ACTIVITY_IMG cai2
-                                                WHERE cai2.COMPANION_ACTIVITY_ID = cai1.COMPANION_ACTIVITY_ID)) cai
-                      ON cah.COMPANION_ACTIVITY_ID = cai.COMPANION_ACTIVITY_ID
-        WHERE cah.COMPANION_ID = #{companionId};
+        select cah.companion_activity_id, cah.status, cai.img_url
+        from companion_activity_history cah
+                 join (select cai1.companion_activity_id, cai1.img_url, cai1.created_at
+                       from companion_activity_img cai1
+                       where cai1.created_at = (select min(cai2.created_at)
+                                                from companion_activity_img cai2
+                                                where cai2.companion_activity_id = cai1.companion_activity_id)) cai
+                      on cah.companion_activity_id = cai.companion_activity_id
+        where cah.companion_id = #{companionId}
     </select>
 
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.ActivityEntity">
         SELECT *
-        FROM ACTIVITY
+        FROM activity
     </select>
 
 

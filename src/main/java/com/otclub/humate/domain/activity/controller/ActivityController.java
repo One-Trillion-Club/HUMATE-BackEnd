@@ -25,9 +25,6 @@ public class ActivityController {
      */
     @GetMapping("/{companionId}")
     public ResponseEntity<ActivitiesResponseDTO> activityList(@PathVariable("companionId") int companionId) {
-        // 1. 동행 ID와 회원 정보를 토대로 활동 목록을 불러온다.
-        int memberId = 1; // 임시 데이터
-        // 2. 이때, 완료된 활동 목록과 새로운 활동 목록 두 가지를 함께 불러온다.
         return ResponseEntity.ok(activityService.findActivities(companionId));
     }
 }

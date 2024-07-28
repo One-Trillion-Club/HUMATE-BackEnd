@@ -19,7 +19,15 @@ public class ActivityServiceImpl implements ActivityService {
         List<CompanionActivityHistoryResponseDTO> companionActivityHistories = activityMapper.selectCompanionActivityHistoryList(companionId);
         List<ActivityEntity> activities = activityMapper.selectActivityList();
 
+        for (ActivityEntity activity : activities) {
+            for (CompanionActivityHistoryResponseDTO companionActivityHistory : companionActivityHistories) {
+                if (companionActivityHistory.getTitle().equals(activity.getTitle())) {
+                    companionActivityHistory.setTitle(activity.getTitle());
+                    activities.remove(activity);
+                }
+            }
+        }
 
-        return null;
+        return ActivitiesResponseDTO.of(companionActivityHistories, activities);
     }
 }
