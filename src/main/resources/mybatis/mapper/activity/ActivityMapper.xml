@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.otclub.humate.domain.activity.mapper.ActivityMapper">
+    <select id="selectCompanionActivityHistoryList"
+            resultType="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO">
+
+        select cah.companion_activity_id, cah.status, cai.img_url
+        from companion_activity_history cah
+                 join (select cai1.companion_activity_id, cai1.img_url, cai1.created_at
+                       from companion_activity_img cai1
+                       where cai1.created_at = (select min(cai2.created_at)
+                                                from companion_activity_img cai2
+                                                where cai2.companion_activity_id = cai1.companion_activity_id)) cai
+                      on cah.companion_activity_id = cai.companion_activity_id
+        where cah.companion_id = #{companionId}
+    </select>
+
+    <select id="selectActivityList" resultType="com.otclub.humate.common.entity.ActivityEntity">
+        select *
+        from activity
+    </select>
+
+
 </mapper>
