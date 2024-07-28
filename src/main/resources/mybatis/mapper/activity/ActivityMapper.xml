@@ -18,8 +18,8 @@
     </select>
 
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.ActivityEntity">
-        SELECT *
-        FROM activity
+        select *
+        from activity
     </select>
 
 
