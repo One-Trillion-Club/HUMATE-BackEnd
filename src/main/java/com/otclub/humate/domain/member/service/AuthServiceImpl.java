@@ -8,6 +8,7 @@ import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final MemberMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 새 사용자 회원 가입
@@ -39,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public int signUp(SignUpRequestDTO dto) {
         log.info(dto.toString());
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         int result = 0;
 
