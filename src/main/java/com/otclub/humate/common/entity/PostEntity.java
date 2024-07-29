@@ -1,5 +1,6 @@
 package com.otclub.humate.common.entity;
 
+import jakarta.annotation.Nullable;
 import lombok.*;
 
 import java.util.Date;
@@ -9,21 +10,18 @@ import java.util.Date;
 @ToString
 @Builder
 @Getter
-public class Post {
+public class PostEntity {
 
     // 게시글 고유번호
     private int postId;
     // 회원 고유번호
-    private int memberId;
-    // 장소 고유번호
-    private int postPlaceId;
-    // 태그 고유번호
-    private int postTagId;
+    private String memberId;
     // 게시글 제목
     private String title;
     // 게시글 내용
     private String content;
     // 매칭 날짜
+    @Nullable
     private String matchDate;
     // 매칭 지점
     private String matchBranch;
