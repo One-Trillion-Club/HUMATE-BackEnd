@@ -5,5 +5,4 @@ import org.springframework.stereotype.Service;
 
 public interface ChatRoomService {
     int createChatRoom(ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
-    void joinChatRoom(); // 채팅방 입장
 }

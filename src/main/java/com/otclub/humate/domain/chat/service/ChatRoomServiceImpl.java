@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 public class ChatRoomServiceImpl implements ChatRoomService{
     private final ChatRoomMapper chatRoomMapper;
     @Override
+    @Transactional
     public int createChatRoom(ChatRoomCreateRequestDTO requestDTO) {
         // postId가 유효한지 확인 후, 정보 가져오기
 
@@ -33,11 +33,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         chatRoomMapper.insertChatParticipant(writer);
 
         return chatRoom.getChatRoomId();
-    }
-
-    @Override
-    public void joinChatRoom() {
-
     }
 
     private ChatParticipate createParticipant(ChatRoom chatRoom, String memberId){
