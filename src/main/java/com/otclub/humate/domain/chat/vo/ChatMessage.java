@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.chat.vo;
 
+import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,4 +29,15 @@ public class ChatMessage { // implements Persistable<String>
     private int readCount;
     private ChatType chatType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
+
+    public static ChatMessage of(int chatRoomId, ChatMessageRequestDTO requestDTO){
+        ChatMessage chatMessage = ChatMessage.builder()
+                .chatRoomId(chatRoomId)
+                .content(requestDTO.getContent())
+                .senderId(requestDTO.getSenderId())
+                .chatType(requestDTO.getChatType())
+                .readCount(1)
+                .build();
+        return chatMessage;
+    }
 }

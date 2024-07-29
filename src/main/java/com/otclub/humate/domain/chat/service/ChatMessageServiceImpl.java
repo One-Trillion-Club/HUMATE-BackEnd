@@ -14,22 +14,11 @@ public class ChatMessageServiceImpl implements ChatMessageService{
 
     @Override
     public ChatMessage createMessage(int chatRoomId, ChatMessageRequestDTO requestDTO) {
-        ChatMessage chatMessage = createChatMessage(chatRoomId, requestDTO);
+        ChatMessage chatMessage = ChatMessage.of(chatRoomId, requestDTO);
 
         // 몽고디비 저장하기
         mongoTemplate.insert(chatMessage);
 
-        return chatMessage;
-    }
-
-    private static ChatMessage createChatMessage(int chatRoomId, ChatMessageRequestDTO requestDTO){
-        ChatMessage chatMessage = ChatMessage.builder()
-                .chatRoomId(chatRoomId)
-                .content(requestDTO.getContent())
-                .senderId(requestDTO.getSenderId())
-                .chatType(requestDTO.getChatType())
-                .readCount(1)
-                .build();
         return chatMessage;
     }
 

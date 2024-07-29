@@ -17,4 +17,11 @@ public class ChatParticipate {
     private Date createdAt;
     private Date exitedAt;
     private int isClicked;
+
+    public static ChatParticipate of(ChatRoom chatRoom, String memberId){
+        return ChatParticipate.builder()
+                .chatRoomId(chatRoom.getChatRoomId())
+                .memberId(memberId)
+                .build();
+    }
 }

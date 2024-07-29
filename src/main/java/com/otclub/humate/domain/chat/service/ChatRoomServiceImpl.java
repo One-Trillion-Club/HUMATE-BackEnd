@@ -29,12 +29,12 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         }
 
         // 채팅방 생성하기
-        ChatRoom chatRoom = createRoom(postId);
+        ChatRoom chatRoom = ChatRoom.from(requestDTO.getPostId());
         chatRoomMapper.insertChatRoom(chatRoom);
 
         // 채팅방 참여 유저 설정하기
-        ChatParticipate applicant = createParticipant(chatRoom, requestDTO.getApplicantId());
-        ChatParticipate writer = createParticipant(chatRoom, requestDTO.getWriterId());
+        ChatParticipate applicant = ChatParticipate.of(chatRoom, requestDTO.getApplicantId());
+        ChatParticipate writer = ChatParticipate.of(chatRoom, requestDTO.getWriterId());
 
         // 채팅방에 참여시키기
         chatRoomMapper.insertChatParticipant(applicant);
@@ -42,19 +42,5 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
         return chatRoom.getChatRoomId();
     }
-
-    private ChatParticipate createParticipant(ChatRoom chatRoom, String memberId){
-        return ChatParticipate.builder()
-                .chatRoomId(chatRoom.getChatRoomId())
-                .memberId(memberId)
-                .build();
-    }
-
-    private ChatRoom createRoom(int postId){
-        return ChatRoom.builder()
-                .postId(postId)
-                .build();
-    }
-
 
 }
