@@ -1,12 +1,9 @@
 package com.otclub.humate.domain.mate.service;
 
-import com.otclub.humate.common.entity.PostEntity;
-import com.otclub.humate.common.entity.PostPlaceEntity;
-import com.otclub.humate.common.entity.PostTagEntity;
-import com.otclub.humate.domain.mate.dto.PostListResponseDTO;
-import com.otclub.humate.domain.mate.dto.PostPlaceRegisterRequestDTO;
-import com.otclub.humate.domain.mate.dto.PostRegisterRequestDTO;
-import com.otclub.humate.domain.mate.dto.PostTagRegisterRequestDTO;
+import com.otclub.humate.common.entity.Post;
+import com.otclub.humate.common.entity.PostPlace;
+import com.otclub.humate.common.entity.PostTag;
+import com.otclub.humate.domain.mate.dto.*;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +31,7 @@ public class PostServiceImpl implements PostService {
     public int addPost(PostRegisterRequestDTO request) {
         // post 등록
         // 1. 필수값 설정
-        PostEntity.PostEntityBuilder postBuilder = PostEntity.builder()
+        Post.PostBuilder postBuilder = Post.builder()
                 .memberId(request.getMemberId())
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -56,7 +53,7 @@ public class PostServiceImpl implements PostService {
             postBuilder.matchLanguage(request.getMatchLanguage());
         }
 
-        PostEntity post = postBuilder.build();
+        Post post = postBuilder.build();
 
         log.info("post: " + post.toString());
         int postResult = postMapper.insertPost(post);
@@ -70,8 +67,8 @@ public class PostServiceImpl implements PostService {
         if (postPlaces != null) {
             log.info("[service단] postPlaceResult");
             for (PostPlaceRegisterRequestDTO place : postPlaces) {
-                PostPlaceEntity postPlace
-                        = PostPlaceEntity.builder()
+                PostPlace postPlace
+                        = PostPlace.builder()
                         .postId(postId)
                         .type(place.getType())
                         .name(place.getName())
@@ -86,8 +83,8 @@ public class PostServiceImpl implements PostService {
         if (postTags != null) {
             log.info("[service단] postTagResult");
             for (PostTagRegisterRequestDTO tag : postTags) {
-                PostTagEntity postTag
-                        = PostTagEntity.builder()
+                PostTag postTag
+                        = PostTag.builder()
                         .postId(postId)
                         .tagId(tag.getTagId())
                         .build();
@@ -98,4 +95,30 @@ public class PostServiceImpl implements PostService {
 
         return postId;
     }
+
+    @Override
+    public PostDetailResponseDTO findPost(int postId) {
+        PostBasicDetailResponseDTO postBasic = postMapper.selectPostById(postId);
+        List<PostTagDetailResponseDTO> postTags = postMapper.selectPostTagById(postId);
+        List<PostPlaceDetailResponseDTO> postPlaces = postMapper.selectPostPlaceById(postId);
+
+        PostDetailResponseDTO post
+                = PostDetailResponseDTO.builder()
+                .postId(postId)
+                .memberId(postBasic.getMemberId())
+                .title(postBasic.getTitle())
+                .content(postBasic.getContent())
+                .matchDate(postBasic.getMatchDate())
+                .matchBranch(postBasic.getMatchBranch())
+                .matchGender(postBasic.getMatchGender())
+                .matchLanguage(postBasic.getMatchLanguage())
+                .postTags(postTags)
+                .postPlaces(postPlaces)
+                .build();
+
+        log.info("[service단] result -> " + post.toString());
+        return post;
+    }
+
+
 }
