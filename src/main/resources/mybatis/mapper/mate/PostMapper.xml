@@ -100,4 +100,20 @@
         ]]>
     </select>
 
+    <!-- postId를 사용한 매칭글 존재 확인 -->
+    <select id="selectPostCountById" resultType="boolean">
+        <![CDATA[
+            select
+                case
+                    when count(*) > 0 then 1
+                    else 0
+                    end
+            from post
+            where post_id = #{postId}
+        ]]>
+    </select>
+
+
+
+
 </mapper>

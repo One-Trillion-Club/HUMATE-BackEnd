@@ -31,4 +31,7 @@ public interface PostMapper {
 
     // 매칭글 태그 상세 조회
     List<PostTagDetailResponseDTO> selectPostTagById(int postId);
+
+    // postId를 사용한 매칭글 존재 확인
+    boolean selectPostCountById(int postId);
 }
