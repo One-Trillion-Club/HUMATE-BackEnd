@@ -8,4 +8,23 @@
         set finished_at = sysdate
         where companion_id = #{companionId} and finished_at is null
     </update>
+    <select id="selectCompanionAndPost" resultType="com.otclub.humate.domain.companion.dto.CompanionPostDTO">
+        select
+            c.companion_id,
+            r.post_title,
+            r.match_branch,
+            r.match_date,
+            f.member_id first_member_id,
+            f.nickname first_member_nickname,
+            s.member_id second_member_id,
+            s.nickname second_member_nickname
+        from companion c
+                 join chat_room r
+                      on c.chat_room_id = r.chat_room_id
+                 join member f
+                      on c.first_member_id = f.member_id
+                 join member s
+                      on c.second_member_id = s.member_id
+        where c.companion_id = #{companionId}
+    </select>
 </mapper>
