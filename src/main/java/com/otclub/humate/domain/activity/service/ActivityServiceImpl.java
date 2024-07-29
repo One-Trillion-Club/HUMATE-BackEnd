@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,6 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
         CompanionActivityHistory history = CompanionActivityHistory.of(companionId, activityId);
-        System.out.println(companionId + " " + activityId);
         if (activityMapper.insertCompanionActivityHistory(history) != 1) {
             throw new CustomException(ErrorCode.UPLOAD_FAIL);
         }
