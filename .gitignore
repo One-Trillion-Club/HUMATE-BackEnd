@@ -35,4 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Config ###
 application-db.yml
+application-jwt.yml

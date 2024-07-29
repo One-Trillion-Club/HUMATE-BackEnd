@@ -3,7 +3,9 @@ server:
 
 spring:
   config:
-    import: application-db.yml
+    import:
+      - application-db.yml
+      - application-jwt.yml
 
 mybatis:
   type-aliases-package: com.otclub.humate.domain

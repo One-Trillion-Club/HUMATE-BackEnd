@@ -1,9 +1,8 @@
-package com.otclub.humate.domain.member.service;
+package com.otclub.humate.domain.auth.service;
 
-import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

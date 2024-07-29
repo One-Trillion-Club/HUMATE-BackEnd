@@ -1,6 +1,6 @@
-package com.otclub.humate.domain.member.service;
+package com.otclub.humate.domain.auth.service;
 
-import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 
 /**
  * 인증/인가 서비스 인터페이스

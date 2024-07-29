@@ -1,9 +1,8 @@
-package com.otclub.humate.domain.member.controller;
+package com.otclub.humate.domain.auth.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.common.entity.Member;
-import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
-import com.otclub.humate.domain.member.service.AuthService;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
