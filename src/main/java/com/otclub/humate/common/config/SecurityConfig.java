@@ -18,6 +18,11 @@ public class SecurityConfig {
                 authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
+                .formLogin((formLogin) ->
+                        formLogin
+                                .usernameParameter("loginId")
+                                .passwordParameter("password")
+                                .defaultSuccessUrl("/", true))
                 ;
         return http.build();
     }
