@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.mate.service;
 
+import com.otclub.humate.domain.mate.dto.PostDetailResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostListResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostRegisterRequestDTO;
 
@@ -12,4 +13,7 @@ public interface PostService {
 
     // 게시글 등록
     int addPost(PostRegisterRequestDTO request);
+
+    // 게시글 상세 조회
+    PostDetailResponseDTO findPost(int postId);
 }

@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @Builder
 @Getter
-public class PostTagEntity {
+public class PostTag {
 
     // 매칭글 태그 고유번호
     private int postTagId;
