@@ -113,7 +113,36 @@
         ]]>
     </select>
 
-
-
+    <!-- 매칭글 키워드 검색 -->
+    <select id="selectPostByKeyword" resultType="com.otclub.humate.domain.mate.dto.PostListResponseDTO">
+        <![CDATA[
+            select
+                p.post_id,
+                m.nickname,
+                m.profile_img_url,
+                t.tag_name,
+                p.title,
+                p.match_date,
+                p.match_branch,
+                p.match_gender,
+                p.match_language,
+                p.created_at,
+                p.is_matched
+            from
+                post p
+            join member m on p.member_id = m.member_id
+            left join (
+                select
+                    pt.post_id,
+                    listagg(t.name, ',') within group (order by t.name) as tag_name
+                from
+                    post_tag pt
+                        join tag t on pt.tag_id = t.tag_id
+                group by
+                    pt.post_id
+            ) t on p.post_id = t.post_id
+            where p.title like '%' || #{keyword} || '%'
+        ]]>
+    </select>
 
 </mapper>

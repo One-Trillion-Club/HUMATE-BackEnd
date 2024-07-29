@@ -120,5 +120,12 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
+    @Override
+    public List<PostListResponseDTO> findPostByKeyword(String keyword) {
+        List<PostListResponseDTO> result = postMapper.selectPostByKeyword(keyword);
+        log.info("[service단] result -> " + result);
+        return result;
+    }
+
 
 }
