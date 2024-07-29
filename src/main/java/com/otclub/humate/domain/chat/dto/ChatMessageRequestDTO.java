@@ -1,12 +1,10 @@
 package com.otclub.humate.domain.chat.dto;
 
-import java.time.LocalDateTime;
+import com.otclub.humate.domain.chat.vo.ChatType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 @Builder
 @NoArgsConstructor

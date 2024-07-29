@@ -1,7 +1,7 @@
 package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import com.otclub.humate.domain.chat.entity.ChatMessage;
+import com.otclub.humate.domain.chat.vo.ChatMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -18,9 +18,6 @@ public class ChatMessageServiceImpl implements ChatMessageService{
 
         // 몽고디비 저장하기
         mongoTemplate.insert(chatMessage);
-
-        // 전송하기
-
 
         return chatMessage;
     }

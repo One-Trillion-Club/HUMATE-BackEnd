@@ -1,7 +1,7 @@
 package com.otclub.humate.domain.chat.controller;
 
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import com.otclub.humate.domain.chat.entity.ChatMessage;
+import com.otclub.humate.domain.chat.vo.ChatMessage;
 import com.otclub.humate.domain.chat.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

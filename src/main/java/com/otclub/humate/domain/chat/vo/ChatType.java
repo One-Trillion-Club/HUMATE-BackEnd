@@ -1,7 +1,6 @@
-package com.otclub.humate.domain.chat.dto;
+package com.otclub.humate.domain.chat.vo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
