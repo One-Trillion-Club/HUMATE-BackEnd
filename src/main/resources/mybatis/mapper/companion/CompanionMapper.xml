@@ -28,4 +28,18 @@
         where c.companion_id = #{companionId}
             and (f.MEMBER_ID = #{memberId} or s.member_id = #{memberId})
     </select>
+
+    <select id="selectCompanionByIds" resultType="com.otclub.humate.common.entity.Companion">
+        select
+            c.companion_id,
+            c.first_member_id,
+            c.second_member_id
+        from companion c
+            left join review r
+                on c.companion_id = r.companion_id
+        where c.companion_id = #{companionId}
+            and (c.first_member_id = #{memberId} OR c.second_member_id = #{memberId})
+            and c.finished_at is not null
+            and (r.reviewer_id is null or r.reviewer_id != #{memberId})
+    </select>
 </mapper>

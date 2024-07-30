@@ -2,4 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.otclub.humate.domain.review.mapper.ReviewMapper">
+    <insert id="insertReview">
+        insert into review(review_id, companion_id, reviewer_id, reviewee_id, content, score)
+        values (seq_review.nextval, #{companionId}, #{reviewerId}, #{revieweeId}, #{content}, #{score})
+    </insert>
 </mapper>
