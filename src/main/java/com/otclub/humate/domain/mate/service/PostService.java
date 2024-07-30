@@ -19,4 +19,7 @@ public interface PostService {
 
     // 게시글 검색 (키워드 기반)
     List<PostListResponseDTO> findPostByKeyword(String keyword);
+
+    // 게시글 삭제
+    int removePost(int postId);
 }

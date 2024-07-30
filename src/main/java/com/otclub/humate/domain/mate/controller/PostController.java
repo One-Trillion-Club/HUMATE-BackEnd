@@ -46,4 +46,11 @@ public class PostController {
         return ResponseEntity.ok(postListResponseDTOs);
     }
 
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Integer> postRemove(@PathVariable("postId") int postId) {
+        int deletedPostId = postService.removePost(postId);
+        log.info("[controller단] post 삭제 -> " + deletedPostId);
+        return ResponseEntity.ok(deletedPostId);
+    }
+
 }
