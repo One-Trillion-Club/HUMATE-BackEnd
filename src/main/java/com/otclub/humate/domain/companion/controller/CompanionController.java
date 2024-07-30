@@ -27,8 +27,9 @@ public class CompanionController {
 
     /**
      * 동행 목록 조회
-     * @author : 큰모래
-     */
+     * @author : 손승완
+     *
+     * */
     @GetMapping
     public ResponseEntity<List<CompanionResponseDTO>> companionList() {
         String memberId = "K_1";
