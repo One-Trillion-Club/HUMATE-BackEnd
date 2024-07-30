@@ -11,12 +11,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * 채팅메세지 MongoDB Document
+ * @author 최유경
+ * @since 2024.07.29
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  	최유경        최초 생성
+ * </pre>
+ */
+
 @Document(collection = "chatMessage")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatMessage { // implements Persistable<String>
+public class ChatMessage {
 
     @Id
     private String _id;
