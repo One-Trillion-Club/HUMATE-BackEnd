@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatController {
-    @Autowired
     private final ChatMessageService chatMessageService;
 
     @MessageMapping("/chat/{chatRoomId}")

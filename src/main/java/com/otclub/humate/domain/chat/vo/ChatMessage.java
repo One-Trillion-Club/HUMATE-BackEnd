@@ -27,7 +27,7 @@ public class ChatMessage { // implements Persistable<String>
     @CreatedDate
     private LocalDateTime sendDate;
     private int readCount;
-    private ChatType chatType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
+    private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
 
     public static ChatMessage of(int chatRoomId, ChatMessageRequestDTO requestDTO){
@@ -35,7 +35,7 @@ public class ChatMessage { // implements Persistable<String>
                 .chatRoomId(chatRoomId)
                 .content(requestDTO.getContent())
                 .senderId(requestDTO.getSenderId())
-                .chatType(requestDTO.getChatType())
+                .messageType(requestDTO.getMessageType())
                 .readCount(1)
                 .build();
         return chatMessage;
