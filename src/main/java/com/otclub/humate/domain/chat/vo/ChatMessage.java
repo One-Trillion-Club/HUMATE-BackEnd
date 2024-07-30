@@ -2,6 +2,8 @@ package com.otclub.humate.domain.chat.vo;
 
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,8 +39,7 @@ public class ChatMessage {
     private int chatRoomId;
     private String senderId;
     private String content;
-    @CreatedDate
-    private LocalDateTime sendDate;
+    private Date createdAt;
     private int readCount;
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
@@ -46,11 +47,22 @@ public class ChatMessage {
     public static ChatMessage of(int chatRoomId, ChatMessageRequestDTO requestDTO){
         ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoomId(chatRoomId)
-                .content(requestDTO.getContent())
                 .senderId(requestDTO.getSenderId())
-                .messageType(requestDTO.getMessageType())
+                .content(requestDTO.getContent())
+                .createdAt(getDate())
                 .readCount(1)
+                .messageType(requestDTO.getMessageType())
                 .build();
         return chatMessage;
+    }
+
+    private static Date getDate(){
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR, 9);
+
+        return new Date(calendar.getTimeInMillis());
     }
 }
