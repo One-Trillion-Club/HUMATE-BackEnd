@@ -34,4 +34,7 @@ public interface PostMapper {
 
     // postId를 사용한 매칭글 존재 확인
     boolean selectPostCountById(int postId);
+
+    // 매칭글 검색
+    List<PostListResponseDTO> selectPostByKeyword(String keyword);
 }

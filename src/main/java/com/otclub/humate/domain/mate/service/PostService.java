@@ -16,4 +16,7 @@ public interface PostService {
 
     // 게시글 상세 조회
     PostDetailResponseDTO findPost(int postId);
+
+    // 게시글 검색 (키워드 기반)
+    List<PostListResponseDTO> findPostByKeyword(String keyword);
 }

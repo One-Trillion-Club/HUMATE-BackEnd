@@ -39,4 +39,11 @@ public class PostController {
         return ResponseEntity.ok(postDetailResponseDTO);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PostListResponseDTO>> postSearchList(@RequestParam("keyword") String keyword) {
+        List<PostListResponseDTO> postListResponseDTOs = postService.findPostByKeyword(keyword);
+        log.info("[controller단] postSearch keyword -> " + keyword);
+        return ResponseEntity.ok(postListResponseDTOs);
+    }
+
 }
