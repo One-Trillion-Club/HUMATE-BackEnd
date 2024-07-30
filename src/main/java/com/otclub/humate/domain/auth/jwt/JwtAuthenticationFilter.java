@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
@@ -41,7 +42,7 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_A
  */
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtTokenProvider;
     private final AuthService authService;
@@ -54,11 +55,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
      * @param response
      * @param chain
      * @throws IOException
-     * @throws ServletException
      */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException {
         // JWT 토큰 추출
         JwtDTO jwtDTO = resolveToken((HttpServletRequest) request);
         // validateToken으로 토큰 유효성 검사
@@ -80,6 +80,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             // 엑세스 토큰 만료 시 refresh token을 통한 토큰 재발급
             try {
                 String refreshToken = jwtDTO.refreshToken();
+
                 jwtTokenProvider.validateToken(refreshToken);
                 Claims claims = jwtTokenProvider.parseClaims(refreshToken);
                 String memberId = claims.getSubject();
@@ -89,17 +90,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 Cookie accessTokenCookie = AuthUtil.createJwtTokenCookie("ajt", refreshedTokenDTO.accessToken());
                 Cookie refreshTokenCookie = AuthUtil.createJwtTokenCookie("rjt", refreshedTokenDTO.refreshToken());
 
-                ((HttpServletResponse)response).addCookie(accessTokenCookie);
-                ((HttpServletResponse)response).addCookie(refreshTokenCookie);
+                response.addCookie(accessTokenCookie);
+                response.addCookie(refreshTokenCookie);
                 log.info("\n\n===토큰 리프레시하고 쿠키에 수정 완료===\n");
                 chain.doFilter(request, response);
 
             } catch (Exception e2) {
-                setErrorResponse((HttpServletResponse) response, ErrorCode.FORBIDDEN_REQUEST);
+                System.out.println(e);
+                System.out.println("1111111111");
+                e2.printStackTrace();
+                setErrorResponse(response, ErrorCode.FORBIDDEN_REQUEST);
             }
 
         } catch (Exception e) {
-            setErrorResponse((HttpServletResponse) response, ErrorCode.FORBIDDEN_REQUEST);
+            System.out.println("2222222222");
+            setErrorResponse(response, ErrorCode.FORBIDDEN_REQUEST);
         }
     }
 

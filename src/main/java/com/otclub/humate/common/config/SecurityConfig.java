@@ -39,7 +39,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests.requestMatchers("/auth/**").hasAuthority("ADMIN") // ADMIN 권한 필요
+                        authorizeHttpRequests.requestMatchers("/auth/**").hasAuthority("ADMIN") // ADMIN 권한 필요 URL
                                 .requestMatchers("/member/**").permitAll() // permitAll 해야 JwtAuthenticationFilter에 들어감
                                 .anyRequest().permitAll()) // 이 코드가 있어야 hasAuthority("ADMIN") 한 코드도 JwtAuthenticationFilter에 들어감
                 .httpBasic(AbstractHttpConfigurer::disable)

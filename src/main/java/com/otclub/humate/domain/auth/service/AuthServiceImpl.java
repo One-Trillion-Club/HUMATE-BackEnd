@@ -110,7 +110,6 @@ public class AuthServiceImpl implements AuthService {
             throw new Exception();
         }
 
-
         try {
             JwtDTO jwtDTO = jwtGenerator.generateToken(member);
             member.setRefreshToken(jwtDTO.refreshToken());
