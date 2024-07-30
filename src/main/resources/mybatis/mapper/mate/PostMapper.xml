@@ -145,4 +145,14 @@
         ]]>
     </select>
 
+    <!-- 매칭글 삭제 -->
+    <update id="deletePost">
+        <![CDATA[
+            update post
+            set deleted_at = SYSDATE
+            where post_id = #{postId}
+              and deleted_at is null
+        ]]>
+    </update>
+
 </mapper>

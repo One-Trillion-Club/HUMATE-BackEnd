@@ -3,6 +3,8 @@ package com.otclub.humate.domain.mate.service;
 import com.otclub.humate.common.entity.Post;
 import com.otclub.humate.common.entity.PostPlace;
 import com.otclub.humate.common.entity.PostTag;
+import com.otclub.humate.common.exception.CustomException;
+import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.mate.dto.*;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
 import lombok.AllArgsConstructor;
@@ -127,5 +129,15 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
+    @Override
+    @Transactional
+    public int removePost(int postId) {
+        int result = postMapper.deletePost(postId);
+        log.info("[service단] result -> " + result);
+        if (result == 0) {
+            throw new CustomException(ErrorCode.FAIL_TO_DELETE_POST);
+        }
+        return postId;
+    }
 
 }
