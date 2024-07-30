@@ -1,4 +1,4 @@
-package com.otclub.humate.domain.member.dto;
+package com.otclub.humate.domain.auth.dto;
 
 import lombok.Getter;
 import lombok.Setter;

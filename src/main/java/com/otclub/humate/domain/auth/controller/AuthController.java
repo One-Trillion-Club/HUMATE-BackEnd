@@ -1,13 +1,19 @@
-package com.otclub.humate.domain.member.controller;
+package com.otclub.humate.domain.auth.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.common.entity.Member;
-import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
-import com.otclub.humate.domain.member.service.AuthService;
+import com.otclub.humate.domain.auth.constant.AuthConstant;
+import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.jwt.JwtDTO;
+import com.otclub.humate.domain.auth.service.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.otclub.humate.domain.auth.constant.AuthConstant.*;
 
 /**
  * 인증/인가 컨트롤러
@@ -56,5 +62,37 @@ public class AuthController {
                 ResponseEntity.ok(new CommonResponseDTO(true, "사용 가능한 아이디입니다.")) :
                 ResponseEntity.ok(new CommonResponseDTO(false, "이미 사용중인 아이디입니다."));
 
+    }
+
+    /**
+     * 회원 로그인
+     * JWT 토큰을 발급하고 클라이언트의 쿠키에 저장
+     *
+     * @author 조영욱
+     * @param dto 회원 로그인 아이디, 비밀번호
+     * @param response
+     */
+    @PostMapping("/login")
+    public ResponseEntity<CommonResponseDTO> logIn(@RequestBody LogInRequestDTO dto, HttpServletResponse response) {
+        JwtDTO jwtDTO = service.logIn(dto);
+
+        if (jwtDTO == null) {
+            return ResponseEntity.ok(new CommonResponseDTO(false, "로그인 실패"));
+        }
+
+        Cookie accessToken = new Cookie("ajt", jwtDTO.accessToken());
+        accessToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
+        accessToken.setHttpOnly(true);
+        accessToken.setPath("/");
+
+        Cookie refreshToken = new Cookie("rjt", jwtDTO.refreshToken());
+        refreshToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
+        refreshToken.setHttpOnly(true);
+        refreshToken.setPath("/");
+
+        response.addCookie(accessToken);
+        response.addCookie(refreshToken);
+
+        return ResponseEntity.ok(new CommonResponseDTO(true, "로그인 성공"));
     }
 }

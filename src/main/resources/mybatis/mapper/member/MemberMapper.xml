@@ -52,7 +52,8 @@
 
     <select id="selectMemberByLoginId">
         select
-            member_id
+            member_id,
+            password
         from
             member
         where
