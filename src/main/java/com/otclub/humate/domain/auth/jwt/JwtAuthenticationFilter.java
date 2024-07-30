@@ -1,10 +1,10 @@
 package com.otclub.humate.domain.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.common.exception.ErrorResponse;
 import com.otclub.humate.domain.auth.service.AuthService;
+import com.otclub.humate.domain.auth.util.AuthUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -24,7 +24,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 
-import static com.otclub.humate.domain.auth.constant.AuthConstant.JWT_TOKEN_COOKIE_MAX_AGE;
+import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_AGE;
 
 /**
  * JWT 필터 클래스
@@ -36,6 +36,7 @@ import static com.otclub.humate.domain.auth.constant.AuthConstant.JWT_TOKEN_COOK
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30   조영욱        유틸 모듈 생성을 통한 리팩토링
  * </pre>
  */
 @Slf4j
@@ -85,18 +86,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
                 JwtDTO refreshedTokenDTO = authService.refreshJwtToken(memberId, refreshToken);
 
-                Cookie newAccessToken = new Cookie("ajt", refreshedTokenDTO.accessToken());
-                newAccessToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
-                newAccessToken.setHttpOnly(true);
-                newAccessToken.setPath("/");
+                Cookie accessTokenCookie = AuthUtil.createJwtTokenCookie("ajt", refreshedTokenDTO.accessToken());
+                Cookie refreshTokenCookie = AuthUtil.createJwtTokenCookie("rjt", refreshedTokenDTO.refreshToken());
 
-                Cookie newRefreshToken = new Cookie("rjt", refreshedTokenDTO.refreshToken());
-                newRefreshToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
-                newRefreshToken.setHttpOnly(true);
-                newRefreshToken.setPath("/");
-
-                ((HttpServletResponse)response).addCookie(newAccessToken);
-                ((HttpServletResponse)response).addCookie(newRefreshToken);
+                ((HttpServletResponse)response).addCookie(accessTokenCookie);
+                ((HttpServletResponse)response).addCookie(refreshTokenCookie);
                 log.info("\n\n===토큰 리프레시하고 쿠키에 수정 완료===\n");
                 chain.doFilter(request, response);
 

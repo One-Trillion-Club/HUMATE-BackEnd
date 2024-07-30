@@ -11,12 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * 스프링 시큐리티 Config 클래스
@@ -28,6 +24,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30   조영욱        스프링 시큐리티 필터 체인 제외 URL 기능 추가
  * </pre>
  */
 @Configuration
@@ -52,11 +49,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

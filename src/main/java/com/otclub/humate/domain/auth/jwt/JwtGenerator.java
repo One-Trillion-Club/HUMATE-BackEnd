@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
-import static com.otclub.humate.domain.auth.constant.AuthConstant.ACCESS_TOKEN_EXPIRE_TIME;
-import static com.otclub.humate.domain.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
+import static com.otclub.humate.domain.auth.util.AuthUtil.ACCESS_TOKEN_EXPIRE_TIME;
+import static com.otclub.humate.domain.auth.util.AuthUtil.REFRESH_TOKEN_EXPIRE_TIME;
 
 /**
  * JWT 토큰 생성 클래스
