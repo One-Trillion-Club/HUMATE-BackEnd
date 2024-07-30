@@ -1,4 +1,4 @@
-package com.otclub.humate.domain.chat.config;
+package com.otclub.humate.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

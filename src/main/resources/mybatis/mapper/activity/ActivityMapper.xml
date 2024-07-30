@@ -6,15 +6,12 @@
     <select id="selectCompanionActivityHistoryList"
             resultType="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO">
 
-        select cah.companion_activity_id, cah.activity_title, cah.status, cai.img_url
-        from companion_activity_history cah
-                 join (select cai1.companion_activity_id, cai1.img_url, cai1.created_at
-                       from companion_activity_img cai1
-                       where cai1.created_at = (select min(cai2.created_at)
-                                                from companion_activity_img cai2
-                                                where cai2.companion_activity_id = cai1.companion_activity_id)) cai
-                      on cah.companion_activity_id = cai.companion_activity_id
-        where cah.companion_id = #{companionId}
+        select c.companion_activity_id, a.title, c.status, min(i.img_url)
+        from companion_activity_history c
+                 left join activity a on a.activity_id = c.activity_id
+                 left join companion_activity_img i on c.companion_activity_id = i.companion_activity_id
+        where c.companion_id = #{companionId}
+        group by c.companion_activity_id, a.title, c.status
     </select>
 
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
@@ -49,4 +46,37 @@
         where companion_activity_id = #{companionActivityId}
     </select>
 
+    <select id="countCompanionActivityHistoryByIds" resultType="java.lang.Integer">
+        select count(companion_activity_id)
+        from companion_activity_history
+        where companion_id = #{companionId} and activity_id = #{activityId}
+    </select>
+
+    <insert id="insertCompanionActivityHistory" parameterType="com.otclub.humate.common.entity.CompanionActivityHistory"
+            useGeneratedKeys="true" keyProperty="companionActivityId">
+        <selectKey keyProperty="companionActivityId" resultType="int" order="BEFORE">
+            SELECT seq_companion_activity.nextval FROM dual
+        </selectKey>
+
+        <![CDATA[
+            insert into companion_activity_history (companion_activity_id, companion_id, activity_id, status, activity_title)
+            values (#{companionActivityId}, #{companionId}, #{activityId}, #{status},
+                    (
+                    select title
+                    from activity
+                    where activity_id = #{activityId}
+                    )
+                )
+        ]]>
+    </insert>
+
+    <insert id="insertCompanionActivityImgList" parameterType="java.util.List">
+        insert into companion_activity_img(companion_activity_img_id, companion_activity_id, img_url)
+            select seq_companion_activity_img.nextval, A.* from (
+                <foreach collection="list" index="index" item="item" separator="UNION ALL">
+                    select #{item.companionActivityId}, #{item.imgUrl}
+                    from dual
+                </foreach>
+            ) A
+    </insert>
 </mapper>

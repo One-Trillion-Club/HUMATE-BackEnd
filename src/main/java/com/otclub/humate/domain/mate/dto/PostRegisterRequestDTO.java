@@ -1,16 +1,16 @@
-package com.otclub.humate.common.entity;
+package com.otclub.humate.domain.mate.dto;
 
-import jakarta.annotation.Nullable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-@AllArgsConstructor
-@RequiredArgsConstructor
-@ToString
-@Builder
+import java.util.*;
 @Getter
-public class Post {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PostRegisterRequestDTO {
 
     // 게시글 고유번호
     private int postId;
@@ -21,7 +21,6 @@ public class Post {
     // 게시글 내용
     private String content;
     // 매칭 날짜
-    @Nullable
     private String matchDate;
     // 매칭 지점
     private String matchBranch;
@@ -29,10 +28,9 @@ public class Post {
     private int matchGender;
     // 매칭 언어
     private String matchLanguage;
-    // 작성 날짜
-    private Date createdAt;
-    // 삭제 날짜
-    private Date deletedAt;
-    // 매칭 여부
-    private int isMatched;
+    // 매장 및 팝업스토어
+    private List<PostPlaceRegisterRequestDTO> postPlaces;
+    // 매칭글 태그
+    private List<PostTagRegisterRequestDTO> postTags;
+
 }

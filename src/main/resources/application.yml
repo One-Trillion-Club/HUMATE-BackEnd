@@ -6,6 +6,7 @@ spring:
     import:
       - application-db.yml
       - application-jwt.yml
+      - application-s3.yml
 
 mybatis:
   type-aliases-package: com.otclub.humate.domain
