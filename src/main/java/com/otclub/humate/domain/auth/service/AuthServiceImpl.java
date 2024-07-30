@@ -77,8 +77,22 @@ public class AuthServiceImpl implements AuthService {
         }
 
         JwtDTO jwtDTO = jwtGenerator.generateToken(member.getMemberId());
-        log.info("LOGIN: Access token: " + jwtDTO.accessToken());
-        log.info("LOGIN: Refresh token: " + jwtDTO.refreshToken());
+        member.setRefreshToken(jwtDTO.refreshToken());
+        mapper.updateRefreshToken(member);
+
+        return jwtDTO;
+    }
+
+    public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
+        Member member = mapper.selectMemberById(memberId);
+
+        if (member == null || !refreshToken.equals(member.getRefreshToken())) {
+            throw new Exception();
+        }
+
+        JwtDTO jwtDTO = jwtGenerator.generateToken(member.getMemberId());
+        member.setRefreshToken(jwtDTO.refreshToken());
+        mapper.updateRefreshToken(member);
 
         return jwtDTO;
     }

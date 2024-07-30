@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.common.exception.ErrorResponse;
+import com.otclub.humate.domain.auth.service.AuthService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -20,6 +23,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+
+import static com.otclub.humate.domain.auth.constant.AuthConstant.JWT_TOKEN_COOKIE_MAX_AGE;
 
 /**
  * JWT 필터 클래스
@@ -38,6 +43,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private final JwtProvider jwtTokenProvider;
+    private final AuthService authService;
 
     /**
      * 인가 필요 메소드 실행 시 먼저 실행 될 필터 메소드
@@ -56,16 +62,48 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         JwtDTO jwtDTO = resolveToken((HttpServletRequest) request);
         // validateToken으로 토큰 유효성 검사
         try {
-            if (jwtDTO != null && jwtTokenProvider.validateToken(jwtDTO.accessToken())) {
-                // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
-                Authentication authentication = jwtTokenProvider.getAuthentication(jwtDTO.accessToken());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                log.info("===Security Filter===");
-                chain.doFilter(request, response);
-            } else {
+            if (jwtDTO == null) {
                 throw new Exception();
             }
+            // 토큰 validate
+            jwtTokenProvider.validateToken(jwtDTO.accessToken());
+
+            // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
+            Authentication authentication = jwtTokenProvider.getAuthentication(jwtDTO.accessToken());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("\n===Security Filter===");
+            chain.doFilter(request, response);
+
+        } catch (ExpiredJwtException e) {
+            // 엑세스 토큰 만료 시 refresh token을 통한 토큰 재발급
+            try {
+                String refreshToken = jwtDTO.refreshToken();
+                jwtTokenProvider.validateToken(refreshToken);
+                Claims claims = jwtTokenProvider.parseClaims(refreshToken);
+                String memberId = claims.getSubject();
+
+                JwtDTO refreshedTokenDTO = authService.refreshJwtToken(memberId, refreshToken);
+
+                Cookie newAccessToken = new Cookie("ajt", refreshedTokenDTO.accessToken());
+                newAccessToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
+                newAccessToken.setHttpOnly(true);
+                newAccessToken.setPath("/");
+
+                Cookie newRefreshToken = new Cookie("rjt", refreshedTokenDTO.refreshToken());
+                newRefreshToken.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
+                newRefreshToken.setHttpOnly(true);
+                newRefreshToken.setPath("/");
+
+                ((HttpServletResponse)response).addCookie(newAccessToken);
+                ((HttpServletResponse)response).addCookie(newRefreshToken);
+                log.info("\n\n===토큰 리프레시하고 쿠키에 수정 완료===\n");
+                chain.doFilter(request, response);
+
+            } catch (Exception e2) {
+                setErrorResponse((HttpServletResponse) response, ErrorCode.FORBIDDEN_REQUEST);
+            }
+
         } catch (Exception e) {
             setErrorResponse((HttpServletResponse) response, ErrorCode.FORBIDDEN_REQUEST);
         }

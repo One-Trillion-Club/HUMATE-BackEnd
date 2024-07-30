@@ -20,4 +20,5 @@ public interface AuthService {
     int signUp(SignUpRequestDTO dto);
     boolean checkAvailableLoginId(String loginId);
     JwtDTO logIn(LogInRequestDTO dto);
+    JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception;
 }

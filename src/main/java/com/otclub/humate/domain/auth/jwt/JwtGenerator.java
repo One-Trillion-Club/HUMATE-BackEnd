@@ -6,9 +6,12 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.security.Key;
 import java.util.Date;
-import static com.otclub.humate.domain.auth.constant.AuthConstant.*;
+
+import static com.otclub.humate.domain.auth.constant.AuthConstant.ACCESS_TOKEN_EXPIRE_TIME;
+import static com.otclub.humate.domain.auth.constant.AuthConstant.REFRESH_TOKEN_EXPIRE_TIME;
 
 /**
  * JWT 토큰 생성 클래스
@@ -57,6 +60,7 @@ public class JwtGenerator {
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
+                .setSubject(memberId)
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

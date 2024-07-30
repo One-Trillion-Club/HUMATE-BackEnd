@@ -11,6 +11,7 @@ import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +46,8 @@ public class JwtProvider {
      * @author 조영욱
      * @param secretKey BASE64로 인코딩된 서버 비밀키
      */
-    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
+    @Autowired
+    public JwtProvider(@Value("${jwt.secret}") String secretKey, JwtGenerator jwtGenerator) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -61,7 +63,7 @@ public class JwtProvider {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다."); // todo: Exception Handling
+            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -88,15 +90,15 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException e) { // todo: Exception Handling
-            log.info("Invalid JWT Token", e);
-            throw new AccessDeniedException("");
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e); // todo: access token refresh
+        } catch (SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT Token");
+        } catch (ExpiredJwtException expiredJwtException) {
+            log.info("Expired JWT Token\n**Refresh Access Token required");
+            throw expiredJwtException; // 토큰 만료 시 만료 예외 따로 반환
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.info("Unsupported JWT Token");
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            log.info("JWT claims string is empty.");
         }
 
         throw new AccessDeniedException("Access denied");
@@ -107,15 +109,15 @@ public class JwtProvider {
      * JWT 페이로드의 클레임 파싱하여 반환
      *
      * @author 조영욱
-     * @param accessToken
+     * @param token
      * @return Claims
      */
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String token) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(accessToken)
+                    .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
