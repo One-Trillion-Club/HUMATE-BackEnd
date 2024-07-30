@@ -1,8 +1,12 @@
 package com.otclub.humate.domain.auth.service;
 
+import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
+import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.jwt.JwtDTO;
+import com.otclub.humate.domain.auth.jwt.JwtGenerator;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final MemberMapper mapper;
     private final PasswordEncoder passwordEncoder;
+    private final JwtGenerator jwtGenerator;
 
     /**
      * 새 사용자 회원 가입
@@ -61,5 +66,20 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean checkAvailableLoginId(String loginId) {
         return mapper.selectMemberByLoginId(loginId) == null;
+    }
+
+    @Override
+    public JwtDTO logIn(LogInRequestDTO dto) {
+        Member member = mapper.selectMemberByLoginId(dto.getLoginId());
+
+        if (member == null || !passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
+            throw new CustomException(ErrorCode.NOT_VALID_USER_INFORMATION);
+        }
+
+        JwtDTO jwtDTO = jwtGenerator.generateToken(member.getMemberId());
+        log.info("LOGIN: Access token: " + jwtDTO.accessToken());
+        log.info("LOGIN: Refresh token: " + jwtDTO.refreshToken());
+
+        return jwtDTO;
     }
 }

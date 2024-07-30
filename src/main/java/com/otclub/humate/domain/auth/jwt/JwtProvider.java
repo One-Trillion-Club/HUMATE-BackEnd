@@ -20,6 +20,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * JWT 토큰 프로바이더 클래스
+ * @author 조영욱
+ * @since 2024.07.29
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  	조영욱        최초 생성
+ * </pre>
+ */
 @Slf4j
 @Component
 public class JwtProvider {
@@ -28,18 +40,27 @@ public class JwtProvider {
 
     /**
      * 생성자: 설정 파일을 통해 key 초기화
-     * @param secretKey
+     *
+     * @author 조영욱
+     * @param secretKey BASE64로 인코딩된 서버 비밀키
      */
     public JwtProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * JWT 토큰을 통해 Authentication 객체 반환
+     *
+     * @author 조영욱
+     * @param accessToken
+     * @return Authentication
+     */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+            throw new RuntimeException("권한 정보가 없는 토큰입니다."); // todo: Exception Handling
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -53,7 +74,12 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    // 토큰 정보를 검증하는 메서드
+    /**
+     * 토큰 정보 검증
+     *
+     * @author 조영욱
+     * @param token
+     */
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -61,10 +87,10 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException e) {
+        } catch (SecurityException | MalformedJwtException e) { // todo: Exception Handling
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            log.info("Expired JWT Token", e); // todo: access token refresh
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
@@ -74,7 +100,13 @@ public class JwtProvider {
     }
 
 
-    // accessToken
+    /**
+     * JWT 페이로드의 클레임 파싱하여 반환
+     *
+     * @author 조영욱
+     * @param accessToken
+     * @return Claims
+     */
     private Claims parseClaims(String accessToken) {
         try {
             return Jwts.parserBuilder()

@@ -1,6 +1,7 @@
 package com.otclub.humate.domain.member.mapper;
 
 import com.otclub.humate.common.entity.Member;
+import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 
