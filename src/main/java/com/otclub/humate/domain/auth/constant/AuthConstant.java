@@ -14,10 +14,10 @@ package com.otclub.humate.domain.auth.constant;
  */
 public class AuthConstant {
     // JWT Token
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_000L; // 10분
-    public static final long REFRESH_TOKEN_EXPIRE_TIME = 604_800_000L; // 1주
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_000L; // 10분 (millisecond)
+    public static final long REFRESH_TOKEN_EXPIRE_TIME = 604_800_000L; // 1주 (millisecond)
 
     // JWT Cookie
-    public static final int JWT_TOKEN_COOKIE_MAX_AGE = 604_800; // 1주
+    public static final int JWT_TOKEN_COOKIE_MAX_AGE = 604_800; // 1주 (second)
 
 }

@@ -16,6 +16,18 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * 스프링 시큐리티 Config 클래스
+ * @author 조영욱
+ * @since 2024.07.29
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  	조영욱        최초 생성
+ * </pre>
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -44,9 +56,9 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        // 시큐리티 필터 체인 제외 URL
-        return (web) -> web.ignoring().requestMatchers("/**");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        // 시큐리티 필터 체인 제외 URL
+//        return (web) -> web.ignoring().requestMatchers("/**");
+//    }
 }
