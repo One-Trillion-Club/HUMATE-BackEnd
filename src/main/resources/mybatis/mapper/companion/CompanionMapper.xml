@@ -42,4 +42,27 @@
             and c.finished_at is not null
             and (r.reviewer_id is null or r.reviewer_id != #{memberId})
     </select>
+
+    <select id="selectCompanionListByMemberId"
+            resultType="com.otclub.humate.domain.companion.dto.CompanionDetailsDTO">
+        select
+            c.companion_id,
+            c.finished_at,
+            fm.member_id first_member_id,
+            fm.profile_img_url first_member_profile_img_url,
+            fm.nickname first_member_nickname,
+            sm.member_id second_member_id,
+            sm.profile_img_url second_member_profile_img_url,
+            sm.nickname second_member_nickname,
+            cr.post_title,
+            cr.match_date
+        from companion c
+                 join member fm
+                      on c.first_member_id = fm.member_id
+                 join member sm
+                      on c.second_member_id = sm.member_id
+                 join chat_room cr
+                      on c.chat_room_id = cr.chat_room_id
+        where (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
+    </select>
 </mapper>
