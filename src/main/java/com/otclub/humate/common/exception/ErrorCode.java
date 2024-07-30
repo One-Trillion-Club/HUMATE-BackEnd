@@ -13,7 +13,8 @@ public enum ErrorCode {
     NOT_EXISTS_COMPANION(400, "존재하지 않는 동행입니다."),
     REVIEW_FAIL(400, "리뷰 등록에 실패했습니다."),
     POST_NOT_FOUND(404, "해당 매칭글을 찾을 수 없습니다."),
-    NOT_VALID_USER_INFORMATION(400, "아이디나 비밀번호가 올바르지 않습니다.");
+    NOT_VALID_USER_INFORMATION(400, "아이디나 비밀번호가 올바르지 않습니다."),
+    FAIL_TO_DELETE_POST(400, "존재하지 않는 게시물이거나 이미 삭제된 게시물입니다.");
 
     private final int status;
     private final String message;
