@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.mate.controller;
 
+import com.otclub.humate.domain.mate.dto.PostDetailResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostListResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostRegisterRequestDTO;
 import com.otclub.humate.domain.mate.service.PostService;
@@ -30,6 +31,19 @@ public class PostController {
         int postId = postService.addPost(request);
         log.info("[controller단] post 등록 -> " + request.toString());
         return ResponseEntity.ok(postId);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostDetailResponseDTO> postDetails(@PathVariable("postId") int postId) {
+        PostDetailResponseDTO postDetailResponseDTO = postService.findPost(postId);
+        return ResponseEntity.ok(postDetailResponseDTO);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PostListResponseDTO>> postSearchList(@RequestParam("keyword") String keyword) {
+        List<PostListResponseDTO> postListResponseDTOs = postService.findPostByKeyword(keyword);
+        log.info("[controller단] postSearch keyword -> " + keyword);
+        return ResponseEntity.ok(postListResponseDTOs);
     }
 
 }

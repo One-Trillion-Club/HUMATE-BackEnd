@@ -19,4 +19,10 @@ public class ChatRoom {
     private String chatStatus;
     private int isMatched;
     private Date createdAt;
+
+    public static ChatRoom from(int postId){
+        return ChatRoom.builder()
+                .postId(postId)
+                .build();
+    }
 }

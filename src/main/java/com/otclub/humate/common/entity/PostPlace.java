@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @Builder
 @Getter
-public class PostPlaceEntity {
+public class PostPlace {
 
     // 장소 고유번호
     private int postPlaceId;

@@ -1,6 +1,8 @@
-package com.otclub.humate.domain.member.service;
+package com.otclub.humate.domain.auth.service;
 
-import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.jwt.JwtDTO;
 
 /**
  * 인증/인가 서비스 인터페이스
@@ -17,4 +19,5 @@ import com.otclub.humate.domain.member.dto.SignUpRequestDTO;
 public interface AuthService {
     int signUp(SignUpRequestDTO dto);
     boolean checkAvailableLoginId(String loginId);
+    JwtDTO logIn(LogInRequestDTO dto);
 }

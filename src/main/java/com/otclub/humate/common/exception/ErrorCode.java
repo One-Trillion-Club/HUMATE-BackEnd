@@ -11,8 +11,10 @@ public enum ErrorCode {
     ALREADY_EXISTS_ACTIVITY(409, "이미 존재하는 활동입니다. 다른 활동을 등록해 주세요."),
     CANCEL_COMPANION_FAIL(400, "동행 취소에 실패했습니다."),
     NOT_EXISTS_COMPANION(400, "존재하지 않는 동행입니다."),
-    REVIEW_FAIL(400, "리뷰 등록에 실패했습니다.");
+    REVIEW_FAIL(400, "리뷰 등록에 실패했습니다."),
+    POST_NOT_FOUND(404, "해당 매칭글을 찾을 수 없습니다."),
+    NOT_VALID_USER_INFORMATION(400, "아이디나 비밀번호가 올바르지 않습니다.");
 
     private final int status;
     private final String message;
-    }
+}

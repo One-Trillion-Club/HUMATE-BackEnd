@@ -34,7 +34,7 @@
     </select>
 
     <!-- 매칭글 등록 -->
-    <insert id="insertPost" parameterType="com.otclub.humate.common.entity.PostEntity"
+    <insert id="insertPost" parameterType="com.otclub.humate.common.entity.Post"
             useGeneratedKeys="true" keyProperty="postId">
         <selectKey keyProperty="postId" resultType="java.lang.Integer" order="BEFORE">
             select seq_post.nextval from dual
@@ -54,7 +54,7 @@
     </insert>
 
     <!-- 장소(매장 및 팝업스토어) 등록 -->
-    <insert id="insertPostPlace" parameterType="com.otclub.humate.common.entity.PostPlaceEntity">
+    <insert id="insertPostPlace" parameterType="com.otclub.humate.common.entity.PostPlace">
         <![CDATA[
             insert into post_place (post_place_id, post_id, type, name)
             values (seq_post_place.nextval, #{postId}, #{type}, #{name})
@@ -62,10 +62,87 @@
     </insert>
 
     <!-- 매칭글 태그 등록 -->
-    <insert id="insertPostTag" parameterType="com.otclub.humate.common.entity.PostTagEntity">
+    <insert id="insertPostTag" parameterType="com.otclub.humate.common.entity.PostTag">
         <![CDATA[
             insert into post_tag (post_tag_id, post_id, tag_id)
             values (seq_post_tag.nextval, #{postId}, #{tagId})
         ]]>
     </insert>
+
+    <!-- 매칭글 postId로 상세 조회 -->
+    <select id="selectPostById" resultType="com.otclub.humate.domain.mate.dto.PostBasicDetailResponseDTO">
+        <![CDATA[
+            select
+                member_id, title, content,
+                match_date, match_branch, match_gender, match_language,
+                is_matched
+            from post
+            where post_id = #{postId}
+        ]]>
+    </select>
+
+    <!-- 매칭글 장소(매장 및 팝업스토어) postId로 상세 조회 -->
+    <select id="selectPostPlaceById" resultType="com.otclub.humate.domain.mate.dto.PostPlaceDetailResponseDTO">
+        <![CDATA[
+            select type, name
+            from post_place
+            where post_id = #{postId}
+        ]]>
+    </select>
+
+    <!-- 매칭글 태그 postId로 상세 조회 -->
+    <select id="selectPostTagById" resultType="com.otclub.humate.domain.mate.dto.PostTagDetailResponseDTO">
+        <![CDATA[
+            select t.category, t.name
+            from tag t
+                 inner join post_tag pt on t.tag_id = pt.tag_id
+            where pt.post_id = #{postId}
+        ]]>
+    </select>
+
+    <!-- postId를 사용한 매칭글 존재 확인 -->
+    <select id="selectPostCountById" resultType="boolean">
+        <![CDATA[
+            select
+                case
+                    when count(*) > 0 then 1
+                    else 0
+                    end
+            from post
+            where post_id = #{postId}
+        ]]>
+    </select>
+
+    <!-- 매칭글 키워드 검색 -->
+    <select id="selectPostByKeyword" resultType="com.otclub.humate.domain.mate.dto.PostListResponseDTO">
+        <![CDATA[
+            select
+                p.post_id,
+                m.nickname,
+                m.profile_img_url,
+                t.tag_name,
+                p.title,
+                p.match_date,
+                p.match_branch,
+                p.match_gender,
+                p.match_language,
+                p.created_at,
+                p.is_matched
+            from
+                post p
+            join member m on p.member_id = m.member_id
+            left join (
+                select
+                    pt.post_id,
+                    listagg(t.name, ',') within group (order by t.name) as tag_name
+                from
+                    post_tag pt
+                        join tag t on pt.tag_id = t.tag_id
+                group by
+                    pt.post_id
+            ) t on p.post_id = t.post_id
+            where p.title like '%' || #{keyword} || '%'
+        ]]>
+    </select>
+
 </mapper>
