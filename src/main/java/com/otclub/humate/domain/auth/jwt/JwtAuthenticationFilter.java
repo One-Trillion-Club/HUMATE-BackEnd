@@ -92,18 +92,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 response.addCookie(accessTokenCookie);
                 response.addCookie(refreshTokenCookie);
-                log.info("\n\n===토큰 리프레시하고 쿠키에 수정 완료===\n");
+
+                // Token Refresh 시에도 Authentication 등록
+                Authentication authentication = jwtTokenProvider.getAuthentication(refreshedTokenDTO.accessToken());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                log.info("\n\n===토큰 리프레시 완료===\n");
                 chain.doFilter(request, response);
 
             } catch (Exception e2) {
-                System.out.println(e);
-                System.out.println("1111111111");
-                e2.printStackTrace();
                 setErrorResponse(response, ErrorCode.FORBIDDEN_REQUEST);
             }
 
         } catch (Exception e) {
-            System.out.println("2222222222");
             setErrorResponse(response, ErrorCode.FORBIDDEN_REQUEST);
         }
     }

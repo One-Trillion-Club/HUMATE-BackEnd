@@ -70,6 +70,7 @@ public class JwtGenerator {
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
                 .setSubject(memberId)
+                .claim("auth", authClaim)
                 .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

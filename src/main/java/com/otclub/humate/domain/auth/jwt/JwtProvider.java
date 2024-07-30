@@ -56,12 +56,11 @@ public class JwtProvider {
      * JWT 토큰을 통해 Authentication 객체 반환
      *
      * @author 조영욱
-     * @param accessToken
+     * @param token
      * @return Authentication
      */
-    public Authentication getAuthentication(String accessToken) {
-        Claims claims = parseClaims(accessToken);
-        log.info("\n\n***cliams***"+claims+"\n\n");
+    public Authentication getAuthentication(String token) {
+        Claims claims = parseClaims(token);
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
