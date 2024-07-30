@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -89,6 +90,7 @@ public class JwtProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) { // todo: Exception Handling
             log.info("Invalid JWT Token", e);
+            throw new AccessDeniedException("");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e); // todo: access token refresh
         } catch (UnsupportedJwtException e) {
@@ -96,7 +98,8 @@ public class JwtProvider {
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
         }
-        return false;
+
+        throw new AccessDeniedException("Access denied");
     }
 
 
