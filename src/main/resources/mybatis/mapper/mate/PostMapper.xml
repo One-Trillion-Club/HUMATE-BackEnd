@@ -151,6 +151,7 @@
             update post
             set deleted_at = SYSDATE
             where post_id = #{postId}
+              and deleted_at is null
         ]]>
     </update>
 
