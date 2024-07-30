@@ -53,7 +53,8 @@
     <select id="selectMemberByLoginId">
         select
             member_id,
-            password
+            password,
+            is_admin
         from
             member
         where
@@ -81,7 +82,8 @@
     <select id="selectMemberById">
         select
             member_id,
-            refresh_token
+            refresh_token,
+            is_admin
         from
             member
         where

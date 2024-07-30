@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             Authentication authentication = jwtTokenProvider.getAuthentication(jwtDTO.accessToken());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info("\n===Security Filter===");
+            log.info("\n===Security Filter===\n\n"+authentication+"\n\n");
             chain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {

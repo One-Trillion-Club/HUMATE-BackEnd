@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.auth.jwt;
 
+import com.otclub.humate.common.entity.Member;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -45,15 +46,23 @@ public class JwtGenerator {
      * Member 정보를 통해 AccessToken, RefreshToken 생성
      *
      * @author 조영욱
-     * @param memberId
+     * @param member 멤버 엔티티
      */
-    public JwtDTO generateToken(String memberId) {
+    public JwtDTO generateToken(Member member) throws Exception {
+        String memberId = member.getMemberId();
+        if (memberId == null) {
+            throw new Exception();
+        }
+
+        boolean isAdmin = member.isAdmin();
+        String authClaim = isAdmin ? "ADMIN" : "MEMBER"; // isAdmin 값에 따라 auth claim 설정
+
         long now = (new Date()).getTime();
 
         // Access Token 생성
         String accessToken = Jwts.builder()
                 .setSubject(memberId)
-                .claim("auth", "MEMBER") // todo: admin 권한 처리
+                .claim("auth", authClaim)
                 .setExpiration(new Date(now + ACCESS_TOKEN_EXPIRE_TIME))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

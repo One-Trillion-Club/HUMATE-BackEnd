@@ -61,7 +61,7 @@ public class JwtProvider {
      */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
-
+        log.info("\n\n***cliams***"+claims+"\n\n");
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
