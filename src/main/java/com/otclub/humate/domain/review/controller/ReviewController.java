@@ -32,7 +32,7 @@ public class ReviewController {
      * @author : 손승완
      */
     @PostMapping
-    public ResponseEntity<CommonResponseDTO> reviewAdd(@ModelAttribute("reviewRequestDTO") ReviewRequestDTO reviewRequestDTO) {
+    public ResponseEntity<CommonResponseDTO> reviewAdd(@RequestBody ReviewRequestDTO reviewRequestDTO) {
         String memberId = "K_1"; // test data
         reviewService.saveReview(reviewRequestDTO, memberId);
         return ResponseEntity.ok(new CommonResponseDTO(true, "리뷰 등록에 성공했습니다."));
