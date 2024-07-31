@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30   조영욱        JWT 토큰 리프레시 추가
  * </pre>
  */
 @Service
@@ -68,6 +69,12 @@ public class AuthServiceImpl implements AuthService {
         return mapper.selectMemberByLoginId(loginId) == null;
     }
 
+    /**
+     * 회원 로그인
+     *
+     * @author 조영욱
+     * @param dto 아이디, 패스워드
+     */
     @Override
     public JwtDTO logIn(LogInRequestDTO dto) {
         Member member = mapper.selectMemberByLoginId(dto.getLoginId());
@@ -76,10 +83,41 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ErrorCode.NOT_VALID_USER_INFORMATION);
         }
 
-        JwtDTO jwtDTO = jwtGenerator.generateToken(member.getMemberId());
-        log.info("LOGIN: Access token: " + jwtDTO.accessToken());
-        log.info("LOGIN: Refresh token: " + jwtDTO.refreshToken());
+        try {
+            JwtDTO jwtDTO = jwtGenerator.generateToken(member);
+            member.setRefreshToken(jwtDTO.refreshToken());
+            mapper.updateRefreshToken(member);
 
-        return jwtDTO;
+            return jwtDTO;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.UNEXPECTED_EXCEPTION);
+        }
+    }
+
+    /**
+     * JWT 토큰 리프레시
+     * 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
+     *
+     * @author 조영욱
+     * @param memberId 유저 id
+     * @param refreshToken validate 된 리프레시 토큰 값
+     */
+    @Override
+    public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
+        Member member = mapper.selectMemberById(memberId);
+
+        if (member == null || !refreshToken.equals(member.getRefreshToken())) {
+            throw new Exception();
+        }
+
+        try {
+            JwtDTO jwtDTO = jwtGenerator.generateToken(member);
+            member.setRefreshToken(jwtDTO.refreshToken());
+            mapper.updateRefreshToken(member);
+
+            return jwtDTO;
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.UNEXPECTED_EXCEPTION);
+        }
     }
 }

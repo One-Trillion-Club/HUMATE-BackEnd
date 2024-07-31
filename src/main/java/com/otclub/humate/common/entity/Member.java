@@ -1,13 +1,11 @@
 package com.otclub.humate.common.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
@@ -16,6 +14,7 @@ public class Member {
     private int nationality;
     private String loginId;
     private String password;
+    private boolean isAdmin;
     private String gender;
     private Date birthdate;
     private String nickname;
@@ -27,4 +26,5 @@ public class Member {
     private int status;
     private Date createdAt;
     private Date deletedAt;
+    private String refreshToken;
 }

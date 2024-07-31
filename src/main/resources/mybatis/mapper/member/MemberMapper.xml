@@ -53,7 +53,8 @@
     <select id="selectMemberByLoginId">
         select
             member_id,
-            password
+            password,
+            is_admin
         from
             member
         where
@@ -67,5 +68,25 @@
             member
         where
             nickname=#{nickname}
+    </select>
+
+    <update id="updateRefreshToken">
+        update
+            member
+        set
+            refresh_token = #{refreshToken}
+        where
+            member_id = #{memberId}
+    </update>
+
+    <select id="selectMemberById">
+        select
+            member_id,
+            refresh_token,
+            is_admin
+        from
+            member
+        where
+            member_id=#{memberId}
     </select>
 </mapper>

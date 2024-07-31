@@ -23,4 +23,6 @@ public interface MemberMapper {
     public int insertMember(SignUpRequestDTO dto);
     public Member selectMemberByLoginId(String loginId);
     public Member selectMemberByNickname(String nickname);
+    public int updateRefreshToken(Member member);
+    public Member selectMemberById(String memberId);
 }
