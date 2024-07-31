@@ -13,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_AGE;
-
 /**
  * 인증/인가 컨트롤러
  * @author 조영욱

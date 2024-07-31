@@ -8,9 +8,6 @@ import com.otclub.humate.domain.auth.util.AuthUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,12 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
-import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_AGE;
 
 /**
  * JWT 필터 클래스
@@ -60,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException {
         // JWT 토큰 추출
-        JwtDTO jwtDTO = resolveToken((HttpServletRequest) request);
+        JwtDTO jwtDTO = resolveToken(request);
         // validateToken으로 토큰 유효성 검사
         try {
             if (jwtDTO == null) {
@@ -74,6 +68,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.info("\n===Security Filter===\n\n"+authentication+"\n\n");
+
+//            request.setAttribute("memberId", );
             chain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
