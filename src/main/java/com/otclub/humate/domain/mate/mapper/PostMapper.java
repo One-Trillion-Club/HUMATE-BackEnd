@@ -12,7 +12,7 @@ import java.util.List;
 public interface PostMapper {
 
     // 매칭글 전체 목록 조회
-    List<PostListResponseDTO> selectAllPosts();
+    List<PostListResponseDTO> selectAllPosts(PostSearchFilterRequestDTO postSearchFilterRequestDTO);
 
     // 매칭글 등록
     int insertPost(Post post);

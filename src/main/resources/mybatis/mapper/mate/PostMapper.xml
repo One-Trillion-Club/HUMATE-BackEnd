@@ -30,6 +30,11 @@
                     group by
                         pt.post_id
                 ) t on p.post_id = t.post_id
+            where (#{tagName, jdbcType=VARCHAR} is null or t.tag_name like '%' || #{tagName, jdbcType=VARCHAR} || '%')
+              and (#{matchDate, jdbcType=VARCHAR} is null or p.match_date = #{matchDate, jdbcType=VARCHAR})
+              and (#{matchBranch, jdbcType=VARCHAR} is null or p.match_branch = #{matchBranch, jdbcType=VARCHAR})
+              and (#{matchLanguage, jdbcType=VARCHAR} is null or p.match_language like '%' || #{matchLanguage, jdbcType=VARCHAR} || '%')
+              and (#{keyword, jdbcType=VARCHAR} is null or p.title like '%' || #{keyword, jdbcType=VARCHAR})
         ]]>
     </select>
 
