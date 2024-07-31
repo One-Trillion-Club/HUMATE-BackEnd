@@ -1,6 +1,8 @@
 package com.otclub.humate.domain.auth.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
+import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeRequestDTO;
+import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeResponseDTO;
 import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
@@ -103,5 +105,13 @@ public class AuthController {
         response.addCookie(refreshTokenDeleteCookie);
 
         return ResponseEntity.ok(new CommonResponseDTO(true, "로그아웃 성공"));
+    }
+
+    @PostMapping("/phone/code")
+    public ResponseEntity<GeneratePhoneVerificationCodeResponseDTO> generatePhoneVerificationCode(
+            @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
+        String code = service.generatePhoneVerificationCode(dto);
+
+        return ResponseEntity.ok(new GeneratePhoneVerificationCodeResponseDTO(code));
     }
 }

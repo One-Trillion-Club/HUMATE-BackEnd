@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.auth.service;
 
+import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeRequestDTO;
 import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
@@ -21,4 +22,5 @@ public interface AuthService {
     boolean checkAvailableLoginId(String loginId);
     JwtDTO logIn(LogInRequestDTO dto);
     JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception;
+    String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto);
 }

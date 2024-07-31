@@ -3,6 +3,7 @@ package com.otclub.humate.domain.auth.service;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
+import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeRequestDTO;
 import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Random;
 
 /**
  * 인증/인가 서비스 구현체
@@ -119,5 +122,18 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new CustomException(ErrorCode.UNEXPECTED_EXCEPTION);
         }
+    }
+
+    public String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto) {
+        String phone = dto.getPhone();
+
+        Random random = new Random(123122);
+        // 6자리 랜덤 숫자 생성
+        int randomNumber = random.nextInt(1000000);
+
+        // 6자리 문자열로 포맷팅 (앞자리 0 포함)
+        String code = String.format("%06d", randomNumber);
+
+        return code;
     }
 }
