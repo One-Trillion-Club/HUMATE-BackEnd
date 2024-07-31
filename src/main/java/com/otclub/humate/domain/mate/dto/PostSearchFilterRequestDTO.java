@@ -2,6 +2,8 @@ package com.otclub.humate.domain.mate.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,8 +11,10 @@ import lombok.*;
 @Builder
 public class PostSearchFilterRequestDTO {
 
-    // 태그 이름 목록 (형식 - "기타, 악세사리")
+    // 태그 이름 (형식 - "기타, 악세사리")
     private String tagName;
+    // 태그 이름 리스트 (형식 - ["기타", "악세사리"]
+    private List<String> tags;
     // 매칭 날짜
     private String matchDate;
     // 매칭 지점
@@ -23,5 +27,11 @@ public class PostSearchFilterRequestDTO {
     private String matchLanguage;
     // 검색 키워드
     private String keyword;
+
+    // 남자
+    private String male = "m";
+
+    // 여자
+    private String female = "f";
 
 }

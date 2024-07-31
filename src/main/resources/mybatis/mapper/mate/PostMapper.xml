@@ -2,40 +2,110 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.otclub.humate.domain.mate.mapper.PostMapper">
+
+    <!-- 검색한 게시글 목록 반환 ResultMap -->
+    <resultMap id="PostListResultMap" type="com.otclub.humate.domain.mate.dto.PostListResponseDTO">
+        <id property="postId" column="post_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="profileImgUrl" column="profile_img_url"/>
+        <result property="title" column="title"/>
+        <result property="matchDate" column="match_date"/>
+        <result property="matchBranch" column="match_branch"/>
+        <result property="matchGender" column="match_gender"/>
+        <result property="matchLanguage" column="match_language"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="isMatched" column="is_matched"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
     <!-- 매칭글 목록 전체 조회 -->
-    <select id="selectAllPosts" resultType="com.otclub.humate.domain.mate.dto.PostListResponseDTO">
-        <![CDATA[
-            select
-                p.post_id,
-                m.nickname,
-                m.profile_img_url,
-                t.tag_name,
-                p.title,
-                p.match_date,
-                p.match_branch,
-                p.match_gender,
-                p.match_language,
-                p.created_at,
-                p.is_matched
-            from
-                post p
+    <select id="selectAllPosts"
+            parameterType="com.otclub.humate.domain.mate.dto.PostSearchFilterRequestDTO"
+            resultMap="PostListResultMap">
+        select
+            p.post_id,
+            m.nickname,
+            m.profile_img_url,
+            t.name as tag_name,
+            p.title,
+            p.match_date,
+            p.match_branch,
+            p.match_gender,
+            p.match_language,
+            p.created_at,
+            p.is_matched
+        from
+            post p
                 join member m on p.member_id = m.member_id
-                left join (
-                    select
-                        pt.post_id,
-                        listagg(t.name, ',') within group (order by t.name) as tag_name
-                    from
-                        post_tag pt
-                        join tag t on pt.tag_id = t.tag_id
-                    group by
-                        pt.post_id
-                ) t on p.post_id = t.post_id
-            where (#{tagName, jdbcType=VARCHAR} is null or t.tag_name like '%' || #{tagName, jdbcType=VARCHAR} || '%')
-              and (#{matchDate, jdbcType=VARCHAR} is null or p.match_date = #{matchDate, jdbcType=VARCHAR})
-              and (#{matchBranch, jdbcType=VARCHAR} is null or p.match_branch = #{matchBranch, jdbcType=VARCHAR})
-              and (#{matchLanguage, jdbcType=VARCHAR} is null or p.match_language like '%' || #{matchLanguage, jdbcType=VARCHAR} || '%')
-              and (#{keyword, jdbcType=VARCHAR} is null or p.title like '%' || #{keyword, jdbcType=VARCHAR})
-        ]]>
+                left join post_tag pt on p.post_id = pt.post_id
+                left join tag t on pt.tag_id = t.tag_id
+        <!-- 기본 검색 조건 -->
+        <!-- matchDate, matchBranch, matchLanguage, keyword에 대해서 검색 -->
+        where 1=1
+          and p.deleted_at is null
+        <if test="matchDate != null">
+            and p.match_date = #{matchDate, jdbcType=VARCHAR}
+        </if>
+        <if test="matchBranch != null">
+            and p.match_branch = #{matchBranch, jdbcType=VARCHAR}
+        </if>
+        <if test="matchLanguage != null">
+            and p.match_language like '%' || #{matchLanguage, jdbcType=VARCHAR} || '%'
+        </if>
+        <if test="keyword != null">
+            and p.title like '%' || #{keyword, jdbcType=VARCHAR} || '%'
+        </if>
+
+<!--        &lt;!&ndash; 검색하는 사람의 성별 및 매칭 성별에 따른 조건 &ndash;&gt;-->
+<!--        <choose>-->
+<!--            &lt;!&ndash; 검색하는 사람이 남성인 경우 &ndash;&gt;-->
+<!--            <when test="gender == 'm'">-->
+<!--                <choose>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별이 여자인 경우 &ndash;&gt;-->
+<!--                    <when test="matchGender != null and matchGender.equals(female)">-->
+<!--                        and p.match_gender = 2 and m.gender = #{female}-->
+<!--                    </when>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별이 남자인 경우 &ndash;&gt;-->
+<!--                    <when test="matchGender != null and matchGender.equals(male)">-->
+<!--                        and m.gender = #{male}-->
+<!--                    </when>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별을 선택하지 않은 경우 &ndash;&gt;-->
+<!--                    <otherwise>-->
+<!--                        and (p.match_gender = 2 or m.gender = #{male})-->
+<!--                    </otherwise>-->
+<!--                </choose>-->
+<!--            </when>-->
+
+<!--            &lt;!&ndash; 검색하는 사람이 여성인 경우 &ndash;&gt;-->
+<!--            <when test="gender == 'f'">-->
+<!--                <choose>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별이 남자인 경우 &ndash;&gt;-->
+<!--                    <when test="matchGender != null and matchGender.equals(male)">-->
+<!--                        and p.match_gender = 2 and m.gender = #{male}-->
+<!--                    </when>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별이 여자인 경우 &ndash;&gt;-->
+<!--                    <when test="matchGender != null and matchGender.equals(female)">-->
+<!--                        and m.gender = #{female}-->
+<!--                    </when>-->
+<!--                    &lt;!&ndash; 매칭 원하는 성별을 선택하지 않은 경우 &ndash;&gt;-->
+<!--                    <otherwise>-->
+<!--                        and (p.match_gender = 2 or m.gender = #{female})-->
+<!--                    </otherwise>-->
+<!--                </choose>-->
+<!--            </when>-->
+
+<!--        </choose>-->
+
+        <!-- 태그 이름 리스트에 대한 검색 -->
+        <if test="tags != null and tags.size() > 0">
+            and t.name IN
+            <foreach collection="tags" item="tag" open="(" separator="," close=")">
+                #{tag}
+            </foreach>
+        </if>
+
     </select>
 
     <!-- 매칭글 등록 -->

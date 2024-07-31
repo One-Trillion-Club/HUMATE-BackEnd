@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -31,6 +32,7 @@ public class PostServiceImpl implements PostService {
         if (request.getTagName() != null) {
             log.info("null값이 아닌 tagName 설정");
             preBuilder.tagName(request.getTagName());
+            preBuilder.tags(Arrays.asList(request.getTagName().split(",")));
         }
 
         if (request.getMatchDate() != null) {
@@ -60,7 +62,7 @@ public class PostServiceImpl implements PostService {
 
         PostSearchFilterRequestDTO postSearchFilterRequestDTO = preBuilder.build();
         log.info("request gender -> " + postSearchFilterRequestDTO.getGender());
-        log.info("request tagName -> " + postSearchFilterRequestDTO.getTagName());
+        log.info("request tags -> " + postSearchFilterRequestDTO.getTags());
         log.info("request matchDate -> " + postSearchFilterRequestDTO.getMatchDate());
         log.info("request matchBranch -> " + postSearchFilterRequestDTO.getMatchBranch());
         log.info("request matchGender -> " + postSearchFilterRequestDTO.getMatchGender());
