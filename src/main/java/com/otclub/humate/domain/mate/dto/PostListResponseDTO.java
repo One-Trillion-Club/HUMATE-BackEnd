@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class PostListResponseDTO {
     private String nickname;
     // 회원 프로필 이미지
     private String profileImgUrl;
-    // 태그 내용
-    private String tagName;
+    // 태그 내용 (list 형태 - ["기타", "악세사리"]
+    private List<String> tags;
     // 게시글 제목
     private String title;
     // 매칭 날짜
