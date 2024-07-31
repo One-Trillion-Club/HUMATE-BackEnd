@@ -58,6 +58,15 @@
             and p.title like '%' || #{keyword, jdbcType=VARCHAR} || '%'
         </if>
 
+        <!-- 외국인-한국인 매칭 -->
+        <if test='memberId != null and memberId.startsWith("K")'>
+            and m.member_id like 'F%'
+        </if>
+
+        <if test='memberId != null and memberId.startsWith("F")'>
+            and m.member_id like 'K%'
+        </if>
+
         <!-- 검색하는 사람의 성별 및 매칭 성별에 따른 조건 -->
         <choose>
             <!-- 검색하는 사람이 남성인 경우 -->

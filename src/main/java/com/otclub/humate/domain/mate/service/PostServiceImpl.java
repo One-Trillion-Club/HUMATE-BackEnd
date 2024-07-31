@@ -26,7 +26,9 @@ public class PostServiceImpl implements PostService {
     public List<PostListResponseDTO> getAllPosts(PostSearchFilterRequestDTO request) {
         // 1. 필수값 설정
         PostSearchFilterRequestDTO.PostSearchFilterRequestDTOBuilder preBuilder
-                = PostSearchFilterRequestDTO.builder().gender(request.getGender());
+                = PostSearchFilterRequestDTO.builder()
+                    .gender(request.getGender())
+                    .memberId(request.getMemberId());
 
         // 2. null값 (optional) 설정
         if (request.getTagName() != null) {
