@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 휴대전화 인증 번호 생성을 위한 Request DTO
+ * 휴대전화 인증 Request DTO
  * @author 조영욱
  * @since 2024.08.01
  * @version 1.0
@@ -17,7 +17,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GeneratePhoneVerificationCodeRequestDTO {
+public class PhoneVerificationRequestDTO {
 
     private String phone;
+    private String code;
 }

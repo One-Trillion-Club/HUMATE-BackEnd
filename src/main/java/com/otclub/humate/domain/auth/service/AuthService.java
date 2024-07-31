@@ -21,6 +21,6 @@ public interface AuthService {
     JwtDTO logIn(LogInRequestDTO dto);
     JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception;
     String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto);
-    String phoneVerificate(PhoneVerificateRequestDTO dto);
-    String passportVerificate(PassportVerificateRequestDTO dto);
+    String verifyPhone(PhoneVerificationRequestDTO dto);
+    String verifyPassport(PassportVerificationRequestDTO dto);
 }

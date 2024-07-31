@@ -179,7 +179,8 @@ public class AuthServiceImpl implements AuthService {
      * @author 조영욱
      * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
      */
-    public String phoneVerificate(PhoneVerificateRequestDTO dto) {
+    @Override
+    public String verifyPhone(PhoneVerificationRequestDTO dto) {
         String phone = dto.getPhone();
         String code = dto.getCode();
 
@@ -200,9 +201,7 @@ public class AuthServiceImpl implements AuthService {
             // 휴대폰 번호 인증 성공을 보증하기 위한 key 생성. 추후 회원가입 요청 시 다시 받아서 validate
             String redisVerificationSuccessKey = "verification:" + phone;
             Random random = new Random();
-            System.out.println(1);
             String successCode = String.format("%06d", random.nextInt(1000000));
-            System.out.println(2);
             // 레디스에 저장되는 구조: { "verification:01012341234" : "012345" }
             operations.set(redisVerificationSuccessKey, successCode, Duration.ofSeconds(REDIS_VERIFICATION_SUCCESS_KEY_TTL));
             log.info("\n휴대폰 인증 성공");
@@ -219,7 +218,8 @@ public class AuthServiceImpl implements AuthService {
      * @author 조영욱
      * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
      */
-    public String passportVerificate(PassportVerificateRequestDTO dto) {
+    @Override
+    public String verifyPassport(PassportVerificationRequestDTO dto) {
 
         // Redis에서 여권 인증을 위한 액세스 토큰 확인
         ValueOperations<String, String> operations = redisTemplate.opsForValue();

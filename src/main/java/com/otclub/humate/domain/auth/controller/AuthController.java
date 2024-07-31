@@ -9,12 +9,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.Duration;
 
 /**
  * 인증/인가 컨트롤러
@@ -115,11 +111,11 @@ public class AuthController {
      * @author 조영욱
      */
     @PostMapping("/phone/code")
-    public ResponseEntity<GeneratePhoneVerificationCodeResponseDTO> generatePhoneVerificationCode(
+    public ResponseEntity<CommonResponseDTO> generatePhoneVerificationCode(
             @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
         String code = service.generatePhoneVerificationCode(dto);
 
-        return ResponseEntity.ok(new GeneratePhoneVerificationCodeResponseDTO(code));
+        return ResponseEntity.ok(new CommonResponseDTO(true, code));
     }
 
     /**
@@ -129,9 +125,9 @@ public class AuthController {
      * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
      */
     @PostMapping("/phone/verification")
-    public ResponseEntity<CommonResponseDTO> phoneVerificate(
-            @RequestBody PhoneVerificateRequestDTO dto) {
-        String result = service.phoneVerificate(dto);
+    public ResponseEntity<CommonResponseDTO> verifyPhone(
+            @RequestBody PhoneVerificationRequestDTO dto) {
+        String result = service.verifyPhone(dto);
          return result != null ?
             ResponseEntity.ok(new CommonResponseDTO(true, result)) :
             ResponseEntity.ok(new CommonResponseDTO(false, "휴대폰 번호 인증 실패"));
@@ -144,9 +140,9 @@ public class AuthController {
      * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
      */
     @PostMapping("/passport/verification")
-    public ResponseEntity<CommonResponseDTO> passportVerificate(
-            @RequestBody PassportVerificateRequestDTO dto) {
-        String result = service.passportVerificate(dto);
+    public ResponseEntity<CommonResponseDTO> verifyPassport(
+            @RequestBody PassportVerificationRequestDTO dto) {
+        String result = service.verifyPassport(dto);
         return result != null ?
                 ResponseEntity.ok(new CommonResponseDTO(true, result)) :
                 ResponseEntity.ok(new CommonResponseDTO(false, "여권 인증 실패"));
