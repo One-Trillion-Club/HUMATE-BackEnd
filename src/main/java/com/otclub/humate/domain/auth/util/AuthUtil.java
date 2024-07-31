@@ -23,7 +23,8 @@ public class AuthUtil {
     public static final int JWT_TOKEN_COOKIE_MAX_AGE = 604_800; // 1주 (second)
 
     // Redis
-    public static final int REDIS_PHONE_VERIFICATION_KEY_TTL = 3600; // 1시간
+    public static final int REDIS_VERIFICATION_SUCCESS_KEY_TTL = 3600; // 1시간
+    public static final int REDIS_CODEF_ACCESS_TOKEN_TTL = 604800; // 1주
 
     /**
      * JWT 쿠키 생성

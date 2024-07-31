@@ -126,13 +126,30 @@ public class AuthController {
      * 휴대폰 번호 인증
      *
      * @author 조영욱
+     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
      */
     @PostMapping("/phone/verification")
     public ResponseEntity<CommonResponseDTO> phoneVerificate(
             @RequestBody PhoneVerificateRequestDTO dto) {
-         return service.phoneVerificate(dto) ?
-            ResponseEntity.ok(new CommonResponseDTO(true, "휴대폰 번호 인증 성공")) :
+        String result = service.phoneVerificate(dto);
+         return result != null ?
+            ResponseEntity.ok(new CommonResponseDTO(true, result)) :
             ResponseEntity.ok(new CommonResponseDTO(false, "휴대폰 번호 인증 실패"));
-
     }
+
+    /**
+     * 여권 번호 인증
+     *
+     * @author 조영욱
+     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
+     */
+    @PostMapping("/passport/verification")
+    public ResponseEntity<CommonResponseDTO> passportVerificate(
+            @RequestBody PassportVerificateRequestDTO dto) {
+        String result = service.passportVerificate(dto);
+        return result != null ?
+                ResponseEntity.ok(new CommonResponseDTO(true, result)) :
+                ResponseEntity.ok(new CommonResponseDTO(false, "여권 인증 실패"));
+    }
+
 }
