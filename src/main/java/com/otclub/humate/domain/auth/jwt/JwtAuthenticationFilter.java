@@ -143,8 +143,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      * @param errorCode
      * @throws IOException
      */
-    public static void setErrorResponse(HttpServletResponse response, ErrorCode errorCode)
-            throws IOException {
+    public static void setErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(errorCode.getStatus());
         ObjectMapper objectMapper = new ObjectMapper();
@@ -154,6 +153,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .errorCode(errorCode.name())
                 .message(errorCode.getMessage())
                 .build();
+
+        // 토큰 에러 시 로그아웃 시킴
+        Cookie accessTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("ajt");
+        Cookie refreshTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("rjt");
+
+        response.addCookie(accessTokenDeleteCookie);
+        response.addCookie(refreshTokenDeleteCookie);
 
         ResponseEntity<ErrorResponse> error =
                 new ResponseEntity<> (errorResponse, HttpStatus.valueOf(errorCode.getStatus()));

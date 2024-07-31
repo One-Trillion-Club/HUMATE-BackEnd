@@ -16,15 +16,38 @@ import jakarta.servlet.http.Cookie;
  */
 public class AuthUtil {
     // JWT Token
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_000L; // 10분 (millisecond)
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_0L; // 10분 (millisecond)
     public static final long REFRESH_TOKEN_EXPIRE_TIME = 604_800_000L; // 1주 (millisecond)
 
     // JWT Cookie
     public static final int JWT_TOKEN_COOKIE_MAX_AGE = 604_800; // 1주 (second)
 
+    /**
+     * JWT 쿠키 생성
+     *
+     * @author 조영욱
+     * @param key 쿠키 key
+     * @param value 쿠키 value
+     * @return 쿠키
+     */
     public static Cookie createJwtTokenCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(JWT_TOKEN_COOKIE_MAX_AGE);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        return cookie;
+    }
+
+    /**
+     * JWT 쿠키 삭제를 위한 쿠키 생성
+     *
+     * @author 조영욱
+     * @param key 쿠키 key
+     */
+    public static Cookie createJwtTokenDeleteCookie(String key) {
+        Cookie cookie = new Cookie(key, "");
+        cookie.setMaxAge(0);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
 

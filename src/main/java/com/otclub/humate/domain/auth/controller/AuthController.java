@@ -87,4 +87,21 @@ public class AuthController {
 
         return ResponseEntity.ok(new CommonResponseDTO(true, "로그인 성공"));
     }
+
+    /**
+     * 회원 로그아웃
+     * JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
+     *
+     * @author 조영욱
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<CommonResponseDTO> logOut(HttpServletResponse response) {
+        Cookie accessTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("ajt");
+        Cookie refreshTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("rjt");
+
+        response.addCookie(accessTokenDeleteCookie);
+        response.addCookie(refreshTokenDeleteCookie);
+
+        return ResponseEntity.ok(new CommonResponseDTO(true, "로그아웃 성공"));
+    }
 }
