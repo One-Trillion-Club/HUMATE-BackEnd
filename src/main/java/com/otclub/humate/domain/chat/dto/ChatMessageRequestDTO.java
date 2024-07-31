@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 채팅 메세지 요청 DTO
@@ -22,7 +23,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class ChatMessageRequestDTO {
+    private String chatRoomId;
     private String senderId;
     private String content;
     private MessageType messageType;
