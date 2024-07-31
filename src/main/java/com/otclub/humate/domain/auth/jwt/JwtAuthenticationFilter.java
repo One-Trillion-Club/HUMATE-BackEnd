@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             log.info("\n===Security Filter===\n\n"+authentication+"\n\n");
 
-//            request.setAttribute("memberId", );
+            request.setAttribute("memberId", authentication.getName());
             chain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
@@ -92,6 +92,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Token Refresh 시에도 Authentication 등록
                 Authentication authentication = jwtTokenProvider.getAuthentication(refreshedTokenDTO.accessToken());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                request.setAttribute("memberId", authentication.getName());
 
                 log.info("\n\n===토큰 리프레시 완료===\n");
                 chain.doFilter(request, response);
