@@ -1,10 +1,7 @@
 package com.otclub.humate.domain.auth.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeRequestDTO;
-import com.otclub.humate.domain.auth.dto.GeneratePhoneVerificationCodeResponseDTO;
-import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
-import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
 import com.otclub.humate.domain.auth.service.AuthService;
 import com.otclub.humate.domain.auth.util.AuthUtil;
@@ -12,8 +9,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
 
 /**
  * 인증/인가 컨트롤러
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * ----------  --------    ---------------------------
  * 2024.07.28  	조영욱        최초 생성
  * 2024.07.30   조영욱        유틸 모듈 생성을 통한 리팩토링
+ * 2024.07.31   조영욱        휴대폰 인증 추가
  * </pre>
  */
 @RestController
@@ -107,11 +109,30 @@ public class AuthController {
         return ResponseEntity.ok(new CommonResponseDTO(true, "로그아웃 성공"));
     }
 
+    /**
+     * 휴대폰 인증 번호 생성
+     *
+     * @author 조영욱
+     */
     @PostMapping("/phone/code")
     public ResponseEntity<GeneratePhoneVerificationCodeResponseDTO> generatePhoneVerificationCode(
             @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
         String code = service.generatePhoneVerificationCode(dto);
 
         return ResponseEntity.ok(new GeneratePhoneVerificationCodeResponseDTO(code));
+    }
+
+    /**
+     * 휴대폰 번호 인증
+     *
+     * @author 조영욱
+     */
+    @PostMapping("/phone/verification")
+    public ResponseEntity<CommonResponseDTO> phoneVerificate(
+            @RequestBody PhoneVerificateRequestDTO dto) {
+         return service.phoneVerificate(dto) ?
+            ResponseEntity.ok(new CommonResponseDTO(true, "휴대폰 번호 인증 성공")) :
+            ResponseEntity.ok(new CommonResponseDTO(false, "휴대폰 번호 인증 실패"));
+
     }
 }

@@ -89,4 +89,13 @@
         where
             member_id=#{memberId}
     </select>
+
+    <select id="selectMemberByPhone">
+        select
+            member_id
+        from
+            member
+        where
+            phone=#{phone}
+    </select>
 </mapper>

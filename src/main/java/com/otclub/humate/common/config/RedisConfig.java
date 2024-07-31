@@ -1,6 +1,5 @@
 package com.otclub.humate.common.config;
 
-import com.otclub.humate.common.service.RedisSubscriber;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
