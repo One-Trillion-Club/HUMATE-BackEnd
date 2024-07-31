@@ -64,6 +64,7 @@ public class SecurityConfig {
                 "/activities/**",
                 "/rooms/**",
                 "/companions/**",
-                "/reviews/**");
+                "/reviews/**",
+                "/redis/**");
     }
 }
