@@ -31,7 +31,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public ChatMessage createMessage(int chatRoomId, ChatMessageRequestDTO requestDTO) {
+    public ChatMessage createMessage(String chatRoomId, ChatMessageRequestDTO requestDTO) {
         ChatMessage chatMessage = ChatMessage.of(chatRoomId, requestDTO);
 
         // 몽고디비 저장하기
@@ -41,7 +41,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     }
 
     @Override
-    public List<ChatMessage> getListMessage(int chatRoomId) {
+    public List<ChatMessage> getListMessage(String chatRoomId) {
         // 목록 조회
         List<ChatMessage> chatMessageList = mongoTemplate.find(
                 Query.query(Criteria.where("chatRoomId").is(chatRoomId)),

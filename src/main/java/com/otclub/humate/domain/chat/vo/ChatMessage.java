@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -31,12 +32,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class ChatMessage {
 
     @Id
     private String _id;
     @Indexed
-    private int chatRoomId;
+    private String chatRoomId;
     private String senderId;
     private String content;
     private Date createdAt;
@@ -44,7 +46,7 @@ public class ChatMessage {
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
 
-    public static ChatMessage of(int chatRoomId, ChatMessageRequestDTO requestDTO){
+    public static ChatMessage of(String chatRoomId, ChatMessageRequestDTO requestDTO){
         ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .senderId(requestDTO.getSenderId())
