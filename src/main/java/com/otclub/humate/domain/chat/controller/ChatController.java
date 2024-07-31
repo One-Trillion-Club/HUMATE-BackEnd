@@ -41,7 +41,7 @@ public class ChatController {
 
     @MessageMapping("/chat/{chatRoomId}")
     @SendTo("/topic/message/{chatRoomId}")
-    public void messageHandler(@DestinationVariable("chatRoomId") int chatRoomId, ChatMessageRequestDTO requestDTO){
+    public void messageHandler(@DestinationVariable("chatRoomId") String chatRoomId, ChatMessageRequestDTO requestDTO){
         log.info("chat controller - messageHandler " + chatRoomId);
         log.info("chat controller - message " + requestDTO.getContent());
 
@@ -52,7 +52,7 @@ public class ChatController {
     }
 
     @GetMapping("/chat/{chatRoomId}")
-    public ResponseEntity<List<ChatMessage>> chatMessageList(@PathVariable("chatRoomId") int chatRoomId){
+    public ResponseEntity<List<ChatMessage>> chatMessageList(@PathVariable("chatRoomId") String chatRoomId){
         List<ChatMessage> chatMessageList = chatMessageService.getListMessage(chatRoomId);
 
         return ResponseEntity.ok(chatMessageList);

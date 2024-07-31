@@ -3,6 +3,7 @@ package com.otclub.humate.domain.mate.controller;
 import com.otclub.humate.domain.mate.dto.PostDetailResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostListResponseDTO;
 import com.otclub.humate.domain.mate.dto.PostRegisterRequestDTO;
+import com.otclub.humate.domain.mate.dto.PostSearchFilterRequestDTO;
 import com.otclub.humate.domain.mate.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +21,10 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<PostListResponseDTO>> postList() {
-        List<PostListResponseDTO> postListResponseDTOs = postService.getAllPosts();
+    public ResponseEntity<List<PostListResponseDTO>> postList(@ModelAttribute PostSearchFilterRequestDTO postSearchFilterRequestDTO) {
+        List<PostListResponseDTO> postListResponseDTOs = postService.getAllPosts(postSearchFilterRequestDTO);
         log.info("[controller단] postListResponseDTOs -> " + postListResponseDTOs);
+        log.info("gender -> " + postSearchFilterRequestDTO.getGender());
         return ResponseEntity.ok(postListResponseDTOs);
     }
 
