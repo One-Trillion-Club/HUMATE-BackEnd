@@ -58,45 +58,45 @@
             and p.title like '%' || #{keyword, jdbcType=VARCHAR} || '%'
         </if>
 
-<!--        &lt;!&ndash; 검색하는 사람의 성별 및 매칭 성별에 따른 조건 &ndash;&gt;-->
-<!--        <choose>-->
-<!--            &lt;!&ndash; 검색하는 사람이 남성인 경우 &ndash;&gt;-->
-<!--            <when test="gender == 'm'">-->
-<!--                <choose>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별이 여자인 경우 &ndash;&gt;-->
-<!--                    <when test="matchGender != null and matchGender.equals(female)">-->
-<!--                        and p.match_gender = 2 and m.gender = #{female}-->
-<!--                    </when>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별이 남자인 경우 &ndash;&gt;-->
-<!--                    <when test="matchGender != null and matchGender.equals(male)">-->
-<!--                        and m.gender = #{male}-->
-<!--                    </when>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별을 선택하지 않은 경우 &ndash;&gt;-->
-<!--                    <otherwise>-->
-<!--                        and (p.match_gender = 2 or m.gender = #{male})-->
-<!--                    </otherwise>-->
-<!--                </choose>-->
-<!--            </when>-->
+        <!-- 검색하는 사람의 성별 및 매칭 성별에 따른 조건 -->
+        <choose>
+            <!-- 검색하는 사람이 남성인 경우 -->
+            <when test='gender == "m"'>
+                <choose>
+                    <!-- 매칭 원하는 성별이 여자인 경우 -->
+                    <when test='matchGender != null and matchGender == "f"'>
+                        and p.match_gender = 2 and m.gender = 'f'
+                    </when>
+                    <!-- 매칭 원하는 성별이 남자인 경우 -->
+                    <when test='matchGender != null and matchGender == "m"'>
+                        and m.gender = 'm'
+                    </when>
+                    <!-- 매칭 원하는 성별을 선택하지 않은 경우 -->
+                    <otherwise>
+                        and (p.match_gender = 2 or m.gender = 'm')
+                    </otherwise>
+                </choose>
+            </when>
 
-<!--            &lt;!&ndash; 검색하는 사람이 여성인 경우 &ndash;&gt;-->
-<!--            <when test="gender == 'f'">-->
-<!--                <choose>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별이 남자인 경우 &ndash;&gt;-->
-<!--                    <when test="matchGender != null and matchGender.equals(male)">-->
-<!--                        and p.match_gender = 2 and m.gender = #{male}-->
-<!--                    </when>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별이 여자인 경우 &ndash;&gt;-->
-<!--                    <when test="matchGender != null and matchGender.equals(female)">-->
-<!--                        and m.gender = #{female}-->
-<!--                    </when>-->
-<!--                    &lt;!&ndash; 매칭 원하는 성별을 선택하지 않은 경우 &ndash;&gt;-->
-<!--                    <otherwise>-->
-<!--                        and (p.match_gender = 2 or m.gender = #{female})-->
-<!--                    </otherwise>-->
-<!--                </choose>-->
-<!--            </when>-->
+            <!-- 검색하는 사람이 여성인 경우 -->
+            <when test='gender == "f"'>
+                <choose>
+                    <!-- 매칭 원하는 성별이 남자인 경우 -->
+                    <when test='matchGender != null and matchGender == "m"'>
+                        and p.match_gender = 2 and m.gender = 'm'
+                    </when>
+                    <!-- 매칭 원하는 성별이 여자인 경우 -->
+                    <when test='matchGender != null and matchGender == "f"'>
+                        and m.gender = 'f'
+                    </when>
+                    <!-- 매칭 원하는 성별을 선택하지 않은 경우 -->
+                    <otherwise>
+                        and (p.match_gender = 2 or m.gender = 'f')
+                    </otherwise>
+                </choose>
+            </when>
 
-<!--        </choose>-->
+        </choose>
 
         <!-- 태그 이름 리스트에 대한 검색 -->
         <if test="tags != null and tags.size() > 0">
