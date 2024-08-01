@@ -1,8 +1,7 @@
 package com.otclub.humate.domain.auth.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
-import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
 import com.otclub.humate.domain.auth.service.AuthService;
 import com.otclub.humate.domain.auth.util.AuthUtil;
@@ -12,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_AGE;
 
 /**
  * 인증/인가 컨트롤러
@@ -26,6 +23,7 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.JWT_TOKEN_COOKIE_MAX_A
  * ----------  --------    ---------------------------
  * 2024.07.28  	조영욱        최초 생성
  * 2024.07.30   조영욱        유틸 모듈 생성을 통한 리팩토링
+ * 2024.07.31   조영욱        휴대폰 인증 추가
  * </pre>
  */
 @RestController
@@ -89,4 +87,65 @@ public class AuthController {
 
         return ResponseEntity.ok(new CommonResponseDTO(true, "로그인 성공"));
     }
+
+    /**
+     * 회원 로그아웃
+     * JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
+     *
+     * @author 조영욱
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<CommonResponseDTO> logOut(HttpServletResponse response) {
+        Cookie accessTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("ajt");
+        Cookie refreshTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("rjt");
+
+        response.addCookie(accessTokenDeleteCookie);
+        response.addCookie(refreshTokenDeleteCookie);
+
+        return ResponseEntity.ok(new CommonResponseDTO(true, "로그아웃 성공"));
+    }
+
+    /**
+     * 휴대폰 인증 번호 생성
+     *
+     * @author 조영욱
+     */
+    @PostMapping("/phone/code")
+    public ResponseEntity<CommonResponseDTO> generatePhoneVerificationCode(
+            @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
+        String code = service.generatePhoneVerificationCode(dto);
+
+        return ResponseEntity.ok(new CommonResponseDTO(true, code));
+    }
+
+    /**
+     * 휴대폰 번호 인증
+     *
+     * @author 조영욱
+     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
+     */
+    @PostMapping("/phone/verification")
+    public ResponseEntity<CommonResponseDTO> verifyPhone(
+            @RequestBody PhoneVerificationRequestDTO dto) {
+        String result = service.verifyPhone(dto);
+         return result != null ?
+            ResponseEntity.ok(new CommonResponseDTO(true, result)) :
+            ResponseEntity.ok(new CommonResponseDTO(false, "휴대폰 번호 인증 실패"));
+    }
+
+    /**
+     * 여권 번호 인증
+     *
+     * @author 조영욱
+     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
+     */
+    @PostMapping("/passport/verification")
+    public ResponseEntity<CommonResponseDTO> verifyPassport(
+            @RequestBody PassportVerificationRequestDTO dto) {
+        String result = service.verifyPassport(dto);
+        return result != null ?
+                ResponseEntity.ok(new CommonResponseDTO(true, result)) :
+                ResponseEntity.ok(new CommonResponseDTO(false, "여권 인증 실패"));
+    }
+
 }

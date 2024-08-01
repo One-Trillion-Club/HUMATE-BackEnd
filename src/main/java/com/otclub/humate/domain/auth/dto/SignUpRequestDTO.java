@@ -30,4 +30,7 @@ public class SignUpRequestDTO {
     private String introduction;
     private String profileImgUrl;
     private String language;
+    private String phone;
+    private String passport;
+    private String code;
 }
