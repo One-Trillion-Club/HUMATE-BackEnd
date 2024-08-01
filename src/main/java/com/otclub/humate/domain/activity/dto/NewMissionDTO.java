@@ -9,17 +9,17 @@ import java.util.List;
 
 @Getter
 @Builder
-public class NewActivityResponseDTO {
+public class NewMissionDTO {
     private int activityId;
     private String title;
     private String content;
     private int point;
     private String imgUrl;
 
-    public static List<NewActivityResponseDTO> ofList(List<Activity> activities) {
-        List<NewActivityResponseDTO> newActivitiesResponseDTO = new ArrayList<>();
+    public static List<NewMissionDTO> ofList(List<Activity> activities) {
+        List<NewMissionDTO> newActivitiesResponseDTO = new ArrayList<>();
         for (Activity activity : activities) {
-            newActivitiesResponseDTO.add(NewActivityResponseDTO.builder()
+            newActivitiesResponseDTO.add(NewMissionDTO.builder()
                     .activityId(activity.getActivityId())
                     .title(activity.getTitle())
                     .imgUrl(activity.getImgUrl())

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class CompanionActivityHistoryResponseDTO {
+public class ClearedMissionDTO {
     private int companionActivityId;
     private String title;
     private int status;

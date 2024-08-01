@@ -1,8 +1,8 @@
 package com.otclub.humate.domain.activity.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.domain.activity.dto.ActivitiesResponseDTO;
-import com.otclub.humate.domain.activity.dto.NewActivityResponseDTO;
+import com.otclub.humate.domain.activity.dto.MissionResponseDTO;
+import com.otclub.humate.domain.activity.dto.NewMissionDTO;
 import com.otclub.humate.domain.activity.dto.UploadActivityRequestDTO;
 import com.otclub.humate.domain.activity.service.ActivityService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping
-    public ResponseEntity<ActivitiesResponseDTO> activityList(@RequestParam("companionId") int companionId) {
+    public ResponseEntity<MissionResponseDTO> activityList(@RequestParam("companionId") int companionId) {
         return ResponseEntity.ok(activityService.findActivities(companionId));
     }
 
@@ -39,7 +39,7 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping("/{activityId}")
-    public ResponseEntity<NewActivityResponseDTO> NewActivityDetails(@PathVariable("activityId") int activityId) {
+    public ResponseEntity<NewMissionDTO> NewActivityDetails(@PathVariable("activityId") int activityId) {
         return ResponseEntity.ok(activityService.findActivity(activityId));
     }
 

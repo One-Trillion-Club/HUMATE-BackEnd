@@ -22,4 +22,6 @@ public interface CompanionMapper {
             @Param("memberId") String memberId);
 
     List<CompanionDetailsDTO> selectCompanionListByMemberId(String memberId);
+
+    String selectPostTitleById(int companionId);
 }

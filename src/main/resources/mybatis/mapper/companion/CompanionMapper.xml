@@ -65,4 +65,13 @@
                       on c.chat_room_id = cr.chat_room_id
         where (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
     </select>
+
+    <select id="selectPostTitleById" resultType="java.lang.String">
+        select
+            r.post_title
+        from companion c
+        join chat_room r
+        on c.chat_room_id = r.chat_room_id
+        where c.companion_id = #{companionId}
+    </select>
 </mapper>
