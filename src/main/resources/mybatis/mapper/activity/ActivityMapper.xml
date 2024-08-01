@@ -4,7 +4,7 @@
 
 <mapper namespace="com.otclub.humate.domain.activity.mapper.ActivityMapper">
     <select id="selectCompanionActivityHistoryList"
-            resultType="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryResponseDTO">
+            resultType="com.otclub.humate.domain.activity.dto.ClearedMissionDTO">
 
         select c.companion_activity_id, a.title, c.status, min(i.img_url)
         from companion_activity_history c
@@ -19,7 +19,7 @@
         from activity
     </select>
 
-    <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewActivityResponseDTO">
+    <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewMissionDTO">
         select activity_id, title, content, point, img_url
         from activity
         where activity_id = #{activityId}
