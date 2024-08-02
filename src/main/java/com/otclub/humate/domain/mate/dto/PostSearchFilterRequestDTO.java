@@ -13,8 +13,10 @@ public class PostSearchFilterRequestDTO {
 
     // 태그 이름 (형식 - "기타, 악세사리")
     private String tagName;
-    // 태그 이름 리스트 (형식 - ["기타", "악세사리"]
+    // 태그 이름 리스트 (형식 - ["기타", "악세서리"]
     private List<String> tags;
+    // 태그 개수
+    private int tagCount;
     // 매칭 날짜
     private String matchDate;
     // 매칭 지점

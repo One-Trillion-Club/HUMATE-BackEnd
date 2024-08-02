@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,7 +35,13 @@ public class PostServiceImpl implements PostService {
         if (request.getTagName() != null) {
             log.info("null값이 아닌 tagName 설정");
             preBuilder.tagName(request.getTagName());
-            preBuilder.tags(Arrays.asList(request.getTagName().split(",")));
+            List<String> tags = Arrays.stream(request.getTagName().split(","))
+                    .map(String::trim)
+                    .filter(tag -> !tag.isEmpty())
+                    .collect(Collectors.toList());
+            log.info("받은 tags -> " + tags);
+            preBuilder.tags(tags);
+            preBuilder.tagCount(tags.size());
         }
 
         if (request.getMatchDate() != null) {
@@ -70,6 +77,7 @@ public class PostServiceImpl implements PostService {
         log.info("request matchGender -> " + postSearchFilterRequestDTO.getMatchGender());
         log.info("request matchLanguage -> " + postSearchFilterRequestDTO.getMatchLanguage());
         log.info("request keyword -> " + postSearchFilterRequestDTO.getKeyword());
+        log.info("request tagCount -> " + postSearchFilterRequestDTO.getTagCount());
 
         List<PostListResponseDTO> result = postMapper.selectAllPosts(postSearchFilterRequestDTO);
         log.info("[service단] result -> " + result);
