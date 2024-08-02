@@ -25,26 +25,26 @@
             parameterType="com.otclub.humate.domain.mate.dto.PostSearchFilterRequestDTO"
             resultMap="PostListResultMap">
         select
-            p.post_id,
-            m.nickname,
-            m.profile_img_url,
-            t.name as tag_name,
-            p.title,
-            p.match_date,
-            p.match_branch,
-            p.match_gender,
-            p.match_language,
-            p.created_at,
-            p.is_matched
+        p.post_id,
+        m.nickname,
+        m.profile_img_url,
+        t.name as tag_name,
+        p.title,
+        p.match_date,
+        p.match_branch,
+        p.match_gender,
+        p.match_language,
+        p.created_at,
+        p.is_matched
         from
-            post p
-                join member m on p.member_id = m.member_id
-                left join post_tag pt on p.post_id = pt.post_id
-                left join tag t on pt.tag_id = t.tag_id
+        post p
+        join member m on p.member_id = m.member_id
+        left join post_tag pt on p.post_id = pt.post_id
+        left join tag t on pt.tag_id = t.tag_id
         <!-- 기본 검색 조건 -->
         <!-- matchDate, matchBranch, matchLanguage, keyword에 대해서 검색 -->
         where 1=1
-          and p.deleted_at is null
+        and p.deleted_at is null
         <if test="matchDate != null">
             and p.match_date = #{matchDate, jdbcType=VARCHAR}
         </if>
@@ -108,13 +108,19 @@
         </choose>
 
         <!-- 태그 이름 리스트에 대한 검색 -->
-        <if test="tags != null and tags.size() > 0">
-            and t.name IN
-            <foreach collection="tags" item="tag" open="(" separator="," close=")">
-                #{tag}
-            </foreach>
+        <if test="tags != null and tagCount > 0">
+            and p.post_id in (
+                select pt.post_id
+                from post_tag pt
+                join tag t on pt.tag_id = t.tag_id
+                where t.name in
+                <foreach collection="tags" item="tag" open="(" separator="," close=")">
+                    trim(#{tag})
+                </foreach>
+                group by pt.post_id
+                having count(distinct t.name) = #{tagCount}
+            )
         </if>
-
     </select>
 
     <!-- 매칭글 등록 -->
