@@ -64,6 +64,7 @@
                  join chat_room cr
                       on c.chat_room_id = cr.chat_room_id
         where (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
+        order by c.finished_at desc
     </select>
 
     <select id="selectPostTitleById" resultType="java.lang.String">
