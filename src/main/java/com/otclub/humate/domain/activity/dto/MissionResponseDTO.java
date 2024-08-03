@@ -11,17 +11,19 @@ import java.util.List;
 @Setter
 @Builder
 public class MissionResponseDTO {
+    private int isFinished;
     private String postTitle;
     private List<ClearedMissionDTO> clearedMissionList;
     private List<NewMissionDTO> newMissionList;
 
     public static MissionResponseDTO of(List<ClearedMissionDTO> companionActivityHistories,
                                         List<Activity> activities,
-                                        String postTitle) {
+                                        CompanionInfoDTO companionInfoDTO) {
         return MissionResponseDTO.builder()
                 .clearedMissionList(companionActivityHistories)
                 .newMissionList(NewMissionDTO.ofList(activities))
-                .postTitle(postTitle)
+                .postTitle(companionInfoDTO.getPostTitle())
+                .isFinished(companionInfoDTO.getIsFinished())
                 .build();
     }
 }

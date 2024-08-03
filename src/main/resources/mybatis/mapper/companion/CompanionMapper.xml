@@ -67,12 +67,13 @@
         order by c.finished_at desc
     </select>
 
-    <select id="selectPostTitleById" resultType="java.lang.String">
+    <select id="selectPostTitleById" resultType="com.otclub.humate.domain.activity.dto.CompanionInfoDTO">
         select
-            r.post_title
+            r.post_title,
+           NVL2(c.FINISHED_AT, 1, 0) is_finished
         from companion c
-        join chat_room r
-        on c.chat_room_id = r.chat_room_id
+             join chat_room r
+                on c.chat_room_id = r.chat_room_id
         where c.companion_id = #{companionId}
     </select>
 </mapper>
