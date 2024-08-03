@@ -20,7 +20,9 @@ public enum ErrorCode {
     ALREADY_EXISTS_PHONE(409, "이미 가입된 휴대폰 번호입니다."),
     MEMBER_NOT_FOUND(404, "존재하지 않은 유저입니다."),
     CHAT_PARTICIPATE_NOT_FOUND(404, "해당 채팅방에 참여하지 않은 유저입니다."),
-    CHAT_MATE_CLICK_CONFLICT(409, "이미 메이트 버튼이 처리되었습니다.");
+    CHAT_MATE_CLICK_CONFLICT(409, "이미 메이트 버튼이 처리되었습니다."),
+    NOT_VALID_INPUT(400, "입력값이 올바르지 않습니다."),
+    VERIFICATION_INVALID(400, "인증 정보가 존재하지 않습니다.");
 
     private final int status;
     private final String message;

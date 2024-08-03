@@ -26,7 +26,8 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Random;
 
-import static com.otclub.humate.domain.auth.util.AuthUtil.*;
+import static com.otclub.humate.domain.auth.util.AuthUtil.REDIS_CODEF_ACCESS_TOKEN_TTL;
+import static com.otclub.humate.domain.auth.util.AuthUtil.REDIS_VERIFICATION_SUCCESS_KEY_TTL;
 
 /**
  * 인증/인가 서비스 구현체
@@ -74,6 +75,21 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public int signUp(SignUpRequestDTO dto, MultipartFile image) {
         log.info(dto.toString());
+
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        if (dto.getNationality() == 1 && dto.getPhone() == null) {
+            // 한국인일 시 phone 인증 성공 코드 검증
+            throw new CustomException(ErrorCode.NOT_VALID_INPUT);
+
+        } else if (dto.getNationality() != 1 && dto.getPassportNo() == null) {
+            // 외국인일 시 passport 인증 성공 코드 검증
+            throw new CustomException(ErrorCode.NOT_VALID_INPUT);
+        }
+        String verificationCode = operations.get("verification:"+dto.getPhone());
+        // 인증 정보 부적합 시 예외
+        if (!dto.getVerifyCode().equals(verificationCode)) {
+            throw new CustomException(ErrorCode.VERIFICATION_INVALID);
+        }
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
