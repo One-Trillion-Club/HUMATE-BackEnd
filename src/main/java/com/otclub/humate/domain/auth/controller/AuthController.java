@@ -115,7 +115,7 @@ public class AuthController {
             @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
         String code = service.generatePhoneVerificationCode(dto);
 
-        return ResponseEntity.ok(new CommonResponseDTO(true, code));
+        return ResponseEntity.ok(new CommonResponseDTO(true, "인증 번호 생성 완료"));
     }
 
     /**

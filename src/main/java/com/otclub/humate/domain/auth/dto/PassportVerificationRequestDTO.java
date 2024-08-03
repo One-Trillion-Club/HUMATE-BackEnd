@@ -20,7 +20,7 @@ import lombok.Setter;
 public class PassportVerificationRequestDTO {
 
     private String organization = "0001";
-    private String birthDate;
+    private String birthdate;
     private String nationality;
     private String country;
     private String passportNo;
