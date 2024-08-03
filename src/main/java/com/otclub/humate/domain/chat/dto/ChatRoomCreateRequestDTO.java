@@ -3,7 +3,9 @@ package com.otclub.humate.domain.chat.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 채팅방 생성 요청 DTO
@@ -17,10 +19,11 @@ import lombok.NoArgsConstructor;
  * 2024.07.28  	최유경        최초 생성
  * </pre>
  */
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ChatRoomCreateRequestDTO {
     private int postId;
     private String applicantId;

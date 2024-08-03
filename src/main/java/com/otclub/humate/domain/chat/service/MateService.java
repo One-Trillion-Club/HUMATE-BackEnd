@@ -1,6 +1,6 @@
 package com.otclub.humate.domain.chat.service;
 
-import com.otclub.humate.domain.chat.dto.MateCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO;
 
 /**
  * 메이트 관련 서비스
@@ -15,5 +15,5 @@ import com.otclub.humate.domain.chat.dto.MateCreateRequestDTO;
  * </pre>
  */
 public interface MateService {
-    void modifyMate(MateCreateRequestDTO requestDTO) ;
+    void modifyMate(MateUpdateRequestDTO requestDTO) ;
 }

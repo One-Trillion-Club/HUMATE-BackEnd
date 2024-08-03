@@ -4,7 +4,6 @@ import com.otclub.humate.common.service.RedisPublisher;
 import com.otclub.humate.common.service.RedisSubscriber;
 import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import com.otclub.humate.domain.chat.dto.MateCreateRequestDTO;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,19 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Service;
 
+/**
+ * Redis pub/sub 서비스
+ * @author 최유경
+ * @since 2024.07.31
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	최유경        메이트 신청/취소 공지 전송
+ * 2024.07.31  	최유경        최초 생성
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
