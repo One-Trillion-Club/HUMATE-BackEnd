@@ -12,6 +12,7 @@
                  left join companion_activity_img i on c.companion_activity_id = i.companion_activity_id
         where c.companion_id = #{companionId}
         group by c.companion_activity_id, a.title, c.status
+        order by c.status
     </select>
 
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
