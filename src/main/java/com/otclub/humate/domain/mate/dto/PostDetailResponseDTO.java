@@ -17,6 +17,8 @@ public class PostDetailResponseDTO {
     private int postId;
     // 회원 고유번호
     private String memberId;
+    // 회원 프로필 이미지
+    private String profileImgUrl;
     // 게시글 제목
     private String title;
     // 게시글 내용
