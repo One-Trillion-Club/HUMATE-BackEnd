@@ -34,4 +34,51 @@
             deleted_at is null
     </select>
 
+    <select id="selectChatList" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO">
+        <![CDATA[
+            with chat_room_list as (
+                select
+                    cp.participate_id,
+                    cp.member_id,
+                    cp.chat_room_id,
+                    cp.is_clicked,
+                    cr.post_id,
+                    cr.post_title,
+                    cr.match_date,
+                    cr.match_branch,
+                    cr.is_matched
+                from chat_participate cp
+                join
+                    chat_room cr
+                    on cp.chat_room_id = cr.chat_room_id
+                where cp.member_id = #{memberId} and
+                    cp.deleted_at is null and
+                    cr.is_matched = #{isMatched}
+            )
+
+            select
+                me.chat_room_id,
+                me.participate_id,
+                me.post_id,
+                me.post_title,
+                me.match_date,
+                me.match_branch,
+                me.is_clicked,
+                me.is_matched,
+                nvl2(m.deleted_at, '(알수없음)', m.nickname) as target_nickname,
+                target.participate_id as target_participate_id,
+                m.profile_img_url as target_profile_img_url,
+                target.is_clicked as target_is_clicked
+            from
+                chat_room_list me
+                join
+                    chat_participate target
+                    on me.chat_room_id = target.chat_room_id and
+                        me.member_id <> target.member_id
+                join
+                member m
+                    on target.member_id = m.member_id
+        ]]>
+    </select>
+
 </mapper>

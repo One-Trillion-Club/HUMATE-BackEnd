@@ -5,8 +5,10 @@ import com.otclub.humate.common.entity.ChatRoom;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,4 +57,9 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return chatRoom.getChatRoomId();
     }
 
+    @Override
+    public List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched) {
+        List<ChatRoomDetailDTO> roomList = chatRoomMapper.selectChatList(memberId, isMatched);
+        return roomList;
+    }
 }
