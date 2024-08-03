@@ -26,4 +26,5 @@ public interface MemberMapper {
     public int updateRefreshToken(Member member);
     public Member selectMemberById(String memberId);
     public Member selectMemberByPhone(String phone);
+    public Member selectMemberDetail(String memberId);
 }

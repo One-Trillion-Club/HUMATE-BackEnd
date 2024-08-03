@@ -49,7 +49,7 @@ public class RedisSubscriber implements MessageListener {
             log.info("[RedisSubscriber] Redis Subscribe Channel : " + requestDTO.getContent());
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
-            if(requestDTO.getMessageType().equals(MessageType.TEXT)) {
+            //if(requestDTO.getMessageType().equals(MessageType.TEXT)) {
                 //if (sessionManager.isUserConnected(requestDTO.getSenderId())) {
                 if (requestDTO.getSenderId().equals("F_1")) {
                     WebSocketSession session = sessionManager.getSession("K_1");
@@ -63,7 +63,7 @@ public class RedisSubscriber implements MessageListener {
                         log.error(e.getMessage());
                     }
                 }
-            }
+           // }
         }
         catch (JsonProcessingException e){
             log.error(e.getMessage());

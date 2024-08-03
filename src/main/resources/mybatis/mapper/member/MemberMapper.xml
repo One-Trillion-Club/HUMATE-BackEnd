@@ -98,4 +98,13 @@
         where
             phone=#{phone}
     </select>
+
+    <select id="selectMemberDetail">
+        select
+            *
+        from
+            member
+        where
+            member_id=#{memberId}
+    </select>
 </mapper>

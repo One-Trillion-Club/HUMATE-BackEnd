@@ -8,10 +8,12 @@ import com.otclub.humate.domain.chat.dto.MateCreateRequestDTO;
 import com.otclub.humate.domain.chat.mapper.MateMapper;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MateServiceImpl implements MateService {
     private final MateMapper mateMapper;
     private final MemberMapper memberMapper;
@@ -20,8 +22,8 @@ public class MateServiceImpl implements MateService {
     @Override
     public void modifyMate(MateCreateRequestDTO requestDTO) {
         // 회원 조회하기
-        Member member = memberMapper.selectMemberById(requestDTO.getMemberId());
-
+        Member member = memberMapper.selectMemberDetail(requestDTO.getMemberId());
+        log.info("[MateServiceImpl] - member : {}", member.toString());
         if (member == null) {
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
         }
@@ -31,9 +33,8 @@ public class MateServiceImpl implements MateService {
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
         }
 
-//
-//        // 메이트 안내 채팅 전송하기
-//        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMateActive(requestDTO, member.getNickname());
-//        redisPubSubService.pubSendMessageChannel(redisDTO);
+        // 메이트 안내 채팅 전송하기
+        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMateActive(requestDTO, member.getNickname());
+        redisPubSubService.pubSendMessageChannel(redisDTO);
     }
 }
