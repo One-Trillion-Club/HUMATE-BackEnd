@@ -44,6 +44,7 @@ public class MateServiceImpl implements MateService {
         // 채팅방에 참여한 회원인지 확인하기
         ChatParticipate chatParticipate = chatRoomMapper.selectChatParticipantByChatRoomIdAndMemberId(requestDTO.getChatRoomId(), requestDTO.getMemberId())
                 .orElseThrow(() -> new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
+        log.info("[[MateServiceImpl] - chatParticipate : {} ", chatParticipate.toString());
 
         // 메이트 신청하기
         if (mateMapper.updateMate(requestDTO) == 0){
