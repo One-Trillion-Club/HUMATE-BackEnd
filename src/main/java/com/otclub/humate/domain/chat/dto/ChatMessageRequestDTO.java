@@ -19,10 +19,11 @@ import lombok.ToString;
  * 2024.07.29  	최유경        최초 생성
  * </pre>
  */
+
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @ToString
 public class ChatMessageRequestDTO {
     private String chatRoomId;
