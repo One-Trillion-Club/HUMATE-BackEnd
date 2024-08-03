@@ -37,22 +37,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Slf4j
 public class ChatController {
     private final ChatMessageService chatMessageService;
-    private final SimpMessagingTemplate simpMessagingTemplate;
-
-    @MessageMapping("/chat/{chatRoomId}")
-    @SendTo("/topic/message/{chatRoomId}")
-    public void messageHandler(@DestinationVariable("chatRoomId") String chatRoomId, ChatMessageRequestDTO requestDTO){
-        log.info("chat controller - messageHandler " + chatRoomId);
-        log.info("chat controller - message " + requestDTO.getContent());
-
-        // 채팅 메시지 생성
-        ChatMessage chatMessage = chatMessageService.createMessage(chatRoomId, requestDTO);
-
-        simpMessagingTemplate.convertAndSend("/topic/message/"+chatRoomId, chatMessage);
-    }
 
     @GetMapping("/chat/{chatRoomId}")
     public ResponseEntity<List<ChatMessage>> chatMessageList(@PathVariable("chatRoomId") String chatRoomId){
+        log.info("[채팅내역조회] - {}", chatRoomId);
         List<ChatMessage> chatMessageList = chatMessageService.getListMessage(chatRoomId);
 
         return ResponseEntity.ok(chatMessageList);

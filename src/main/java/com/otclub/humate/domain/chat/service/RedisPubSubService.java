@@ -20,14 +20,29 @@ public class RedisPubSubService {
     private final RedisPublisher redisPublisher;
     private final RedisSubscriber redisSubscriber;
 
+    public void subscribeToChannel(String chatRoomId) {
+        // 요청한 Channel 을 구독
+        listenerContainer.addMessageListener(redisSubscriber, new ChannelTopic(topic.getTopic() + "/" + chatRoomId));
+    }
+
     public void pubSendMessageChannel(ChatMessageRequestDTO requestDTO){
         // 요청한 Channel 을 구독
         listenerContainer.addMessageListener(redisSubscriber, new ChannelTopic(topic.getTopic() + "/" + requestDTO.getChatRoomId()));
 
+        int subscriberCount = redisSubscriber.getSubscriberCount(topic.getTopic() + "/" + requestDTO.getChatRoomId());
+        log.info("[pubSendMessageChannel] - subscriberCount : {} ", subscriberCount);
         // 채팅 메시지 저장
         ChatMessage chatMessage = chatMessageService.createMessage(requestDTO.getChatRoomId(), requestDTO);
 
-        //Message 전송
+        // Message 전송
         redisPublisher.publish(requestDTO.getChatRoomId(), requestDTO);
+    }
+
+    /**
+     * Channel 구독 취소
+     * @param channel
+     */
+    public void cancelSubChannel(String channel) {
+        listenerContainer.removeMessageListener(redisSubscriber);
     }
 }
