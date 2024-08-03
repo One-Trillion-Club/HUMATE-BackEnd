@@ -163,11 +163,12 @@
     <select id="selectPostById" resultType="com.otclub.humate.domain.mate.dto.PostBasicDetailResponseDTO">
         <![CDATA[
             select
-                member_id, title, content,
-                match_date, match_branch, match_gender, match_language,
-                is_matched
-            from post
-            where post_id = #{postId}
+                p.member_id, p.title, p.content,
+                p.match_date, p.match_branch, p.match_gender, p.match_language, p.is_matched,
+                m.profile_img_url as profileImgUrl
+            from post p
+                join member m on p.member_id = m.member_id
+            where p.post_id = #{postId}
         ]]>
     </select>
 

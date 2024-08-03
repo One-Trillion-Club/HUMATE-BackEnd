@@ -164,6 +164,7 @@ public class PostServiceImpl implements PostService {
                 = PostDetailResponseDTO.builder()
                 .postId(postId)
                 .memberId(postBasic.getMemberId())
+                .profileImgUrl(postBasic.getProfileImgUrl())
                 .title(postBasic.getTitle())
                 .content(postBasic.getContent())
                 .matchDate(postBasic.getMatchDate())
