@@ -14,6 +14,7 @@ mybatis:
   mapper-locations: mybatis/mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+    jdbc-type-for-null: varchar
 
 # log4jdbc, Mybatis Console Log
 logging:

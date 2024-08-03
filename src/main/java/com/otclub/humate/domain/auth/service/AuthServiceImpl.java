@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
+import com.otclub.humate.common.upload.S3Uploader;
 import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
 import com.otclub.humate.domain.auth.jwt.JwtGenerator;
@@ -16,6 +17,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URLDecoder;
@@ -49,6 +52,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtGenerator jwtGenerator;
     private final StringRedisTemplate redisTemplate;
+    private final S3Uploader s3Uploader;
     // CODEF 액세스 토큰 발급을 위한 요청 URL
     @Value("${codef.accessTokenIssuanceUrl}")
     private String accessTokenIssuanceUrl;
@@ -66,14 +70,18 @@ public class AuthServiceImpl implements AuthService {
      * @author 조영욱
      * @param dto 회원가입 사용자 정보
      */
+    @Transactional
     @Override
-    public int signUp(SignUpRequestDTO dto) {
+    public int signUp(SignUpRequestDTO dto, MultipartFile image) {
         log.info(dto.toString());
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        int result = 0;
+        if (image != null) {
+            dto.setProfileImgUrl(s3Uploader.uploadImage(image));
+        }
 
+        int result = 0;
         try {
             result = mapper.insertMember(dto);
         } catch (DuplicateKeyException e) {
