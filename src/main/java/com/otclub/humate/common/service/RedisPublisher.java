@@ -1,5 +1,6 @@
 package com.otclub.humate.common.service;
 
+import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class RedisPublisher implements MessagePublisher {
     }
 
     @Override
-    public void publish(String chatRoomId, ChatMessageRequestDTO dto){
+    public void publish(String chatRoomId, ChatMessageRedisDTO dto){
         log.info("[RedisPublisher] - publish topic : {} ", topic.getTopic());
         log.info("[RedisPublisher] - publish topic full path : {} ", topic.getTopic() + "/" + chatRoomId);
         redisTemplate.convertAndSend(topic.getTopic() + "/" + chatRoomId, dto);

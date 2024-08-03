@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.chat.vo;
 
+import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -46,7 +47,7 @@ public class ChatMessage {
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
 
-    public static ChatMessage of(String chatRoomId, ChatMessageRequestDTO requestDTO){
+    public static ChatMessage of(String chatRoomId, ChatMessageRedisDTO requestDTO){
         ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .senderId(requestDTO.getSenderId())

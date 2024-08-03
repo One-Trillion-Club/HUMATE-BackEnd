@@ -67,6 +67,7 @@ public class SecurityConfig {
                 "/reviews/**",
                 "/redis/**",
                 "/chat/**",
-                "/ws/**");
+                "/ws/**",
+                "/mate/**");
     }
 }
