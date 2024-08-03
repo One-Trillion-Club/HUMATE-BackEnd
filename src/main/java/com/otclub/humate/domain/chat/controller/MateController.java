@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MateController {
     private final MateService mateService;
 
-    @PostMapping("/new")
+    @PostMapping("/update")
     public ResponseEntity<CommonResponseDTO> mateModify(@RequestBody MateCreateRequestDTO request) {
 
         mateService.modifyMate(request);
