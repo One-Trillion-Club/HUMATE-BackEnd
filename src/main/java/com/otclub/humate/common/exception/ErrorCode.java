@@ -19,7 +19,8 @@ public enum ErrorCode {
     UNEXPECTED_EXCEPTION(500, "예상하지 못한 오류가 발생했습니다. 다시 한 번 시도해주세요."),
     ALREADY_EXISTS_PHONE(409, "이미 가입된 휴대폰 번호입니다."),
     MEMBER_NOT_FOUND(404, "존재하지 않은 유저입니다."),
-    CHAT_PARTICIPATE_NOT_FOUND(404, "해당 채팅방에 참여하지 않은 유저입니다.");
+    CHAT_PARTICIPATE_NOT_FOUND(404, "해당 채팅방에 참여하지 않은 유저입니다."),
+    CHAT_MATE_CLICK_CONFLICT(409, "이미 메이트 버튼이 처리되었습니다.");
 
     private final int status;
     private final String message;

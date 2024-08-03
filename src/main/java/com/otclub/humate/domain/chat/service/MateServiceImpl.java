@@ -46,6 +46,10 @@ public class MateServiceImpl implements MateService {
                 .orElseThrow(() -> new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
         log.info("[[MateServiceImpl] - chatParticipate : {} ", chatParticipate.toString());
 
+        // 이미 처리된 내용에 대해 예외 처리
+        if(chatParticipate.getIsClicked() == requestDTO.getIsClicked())
+            throw new CustomException(ErrorCode.CHAT_MATE_CLICK_CONFLICT);
+
         // 메이트 신청하기
         if (mateMapper.updateMate(requestDTO) == 0){
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
