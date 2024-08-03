@@ -28,7 +28,7 @@ public class ActivityServiceImpl implements ActivityService {
     public MissionResponseDTO findActivities(int companionId) {
 
         // 글 제목 조회
-        String postTitle = companionMapper.selectPostTitleById(companionId);
+        CompanionInfoDTO companionInfoDTO = companionMapper.selectPostTitleById(companionId);
 
         // 완료된 활동 목록과 새로운 활동 목록 2개를 조회해야한다.
         List<ClearedMissionDTO> companionActivityHistories = activityMapper.selectCompanionActivityHistoryList(companionId);
@@ -44,7 +44,7 @@ public class ActivityServiceImpl implements ActivityService {
             }
         }
 
-        return MissionResponseDTO.of(companionActivityHistories, activities, postTitle);
+        return MissionResponseDTO.of(companionActivityHistories, activities, companionInfoDTO);
     }
 
     @Override
