@@ -33,7 +33,7 @@ public class S3Uploader {
                     bucket,
                     uploadName,
                     imageFile.getInputStream(),
-                    createObjectMetadata(originName, imageFile.getSize())
+                    createObjectMetadata(imageFile.getSize(), imageFile.getContentType())
                     )
             );
 
@@ -48,9 +48,9 @@ public class S3Uploader {
         return UUID.randomUUID() + "_" + originName;
     }
 
-    private ObjectMetadata createObjectMetadata(String originName, long size) {
+    private ObjectMetadata createObjectMetadata(long size, String contentType) {
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/" + originName.substring(originName.lastIndexOf(".")));
+        metadata.setContentType(contentType);
         metadata.setContentLength(size);
         metadata.setCacheControl("31536000");
         return metadata;
