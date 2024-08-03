@@ -50,7 +50,7 @@
             #{profileImgUrl},
             #{language},
             #{phone},
-            ${passportNo}
+            #{passportNo}
         )
     </insert>
 
