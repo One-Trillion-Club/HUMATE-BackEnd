@@ -2,6 +2,7 @@ package com.otclub.humate.domain.auth.service;
 
 import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 인증/인가 서비스 인터페이스
@@ -16,7 +17,7 @@ import com.otclub.humate.domain.auth.jwt.JwtDTO;
  * </pre>
  */
 public interface AuthService {
-    int signUp(SignUpRequestDTO dto);
+    int signUp(SignUpRequestDTO dto, MultipartFile image);
     boolean checkAvailableLoginId(String loginId);
     JwtDTO logIn(LogInRequestDTO dto);
     JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception;

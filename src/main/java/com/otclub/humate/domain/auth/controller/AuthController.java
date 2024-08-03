@@ -9,8 +9,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 인증/인가 컨트롤러
@@ -41,10 +43,12 @@ public class AuthController {
      * @param dto 회원가입 사용자 정보
      *
      */
-    @PostMapping("/signup")
-    public ResponseEntity<CommonResponseDTO> signUp(@RequestBody SignUpRequestDTO dto) {
+    @PostMapping(value="/signup", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<CommonResponseDTO> signUp(
+            @RequestPart("signUpRequestDTO") SignUpRequestDTO dto,
+            @RequestPart(value="image", required=false) MultipartFile image) {
 
-        return service.signUp(dto) == 1 ?
+        return service.signUp(dto, image) == 1 ?
                 ResponseEntity.ok(new CommonResponseDTO(true, "회원가입 성공")) :
                 ResponseEntity.ok(new CommonResponseDTO(false, "회원가입 실패"));
     }
@@ -115,7 +119,7 @@ public class AuthController {
             @RequestBody GeneratePhoneVerificationCodeRequestDTO dto) {
         String code = service.generatePhoneVerificationCode(dto);
 
-        return ResponseEntity.ok(new CommonResponseDTO(true, code));
+        return ResponseEntity.ok(new CommonResponseDTO(true, "인증 번호 생성 완료"));
     }
 
     /**
