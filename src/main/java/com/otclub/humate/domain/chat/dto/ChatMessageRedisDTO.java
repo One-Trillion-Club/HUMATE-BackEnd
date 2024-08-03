@@ -1,15 +1,24 @@
 package com.otclub.humate.domain.chat.dto;
 
-import com.otclub.humate.common.entity.ChatRoom;
-import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.domain.chat.vo.MessageType;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * redis common DTO
+ * @author 최유경
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	최유경        최초 생성
+ * </pre>
+ */
 @Getter
 @Builder
 @NoArgsConstructor
@@ -30,7 +39,7 @@ public class ChatMessageRedisDTO {
                 .build();
     }
 
-    public static ChatMessageRedisDTO ofMateActive(MateCreateRequestDTO requestDTO, String nickname){
+    public static ChatMessageRedisDTO ofMateActive(MateUpdateRequestDTO requestDTO, String nickname){
         MessageType messageType = (requestDTO.getIsClicked()==1 ? MessageType.MATE_ACTIVE : MessageType.MATE_INACTIVE);
 
         return ChatMessageRedisDTO.builder()

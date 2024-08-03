@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
+ * 2024.08.03  	최유경        채팅방 리스트 내역 조회
  * 2024.07.29  	최유경        최초 생성
  * </pre>
  */

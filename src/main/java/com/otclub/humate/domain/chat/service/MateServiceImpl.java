@@ -5,7 +5,7 @@ import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.dto.MateCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.chat.mapper.MateMapper;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
@@ -35,7 +35,7 @@ public class MateServiceImpl implements MateService {
     private final RedisPubSubService redisPubSubService;
 
     @Override
-    public void modifyMate(MateCreateRequestDTO requestDTO) {
+    public void modifyMate(MateUpdateRequestDTO requestDTO) {
         // 회원 조회하기
         Member member = memberMapper.selectMemberDetail(requestDTO.getMemberId())
                 .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
