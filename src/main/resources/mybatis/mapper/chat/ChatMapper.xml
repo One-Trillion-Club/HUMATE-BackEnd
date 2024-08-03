@@ -20,4 +20,18 @@
         ]]>
     </insert>
 
+    <select id="selectChatParticipantByChatRoomIdAndMemberId" resultType="com.otclub.humate.common.entity.ChatParticipate">
+        select
+            participate_id,
+            chat_room_id,
+            member_id,
+            is_clicked
+        from
+            chat_participate
+        where
+            chat_room_id=#{chatRoomId} and
+            member_id=#{member_id} and
+            delete_at is null
+    </select>
+
 </mapper>

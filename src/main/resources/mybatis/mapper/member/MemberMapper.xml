@@ -99,12 +99,13 @@
             phone=#{phone}
     </select>
 
-    <select id="selectMemberDetail">
+    <select id="selectMemberDetail" resultType="com.otclub.humate.common.entity.Member">
         select
             *
         from
             member
         where
-            member_id=#{memberId}
+            member_id=#{memberId} and
+            deleted_at is null
     </select>
 </mapper>

@@ -31,11 +31,13 @@ public class ChatMessageRedisDTO {
     }
 
     public static ChatMessageRedisDTO ofMateActive(MateCreateRequestDTO requestDTO, String nickname){
+        MessageType messageType = (requestDTO.getIsClicked()==1 ? MessageType.MATE_ACTIVE : MessageType.MATE_INACTIVE);
+
         return ChatMessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .senderId(requestDTO.getMemberId())
-                .content(nickname + MessageType.MATE_ACTIVE.getMsg())
-                .messageType(MessageType.MATE_ACTIVE)
+                .content(nickname + messageType.getMsg())
+                .messageType(messageType.MATE_ACTIVE)
                 .build();
     }
 }

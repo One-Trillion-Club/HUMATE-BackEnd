@@ -17,7 +17,9 @@ public enum ErrorCode {
     FAIL_TO_DELETE_POST(400, "존재하지 않는 게시물이거나 이미 삭제된 게시물입니다."),
     FORBIDDEN_REQUEST(403, "접근할 권한이 없습니다."),
     UNEXPECTED_EXCEPTION(500, "예상하지 못한 오류가 발생했습니다. 다시 한 번 시도해주세요."),
-    ALREADY_EXISTS_PHONE(409, "이미 가입된 휴대폰 번호입니다.");
+    ALREADY_EXISTS_PHONE(409, "이미 가입된 휴대폰 번호입니다."),
+    MEMBER_NOT_FOUND(404, "존재하지 않은 유저입니다."),
+    CHAT_PARTICIPATE_NOT_FOUND(404, "해당 채팅방에 참여하지 않은 유저입니다.");
 
     private final int status;
     private final String message;
