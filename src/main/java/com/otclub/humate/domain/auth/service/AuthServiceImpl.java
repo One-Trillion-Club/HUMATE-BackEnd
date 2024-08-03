@@ -26,8 +26,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Random;
 
-import static com.otclub.humate.domain.auth.util.AuthUtil.REDIS_CODEF_ACCESS_TOKEN_TTL;
-import static com.otclub.humate.domain.auth.util.AuthUtil.REDIS_VERIFICATION_SUCCESS_KEY_TTL;
+import static com.otclub.humate.domain.auth.util.AuthUtil.*;
 
 /**
  * 인증/인가 서비스 구현체
@@ -86,9 +85,13 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ErrorCode.NOT_VALID_INPUT);
         }
         String verificationCode = operations.get("verification:"+dto.getPhone());
-        // 인증 정보 부적합 시 예외
+
         if (!dto.getVerifyCode().equals(verificationCode)) {
+            // 인증 정보 부적합 시 예외
             throw new CustomException(ErrorCode.VERIFICATION_INVALID);
+        } else {
+            // 인증 완료 시 레디스 키 삭제
+            redisTemplate.delete(verificationCode);
         }
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -192,7 +195,7 @@ public class AuthServiceImpl implements AuthService {
         String redisCodeKey = "code:" + phone;
 
         // 레디스에 저장되는 구조: { "code:01012341234" : "012345" }
-        operations.set(redisCodeKey, code, Duration.ofSeconds(REDIS_VERIFICATION_SUCCESS_KEY_TTL));
+        operations.set(redisCodeKey, code, Duration.ofSeconds(REDIS_PHONE_CODE_KEY_TTL));
 
         return code;
     }

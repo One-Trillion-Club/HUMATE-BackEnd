@@ -25,6 +25,7 @@ public class AuthUtil {
     // Redis
     public static final int REDIS_VERIFICATION_SUCCESS_KEY_TTL = 3600; // 1시간
     public static final int REDIS_CODEF_ACCESS_TOKEN_TTL = 604800; // 1주
+    public static final int REDIS_PHONE_CODE_KEY_TTL = 18000; // 5분
 
     /**
      * JWT 쿠키 생성

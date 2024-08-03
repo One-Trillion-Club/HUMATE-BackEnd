@@ -27,7 +27,9 @@
             nickname,
             introduction,
             profile_img_url,
-            language
+            language,
+            phone,
+            passport_no
         )
         values (
             <choose>
@@ -46,7 +48,9 @@
             #{nickname},
             #{introduction},
             #{profileImgUrl},
-            #{language}
+            #{language},
+            #{phone},
+            ${passportNo}
         )
     </insert>
 
