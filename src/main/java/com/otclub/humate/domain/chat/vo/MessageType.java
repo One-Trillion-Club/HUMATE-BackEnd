@@ -20,18 +20,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum MessageType {
-    TEXT(0),
-    IMAGE(1),
-    ENTER(2),
-    EXIT(3);
+    TEXT(0 , ""),
+    IMAGE(1, ""),
+    ENTER(2, " 님이 입장했습니다."),
+    EXIT(3, " 님이 나갔습니다."),
+    MATE_ACTIVE(4, " 님이 메이트 신청을 했습니다."),
+    MATE_INACTIVE(5, " 님이 메이트 신청을 취소했습니다.");
 
     private final Integer type;
-
-//    @JsonCreator
-//    public static MessageType of(Integer chatType){
-//        return Arrays.stream(MessageType.values())
-//                .filter(i -> i.getType().equals(chatType))
-//                .findAny()
-//                .orElse(null);
-//    }
+    private final String msg;
 }

@@ -49,7 +49,14 @@ public class RedisSubscriber implements MessageListener {
             log.info("[RedisSubscriber] Redis Subscribe Channel : " + requestDTO.getContent());
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
-            if(requestDTO.getMessageType().equals(MessageType.TEXT)) {
+            // 공지 관련 글 (입장, 퇴장, 메이트 신청, 메이트 취소)은 구독한 모두에게 전송
+
+
+            // 채팅 글 (텍스트, 이미지)은 나를 제외한 구독한 모두에게 전송
+
+
+            // 테스트용
+            //if(requestDTO.getMessageType().equals(MessageType.TEXT)) {
                 //if (sessionManager.isUserConnected(requestDTO.getSenderId())) {
                 if (requestDTO.getSenderId().equals("F_1")) {
                     WebSocketSession session = sessionManager.getSession("K_1");
@@ -63,7 +70,7 @@ public class RedisSubscriber implements MessageListener {
                         log.error(e.getMessage());
                     }
                 }
-            }
+           // }
         }
         catch (JsonProcessingException e){
             log.error(e.getMessage());

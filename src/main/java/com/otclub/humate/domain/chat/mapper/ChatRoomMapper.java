@@ -2,7 +2,9 @@ package com.otclub.humate.domain.chat.mapper;
 
 import com.otclub.humate.common.entity.ChatParticipate;
 import com.otclub.humate.common.entity.ChatRoom;
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 채팅방 Mapper
@@ -13,6 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
+ * 2024.08.03   최유경        회원 참여 확인 메서드
  * 2024.07.28  	최유경        최초 생성
  * </pre>
  */
@@ -20,6 +23,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ChatRoomMapper {
     int insertChatRoom(ChatRoom chatRoom);
     int insertChatParticipant(ChatParticipate chatParticipate);
+    Optional<ChatParticipate> selectChatParticipantByChatRoomIdAndMemberId(@Param("chatRoomId") String chatRoomId, @Param("memberId") String memberId);
 
 
 }

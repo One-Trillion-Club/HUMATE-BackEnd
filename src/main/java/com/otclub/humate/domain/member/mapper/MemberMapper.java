@@ -3,6 +3,7 @@ package com.otclub.humate.domain.member.mapper;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.domain.auth.dto.LogInRequestDTO;
 import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -26,4 +27,5 @@ public interface MemberMapper {
     public int updateRefreshToken(Member member);
     public Member selectMemberById(String memberId);
     public Member selectMemberByPhone(String phone);
+    public Optional<Member> selectMemberDetail(String memberId);
 }

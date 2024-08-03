@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.chat.service;
 
+import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * </pre>
  */
 public interface ChatMessageService {
-    ChatMessage createMessage(String roomId, ChatMessageRequestDTO requestDTO);
+    ChatMessage createMessage(String roomId, ChatMessageRedisDTO requestDTO);
 
     List<ChatMessage> getListMessage(String roomId);
 }

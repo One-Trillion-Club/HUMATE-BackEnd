@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.chat.service;
 
+import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ChatMessageServiceImpl implements ChatMessageService{
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public ChatMessage createMessage(String chatRoomId, ChatMessageRequestDTO requestDTO) {
+    public ChatMessage createMessage(String chatRoomId, ChatMessageRedisDTO requestDTO) {
         ChatMessage chatMessage = ChatMessage.of(chatRoomId, requestDTO);
 
         // 몽고디비 저장하기
