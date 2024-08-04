@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.activity.controller;
 
+import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
 import com.otclub.humate.domain.activity.dto.MissionResponseDTO;
 import com.otclub.humate.domain.activity.dto.NewMissionDTO;
@@ -28,8 +29,9 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping
-    public ResponseEntity<MissionResponseDTO> activityList(@RequestParam("companionId") int companionId) {
-        return ResponseEntity.ok(activityService.findActivities(companionId));
+    public ResponseEntity<MissionResponseDTO> activityList(@RequestParam("companionId") int companionId,
+                                                           @MemberId String memberId) {
+        return ResponseEntity.ok(activityService.findActivities(companionId, memberId));
     }
 
     /**
@@ -50,8 +52,9 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping("/histories/{companionActivityId}")
-    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityId") int companionActivityId) {
-        return ResponseEntity.ok(activityService.findCompanionActivityHistory(companionActivityId));
+    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityId") int companionActivityId,
+                                                          @MemberId String memberId) {
+        return ResponseEntity.ok(activityService.findCompanionActivityHistory(companionActivityId, memberId));
     }
 
     /**
@@ -63,9 +66,10 @@ public class ActivityController {
     @PostMapping(value = "/upload", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<CommonResponseDTO> activityUpload(
                                                             @RequestPart("uploadActivityRequestDTO") UploadActivityRequestDTO uploadActivityRequestDTO,
-                                                            @RequestPart("images") List<MultipartFile> images) {
+                                                            @RequestPart("images") List<MultipartFile> images,
+                                                            @MemberId String memberId) {
 
-        activityService.saveCompanionActivityHistory(uploadActivityRequestDTO, images);
+        activityService.saveCompanionActivityHistory(uploadActivityRequestDTO, images, memberId);
         return ResponseEntity.ok(new CommonResponseDTO(true, "활동 기록이 완료되었습니다."));
     }
 }

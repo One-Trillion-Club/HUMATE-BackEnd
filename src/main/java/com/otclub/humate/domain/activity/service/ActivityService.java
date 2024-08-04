@@ -9,10 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ActivityService {
-    MissionResponseDTO findActivities(int companionId);
+    MissionResponseDTO findActivities(int companionId, String memberId);
     NewMissionDTO findActivity(int activityId);
-    CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId);
-    void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO, List<MultipartFile> images);
+    CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId, String memberId);
+    void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO,
+                                      List<MultipartFile> images,
+                                      String memberId);
 
 
 }

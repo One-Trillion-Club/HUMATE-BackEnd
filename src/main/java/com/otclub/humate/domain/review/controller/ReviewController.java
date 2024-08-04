@@ -1,7 +1,9 @@
 package com.otclub.humate.domain.review.controller;
 
+import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
 import com.otclub.humate.domain.review.dto.ReviewRequestDTO;
+import com.otclub.humate.domain.review.dto.ReviewResponseDTO;
 import com.otclub.humate.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +24,8 @@ public class ReviewController {
      *
      */
     @GetMapping
-    public ResponseEntity<Object> reviewAddPage(@RequestParam("companionId") int companionId) {
-        String memberId = "K_1"; // sample data
+    public ResponseEntity<ReviewResponseDTO> reviewAddPage(@RequestParam("companionId") int companionId,
+                                                           @MemberId String memberId) {
         return ResponseEntity.ok(reviewService.findCompanionInfo(companionId, memberId));
     }
 
@@ -32,8 +34,8 @@ public class ReviewController {
      * @author : 손승완
      */
     @PostMapping
-    public ResponseEntity<CommonResponseDTO> reviewAdd(@RequestBody ReviewRequestDTO reviewRequestDTO) {
-        String memberId = "K_1"; // test data
+    public ResponseEntity<CommonResponseDTO> reviewAdd(@RequestBody ReviewRequestDTO reviewRequestDTO,
+                                                       @MemberId String memberId) {
         reviewService.saveReview(reviewRequestDTO, memberId);
         return ResponseEntity.ok(new CommonResponseDTO(true, "리뷰 등록에 성공했습니다."));
     }
