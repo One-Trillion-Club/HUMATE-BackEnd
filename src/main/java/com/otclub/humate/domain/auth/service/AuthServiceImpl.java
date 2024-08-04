@@ -87,7 +87,6 @@ public class AuthServiceImpl implements AuthService {
 
         String verifyRedisKey = "verification:"+dto.getPhone();
         String verificationCode = operations.get(verifyRedisKey);
-        System.out.println(verificationCode);
 
         if (!dto.getVerifyCode().equals(verificationCode)) {
             // 인증 정보 부적합 시 예외
