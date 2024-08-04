@@ -62,7 +62,8 @@
         from
             member
         where
-            login_id=#{loginId}
+            login_id=#{loginId} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberByNickname">
@@ -71,7 +72,8 @@
         from
             member
         where
-            nickname=#{nickname}
+            nickname=#{nickname} and
+            deleted_at is null
     </select>
 
     <update id="updateRefreshToken">
@@ -80,7 +82,8 @@
         set
             refresh_token = #{refreshToken}
         where
-            member_id = #{memberId}
+            member_id = #{memberId} and
+            deleted_at is null
     </update>
 
     <select id="selectMemberById">
@@ -91,7 +94,8 @@
         from
             member
         where
-            member_id=#{memberId}
+            member_id=#{memberId} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberByPhone">
@@ -100,16 +104,35 @@
         from
             member
         where
-            phone=#{phone}
+            phone=#{phone} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberDetail" resultType="com.otclub.humate.common.entity.Member">
         select
-            *
+            member_id,
+            nickname,
+            manner,
+            introduction,
+            profile_img_url
         from
             member
         where
             member_id=#{memberId} and
             deleted_at is null
     </select>
+
+    <update id="updateMember">
+        update
+            member
+        set
+            <if test="nickname!=null">
+                nickname = #{nickname},
+            </if>
+            introduction = #{introduction},
+            profile_img_url = #{profileImgUrl}
+        where
+            member_id = #{memberId} and
+            deleted_at is null
+    </update>
 </mapper>

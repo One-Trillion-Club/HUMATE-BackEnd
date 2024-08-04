@@ -25,7 +25,8 @@ public interface MemberMapper {
     public Member selectMemberByLoginId(String loginId);
     public Member selectMemberByNickname(String nickname);
     public int updateRefreshToken(Member member);
-    public Member selectMemberById(String memberId);
+    public Optional<Member> selectMemberById(String memberId);
     public Member selectMemberByPhone(String phone);
     public Optional<Member> selectMemberDetail(String memberId);
+    public int updateMember(Member member);
 }

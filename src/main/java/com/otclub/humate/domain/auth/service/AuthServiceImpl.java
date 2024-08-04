@@ -158,9 +158,10 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
-        Member member = mapper.selectMemberById(memberId);
+        Member member = mapper.selectMemberById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
-        if (member == null || !refreshToken.equals(member.getRefreshToken())) {
+        if (!refreshToken.equals(member.getRefreshToken())) {
             throw new Exception();
         }
 

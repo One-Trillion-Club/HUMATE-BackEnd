@@ -2,6 +2,7 @@ package com.otclub.humate.domain.auth.service;
 
 import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
+import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
