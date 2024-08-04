@@ -1,7 +1,10 @@
 package com.otclub.humate.domain.member.service;
 
+import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
+
+import java.util.List;
 
 /**
  * 회원 서비스 인터페이스
@@ -20,4 +23,5 @@ public interface MemberService {
     boolean checkAvailableNickname(String nickname);
     ProfileResponseDTO getMyProfile(String memberId);
     boolean modifyMyProfile(ModifyProfileRequestDTO dto, String memberId);
+    List<MateDetailResponseDTO> getMyMates(String memberId);
 }

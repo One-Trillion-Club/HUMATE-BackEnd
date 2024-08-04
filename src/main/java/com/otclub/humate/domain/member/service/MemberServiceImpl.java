@@ -3,7 +3,7 @@ package com.otclub.humate.domain.member.service;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.companion.dto.CompanionPostDTO;
+import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 
 /**
@@ -77,5 +77,14 @@ public class MemberServiceImpl implements MemberService {
         member.setProfileImgUrl(dto.getProfileImgUrl());
 
         return mapper.updateMember(member) == 1;
+    }
+
+    /**
+     * 내 메이트 조회
+     *
+     * @author 조영욱
+     */
+    public List<MateDetailResponseDTO> getMyMates(String memberId) {
+        return mapper.selectMatesByMemberId(memberId);
     }
 }

@@ -2,6 +2,7 @@ package com.otclub.humate.domain.member.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
+import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
 import com.otclub.humate.domain.member.service.MemberService;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 회원 컨트롤러
@@ -67,11 +70,22 @@ public class MemberController {
                 ResponseEntity.ok(new CommonResponseDTO(false, "수정에 실패하였습니다."));
     }
 
-    // 내 메이트 보기
-//    @GetMapping("/my-mates")
+    /**
+     * 내 메이트 조회
+     *
+     * @author 조영욱
+     * @param memberId
+     */
+    @GetMapping("/my-mates")
+    public ResponseEntity<List<MateDetailResponseDTO>> getMyMates(@MemberId String memberId) {
+        return ResponseEntity.ok(service.getMyMates(memberId));
+    }
 
-    // 메이트 찝어서 상세보기
-//    @GetMapping("/my-mates/{mid}")
+//    /**
+//     * 상대방 프로필 조회
+//     */
+//    @GetMapping("/{memberId}")
+//    public ResponseEntity<>
 
     // 글 작성 내역 조회
 //    @GetMapping("/my-posts")
