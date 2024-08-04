@@ -12,6 +12,7 @@
  * 수정일        	수정자        수정내용
  * ==========  =========    =========
  * 2024.07.28  	조영욱        최초 생성
+ * 2024.08.04   조영욱        마이페이지 메소드 추가
  * </pre>
  -->
 <mapper namespace="com.otclub.humate.domain.member.mapper.MemberMapper">
@@ -62,7 +63,8 @@
         from
             member
         where
-            login_id=#{loginId}
+            login_id=#{loginId} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberByNickname">
@@ -71,7 +73,8 @@
         from
             member
         where
-            nickname=#{nickname}
+            nickname=#{nickname} and
+            deleted_at is null
     </select>
 
     <update id="updateRefreshToken">
@@ -80,7 +83,8 @@
         set
             refresh_token = #{refreshToken}
         where
-            member_id = #{memberId}
+            member_id = #{memberId} and
+            deleted_at is null
     </update>
 
     <select id="selectMemberById">
@@ -91,7 +95,8 @@
         from
             member
         where
-            member_id=#{memberId}
+            member_id=#{memberId} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberByPhone">
@@ -100,16 +105,66 @@
         from
             member
         where
-            phone=#{phone}
+            phone=#{phone} and
+            deleted_at is null
     </select>
 
     <select id="selectMemberDetail" resultType="com.otclub.humate.common.entity.Member">
         select
-            *
+            member_id,
+            nickname,
+            manner,
+            introduction,
+            profile_img_url,
+            gender,
+            birthdate
         from
             member
         where
             member_id=#{memberId} and
             deleted_at is null
+    </select>
+
+    <update id="updateMember">
+        update
+            member
+        set
+            <if test="nickname!=null">
+                nickname = #{nickname},
+            </if>
+            introduction = #{introduction},
+            profile_img_url = #{profileImgUrl}
+        where
+            member_id = #{memberId} and
+            deleted_at is null
+    </update>
+
+    <select id="selectMatesByMemberId">
+        select
+            case
+                when m.member_id = c.first_member_id then c.second_member_id
+                when m.member_id = c.second_member_id then c.first_member_id
+                end as member_id,
+            coalesce(m1.profile_img_url, m2.profile_img_url) as profile_img_url,
+            coalesce(m1.nickname, m2.nickname) as nickname,
+            coalesce(m1.gender, m2.gender) as gender,
+            min(c.created_at) as matching_date
+        from
+            member m
+                left join companion c on (c.first_member_id = m.member_id or c.second_member_id = m.member_id)
+                left join member m1 on m1.member_id = c.second_member_id
+                left join member m2 on m2.member_id = c.first_member_id
+        where
+            m.member_id = 'K_1'
+        group by
+            case
+                when m.member_id = c.first_member_id then c.second_member_id
+                when m.member_id = c.second_member_id then c.first_member_id
+                end,
+            coalesce(m1.profile_img_url, m2.profile_img_url),
+            coalesce(m1.nickname, m2.nickname),
+            coalesce(m1.gender, m2.gender)
+        order by
+            matching_date desc
     </select>
 </mapper>

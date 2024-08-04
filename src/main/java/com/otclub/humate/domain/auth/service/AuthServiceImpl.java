@@ -84,14 +84,16 @@ public class AuthServiceImpl implements AuthService {
             // 외국인일 시 passport 인증 성공 코드 검증
             throw new CustomException(ErrorCode.NOT_VALID_INPUT);
         }
-        String verificationCode = operations.get("verification:"+dto.getPhone());
+
+        String verifyRedisKey = "verification:"+dto.getPhone();
+        String verificationCode = operations.get(verifyRedisKey);
 
         if (!dto.getVerifyCode().equals(verificationCode)) {
             // 인증 정보 부적합 시 예외
             throw new CustomException(ErrorCode.VERIFICATION_INVALID);
         } else {
             // 인증 완료 시 레디스 키 삭제
-            redisTemplate.delete(verificationCode);
+            redisTemplate.delete(verifyRedisKey);
         }
 
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -155,9 +157,10 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
-        Member member = mapper.selectMemberById(memberId);
+        Member member = mapper.selectMemberById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
-        if (member == null || !refreshToken.equals(member.getRefreshToken())) {
+        if (!refreshToken.equals(member.getRefreshToken())) {
             throw new Exception();
         }
 

@@ -59,7 +59,7 @@ public class SecurityConfig {
         return (web) -> web.ignoring().requestMatchers(
                 "/auth/signup","/auth/login",
                 "/auth/**",
-                "/member/**",
+                "/members/check-nickname",
                 "/posts/**",
                 "/activities/**",
                 "/rooms/**",

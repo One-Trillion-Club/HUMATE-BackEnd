@@ -16,7 +16,7 @@ import jakarta.servlet.http.Cookie;
  */
 public class AuthUtil {
     // JWT Token
-    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_0L; // 10분 (millisecond)
+    public static final long ACCESS_TOKEN_EXPIRE_TIME = 600_000L; // 10분 (millisecond)
     public static final long REFRESH_TOKEN_EXPIRE_TIME = 604_800_000L; // 1주 (millisecond)
 
     // JWT Cookie
