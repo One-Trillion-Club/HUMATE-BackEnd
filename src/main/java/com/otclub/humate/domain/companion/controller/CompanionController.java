@@ -1,9 +1,11 @@
 package com.otclub.humate.domain.companion.controller;
 
+import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.service.CompanionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/companions")
+@Slf4j
 public class CompanionController {
     private final CompanionService companionService;
 
@@ -31,8 +34,7 @@ public class CompanionController {
      *
      * */
     @GetMapping
-    public ResponseEntity<List<CompanionResponseDTO>> companionList() {
-        String memberId = "K_1";
+    public ResponseEntity<List<CompanionResponseDTO>> companionList(@MemberId String memberId) {
         return ResponseEntity.ok(companionService.findCompanionList(memberId));
     }
 

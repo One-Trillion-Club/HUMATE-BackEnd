@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.activity.controller;
 
+import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
 import com.otclub.humate.domain.activity.dto.MissionResponseDTO;
 import com.otclub.humate.domain.activity.dto.NewMissionDTO;
@@ -28,7 +29,8 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping
-    public ResponseEntity<MissionResponseDTO> activityList(@RequestParam("companionId") int companionId) {
+    public ResponseEntity<MissionResponseDTO> activityList(@RequestParam("companionId") int companionId,
+                                                           @MemberId String memberId) {
         return ResponseEntity.ok(activityService.findActivities(companionId));
     }
 

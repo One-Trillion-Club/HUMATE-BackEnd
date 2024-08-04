@@ -63,7 +63,6 @@ public class SecurityConfig {
                 "/posts/**",
                 "/activities/**",
                 "/rooms/**",
-                "/companions/**",
                 "/reviews/**",
                 "/redis/**",
                 "/chat/**",

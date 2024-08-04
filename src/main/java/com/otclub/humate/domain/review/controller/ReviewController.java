@@ -2,6 +2,7 @@ package com.otclub.humate.domain.review.controller;
 
 import com.otclub.humate.common.dto.CommonResponseDTO;
 import com.otclub.humate.domain.review.dto.ReviewRequestDTO;
+import com.otclub.humate.domain.review.dto.ReviewResponseDTO;
 import com.otclub.humate.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ public class ReviewController {
      *
      */
     @GetMapping
-    public ResponseEntity<Object> reviewAddPage(@RequestParam("companionId") int companionId) {
+    public ResponseEntity<ReviewResponseDTO> reviewAddPage(@RequestParam("companionId") int companionId) {
         String memberId = "K_1"; // sample data
         return ResponseEntity.ok(reviewService.findCompanionInfo(companionId, memberId));
     }
