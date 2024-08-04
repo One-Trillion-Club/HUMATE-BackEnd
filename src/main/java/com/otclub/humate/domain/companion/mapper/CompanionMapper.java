@@ -25,4 +25,7 @@ public interface CompanionMapper {
     List<CompanionDetailsDTO> selectCompanionListByMemberId(String memberId);
 
     CompanionInfoDTO selectPostTitleById(int companionId);
+
+    int countCompanionByMemberIdAndCompanionId(@Param("memberId") String memberId,
+                                               @Param("companionId") int companionId);
 }

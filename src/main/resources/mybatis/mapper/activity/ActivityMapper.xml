@@ -36,9 +36,19 @@
 
     <select id="selectCompanionActivityHistoryById"
             resultMap="companionActivityHistoryDetails">
-        select activity_title, created_at, companion_activity_id
-        from companion_activity_history
-        where companion_activity_id = #{companionActivityId}
+        select
+            ca.activity_title,
+            ca.created_at,
+            companion_activity_id
+        from
+            companion_activity_history ca
+        join
+            companion c
+        on
+            ca.companion_id = c.companion_id
+        where
+            ca.companion_activity_id = #{companionActivityId}
+            and (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
     </select>
 
     <select id="selectImgUrlListById" resultType="string">

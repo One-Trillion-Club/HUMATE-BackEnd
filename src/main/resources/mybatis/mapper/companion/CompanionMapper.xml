@@ -76,4 +76,14 @@
                 on c.chat_room_id = r.chat_room_id
         where c.companion_id = #{companionId}
     </select>
+
+    <select id="countCompanionByMemberIdAndCompanionId" resultType="int">
+        select
+            count(companion_id)
+        from
+            companion
+        where
+            companion_id = #{companionId}
+            and (first_member_id = #{memberId} or second_member_id = #{memberId})
+    </select>
 </mapper>

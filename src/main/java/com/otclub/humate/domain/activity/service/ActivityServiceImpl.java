@@ -10,6 +10,7 @@ import com.otclub.humate.domain.activity.dto.*;
 import com.otclub.humate.domain.activity.mapper.ActivityMapper;
 import com.otclub.humate.domain.companion.mapper.CompanionMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,13 +20,19 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ActivityServiceImpl implements ActivityService {
     private final ActivityMapper activityMapper;
     private final CompanionMapper companionMapper;
     private final S3Uploader s3Uploader;
 
     @Override
-    public MissionResponseDTO findActivities(int companionId) {
+    public MissionResponseDTO findActivities(int companionId, String memberId) {
+
+        // 유효한 회원인지 검증
+        if (companionMapper.countCompanionByMemberIdAndCompanionId(memberId, companionId) == 0) {
+            throw new CustomException(ErrorCode.NOT_EXISTS_COMPANION);
+        }
 
         // 글 제목 조회
         CompanionInfoDTO companionInfoDTO = companionMapper.selectPostTitleById(companionId);
@@ -53,16 +60,25 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId) {
-        return activityMapper.selectCompanionActivityHistoryById(companionActivityId);
+    public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId,
+                                                                                   String memberId) {
+        return activityMapper.selectCompanionActivityHistoryById(companionActivityId, memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.FORBIDDEN_REQUEST));
     }
 
     @Override
     @Transactional
-    public void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO, List<MultipartFile> images) {
+    public void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO,
+                                             List<MultipartFile> images,
+                                             String memberId) {
         int companionId = uploadActivityRequestDTO.getCompanionId();
         int activityId = uploadActivityRequestDTO.getActivityId();
         isAlreadyUploadedCompanionActivityHistory(companionId, activityId);
+
+        // 유효한 회원인지 검증
+        if (companionMapper.countCompanionByMemberIdAndCompanionId(memberId, companionId) == 0) {
+            throw new CustomException(ErrorCode.NOT_EXISTS_COMPANION);
+        }
 
         List<CompanionActivityImg> companionActivityImgList = new ArrayList<>();
         for (MultipartFile imageFile : images) {

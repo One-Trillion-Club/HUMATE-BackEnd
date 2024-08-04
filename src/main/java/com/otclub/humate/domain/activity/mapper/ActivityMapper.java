@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ActivityMapper {
@@ -19,7 +20,8 @@ public interface ActivityMapper {
 
     NewMissionDTO selectActivityById(int activityId);
 
-    CompanionActivityHistoryDetailsResponseDTO selectCompanionActivityHistoryById(int companionActivityId);
+    Optional<CompanionActivityHistoryDetailsResponseDTO> selectCompanionActivityHistoryById(@Param("companionActivityId") int companionActivityId,
+                                                                                            @Param("memberId") String memberId);
 
     List<String> selectImgUrlListById(int companionActivityId);
 
