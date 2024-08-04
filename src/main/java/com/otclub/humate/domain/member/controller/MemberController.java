@@ -23,6 +23,7 @@ import java.util.List;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조영욱        최초 생성
+ * 2024.08.04   조영욱        마이페이지 메소드 추가
  * </pre>
  */
 @RestController
@@ -40,7 +41,8 @@ public class MemberController {
      * @param nickname 중복 확인 할 닉네임
      */
     @GetMapping("/check-nickname")
-    public ResponseEntity<CommonResponseDTO> checkDuplicatedNickname(@RequestParam("nickname") String nickname) {
+    public ResponseEntity<CommonResponseDTO> checkDuplicatedNickname(
+            @RequestParam("nickname") String nickname) {
         return service.checkAvailableNickname(nickname) ?
                 ResponseEntity.ok(new CommonResponseDTO(true, "사용 가능한 닉네임입니다.")) :
                 ResponseEntity.ok(new CommonResponseDTO(false, "이미 사용중인 닉네임입니다."));
@@ -53,8 +55,9 @@ public class MemberController {
      * @author 조영욱
      */
     @GetMapping("/profile")
-    public ResponseEntity<ProfileResponseDTO> getMyProfile(@MemberId String memberId) {
-        return ResponseEntity.ok(service.getMyProfile(memberId));
+    public ResponseEntity<ProfileResponseDTO> getMyProfile(
+            @MemberId String memberId) {
+        return ResponseEntity.ok(service.getMemberProfile(memberId));
     }
 
     /**
@@ -71,21 +74,27 @@ public class MemberController {
     }
 
     /**
-     * 내 메이트 조회
+     * 내 메이트 목록 조회
+     *
+     * @author 조영욱
+     */
+    @GetMapping("/my-mates")
+    public ResponseEntity<List<MateDetailResponseDTO>> getMyMates(
+            @MemberId String memberId) {
+        return ResponseEntity.ok(service.getMyMates(memberId));
+    }
+
+    /**
+     * 상대방 프로필 조회
      *
      * @author 조영욱
      * @param memberId
      */
-    @GetMapping("/my-mates")
-    public ResponseEntity<List<MateDetailResponseDTO>> getMyMates(@MemberId String memberId) {
-        return ResponseEntity.ok(service.getMyMates(memberId));
+    @GetMapping("/{memberId}")
+    public ResponseEntity<ProfileResponseDTO> getSpecificMemberProfile(
+            @PathVariable("memberId") String memberId){
+        return ResponseEntity.ok(service.getMemberProfile(memberId));
     }
-
-//    /**
-//     * 상대방 프로필 조회
-//     */
-//    @GetMapping("/{memberId}")
-//    public ResponseEntity<>
 
     // 글 작성 내역 조회
 //    @GetMapping("/my-posts")

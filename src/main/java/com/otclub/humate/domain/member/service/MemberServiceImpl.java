@@ -24,6 +24,7 @@ import java.util.List;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조영욱        최초 생성
+ * 2024.08.04   조영욱        마이페이지 메소드 추가
  * </pre>
  */
 @Service
@@ -51,7 +52,7 @@ public class MemberServiceImpl implements MemberService {
      * @param memberId 조회할 멤버 아이디
      */
     @Override
-    public ProfileResponseDTO getMyProfile(String memberId) {
+    public ProfileResponseDTO getMemberProfile(String memberId) {
         Member member = mapper.selectMemberDetail(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
