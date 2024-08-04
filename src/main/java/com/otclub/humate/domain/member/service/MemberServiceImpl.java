@@ -3,6 +3,7 @@ package com.otclub.humate.domain.member.service;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
+import com.otclub.humate.common.upload.S3Uploader;
 import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
@@ -10,6 +11,8 @@ import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,9 +33,11 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
     private final MemberMapper mapper;
+    private final S3Uploader s3Uploader;
 
     /**
      * 닉네임 중복 체크
@@ -64,8 +69,9 @@ public class MemberServiceImpl implements MemberService {
      *
      * @author 조영욱
      */
+    @Transactional
     @Override
-    public boolean modifyMyProfile(ModifyProfileRequestDTO dto, String memberId) {
+    public boolean modifyMyProfile(ModifyProfileRequestDTO dto, MultipartFile image, String memberId) {
         Member member = mapper.selectMemberById(memberId).
                 orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
@@ -75,7 +81,10 @@ public class MemberServiceImpl implements MemberService {
         }
         member.setNickname(dto.getNickname());
         member.setIntroduction(dto.getIntroduction());
-        member.setProfileImgUrl(dto.getProfileImgUrl());
+
+        if (image != null) {
+            member.setProfileImgUrl(s3Uploader.uploadImage(image));
+        }
 
         return mapper.updateMember(member) == 1;
     }
