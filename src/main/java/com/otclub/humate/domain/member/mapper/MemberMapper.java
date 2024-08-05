@@ -31,5 +31,6 @@ public interface MemberMapper {
     public Member selectMemberByPhone(String phone);
     public Optional<Member> selectMemberDetail(String memberId);
     public int updateMember(Member member);
-    public List<MateDetailResponseDTO> selectMatesByMemberId(String memberId);
+    public List<MateDetailResponseDTO> selectMatesByMemberIdKorean(String memberId);
+    public List<MateDetailResponseDTO> selectMatesByMemberIdForeigner(String memberId);
 }
