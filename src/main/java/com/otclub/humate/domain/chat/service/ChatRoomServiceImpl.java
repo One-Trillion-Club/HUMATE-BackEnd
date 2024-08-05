@@ -5,6 +5,7 @@ import com.otclub.humate.common.entity.ChatRoom;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
@@ -37,7 +38,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     @Transactional
-    public int createChatRoom(ChatRoomCreateRequestDTO requestDTO) {
+    public ChatRoomCreateResponseDTO createChatRoom(ChatRoomCreateRequestDTO requestDTO) {
         // postId가 유효한지 확인 후, 정보 가져오기
         int postId = requestDTO.getPostId();
         if (!postMapper.selectPostCountById(postId)) {
@@ -56,7 +57,7 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         chatRoomMapper.insertChatParticipant(applicant);
         chatRoomMapper.insertChatParticipant(writer);
 
-        return chatRoom.getChatRoomId();
+        return ChatRoomCreateResponseDTO.of(chatRoom.getChatRoomId(),applicant.getParticipateId());
     }
 
     @Override
