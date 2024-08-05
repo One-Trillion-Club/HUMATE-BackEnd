@@ -39,8 +39,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         log.info("[afterConnectionClosed] CloseStatus {} ", status.toString());
         String participateId = extractMemberId(session);
         log.info("[afterConnectionClosed] participateId : {} ", participateId);
-        sessionManager.removeSession(participateId);
         redisPubSubService.cancelSubChannel(participateId);
+        sessionManager.removeSession(participateId);
     }
 
     @Override

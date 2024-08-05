@@ -42,6 +42,7 @@ public class RedisWebSocketSessionManager {
     public WebSocketSession getSession(String participateId) {
         String key = getKey(participateId);
         String sessionId = (String) redisTemplate.opsForValue().get(key);
+        log.info("[SessionManager] getSession key sessionId : {}, {} ", key, sessionId);
         return sessions.get(sessionId);
     }
 

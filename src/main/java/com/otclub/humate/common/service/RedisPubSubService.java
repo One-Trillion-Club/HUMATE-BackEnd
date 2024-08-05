@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class RedisPubSubService {
-    @Value("${session.prefix.channel")
+    @Value("${session.prefix.channel}")
     private String CHANNEL_PREFIX;
     private final ChatRoomMapper chatRoomMapper;
 
@@ -48,6 +48,7 @@ public class RedisPubSubService {
 
     // 이벤트 발행
     public void publish(String channel, ChatMessage message) {
+        listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
         redisPublisher.publish(getChannelName(channel), message);
     }
 

@@ -55,7 +55,7 @@ public class RedisSubscriber implements MessageListener {
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
             List<String> participateList = chatRoomMapper.selectChatParticipateIdListByParticipateId(chatMessage.getParticipateId());
-
+            log.info("[RedisSubscriber] participateList size : {}", participateList.size());
             // 공지 관련 글 (입장, 퇴장, 메이트 신청, 메이트 취소)은 구독한 모두에게 전송
             if(isNotice(chatMessage.getMessageType())){
                 for(String p : participateList){
@@ -68,13 +68,13 @@ public class RedisSubscriber implements MessageListener {
             // 채팅 글 (텍스트, 이미지)은 나를 제외한 구독한 모두에게 전송
             else {
                 for(String p : participateList){
-                    log.info("[RedisSubscriber] participateList ", p);
-                    if(!p.equals(chatMessage.getParticipateId())){
+                    log.info("[RedisSubscriber] participateList {}", p);
+                    //if(!p.equals(chatMessage.getParticipateId())){
                         if(sessionManager.isUserConnected(p)){
                             String jsonMessage = objectMapper.writeValueAsString(chatMessage);
                             sendMessage(p,jsonMessage);
                         }
-                    }
+                    //}
                 }
             }
         }
