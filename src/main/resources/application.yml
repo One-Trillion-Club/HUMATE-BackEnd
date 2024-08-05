@@ -8,6 +8,10 @@ spring:
       - application-jwt.yml
       - application-s3.yml
       - application-api.yml
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 mybatis:
   type-aliases-package: com.otclub.humate.domain
