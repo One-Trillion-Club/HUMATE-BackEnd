@@ -2,9 +2,13 @@ package com.otclub.humate.common.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
+import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
+import com.otclub.humate.domain.chat.vo.ChatMessage;
 import com.otclub.humate.domain.chat.vo.MessageType;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +25,7 @@ import redis.clients.jedis.Jedis;
 @Slf4j
 public class RedisSubscriber implements MessageListener {
     private final ObjectMapper objectMapper;
+    private final ChatRoomMapper chatRoomMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RedisWebSocketSessionManager sessionManager;
 
@@ -44,35 +49,54 @@ public class RedisSubscriber implements MessageListener {
         try{
             String publishMessage = redisTemplate.getStringSerializer().deserialize(message.getBody());
 
-            ChatMessageRequestDTO requestDTO = objectMapper.readValue(publishMessage, ChatMessageRequestDTO.class);
+            ChatMessage chatMessage = objectMapper.readValue(publishMessage, ChatMessage.class);
 
-            log.info("[RedisSubscriber] Redis Subscribe Channel : " + requestDTO.getContent());
+            log.info("[RedisSubscriber] Redis Subscribe Channel : " + chatMessage.getContent());
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
+            List<String> participateList = chatRoomMapper.selectChatParticipateIdListByParticipateId(chatMessage.getParticipateId());
+
             // 공지 관련 글 (입장, 퇴장, 메이트 신청, 메이트 취소)은 구독한 모두에게 전송
-
-
-            // 채팅 글 (텍스트, 이미지)은 나를 제외한 구독한 모두에게 전송
-
-
-            // 테스트용
-            //if(requestDTO.getMessageType().equals(MessageType.TEXT)) {
-                //if (sessionManager.isUserConnected(requestDTO.getSenderId())) {
-                if (requestDTO.getSenderId().equals("F_1")) {
-                    WebSocketSession session = sessionManager.getSession("K_1");
-                    log.info("[RedisSubscriber session : {}", session.toString());
-
-                    String jsonMessage = objectMapper.writeValueAsString(requestDTO);
-                    log.info("[RedisSubscriber] jsonMessage : {}", jsonMessage);
-                    try {
-                        session.sendMessage(new TextMessage(jsonMessage));
-                    } catch (IOException e) {
-                        log.error(e.getMessage());
+            if(isNotice(chatMessage.getMessageType())){
+                for(String p : participateList){
+                    if(sessionManager.isUserConnected(p)){
+                        String jsonMessage = objectMapper.writeValueAsString(chatMessage);
+                        sendMessage(p,jsonMessage);
                     }
                 }
-           // }
+            }
+            // 채팅 글 (텍스트, 이미지)은 나를 제외한 구독한 모두에게 전송
+            else {
+                for(String p : participateList){
+                    log.info("[RedisSubscriber] participateList ", p);
+                    if(!p.equals(chatMessage.getParticipateId())){
+                        if(sessionManager.isUserConnected(p)){
+                            String jsonMessage = objectMapper.writeValueAsString(chatMessage);
+                            sendMessage(p,jsonMessage);
+                        }
+                    }
+                }
+            }
         }
         catch (JsonProcessingException e){
+            log.error(e.getMessage());
+        }
+    }
+
+    private boolean isNotice(MessageType messageType){
+        if(MessageType.TEXT.equals(messageType) || MessageType.IMAGE.equals(messageType))
+            return false;
+        return true;
+    }
+
+    private void sendMessage(String participateId, String jsonMessage){
+        WebSocketSession session = sessionManager.getSession(participateId);
+        log.info("[RedisSubscriber session : {}", session.toString());
+
+        log.info("[RedisSubscriber] jsonMessage : {}", jsonMessage);
+        try {
+            session.sendMessage(new TextMessage(jsonMessage));
+        } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
