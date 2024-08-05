@@ -71,6 +71,7 @@ public class ActivityServiceImpl implements ActivityService {
     public void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO,
                                              List<MultipartFile> images,
                                              String memberId) {
+
         int companionId = uploadActivityRequestDTO.getCompanionId();
         int activityId = uploadActivityRequestDTO.getActivityId();
         isAlreadyUploadedCompanionActivityHistory(companionId, activityId);
