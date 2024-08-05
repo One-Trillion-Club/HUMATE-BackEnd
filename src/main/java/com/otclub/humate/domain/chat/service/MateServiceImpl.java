@@ -32,19 +32,19 @@ public class MateServiceImpl implements MateService {
     private final MateMapper mateMapper;
     private final ChatRoomMapper chatRoomMapper;
     private final MemberMapper memberMapper;
-    private final RedisPubSubService redisPubSubService;
+    private final ChatMessageService chatMessageService;
 
     @Override
     public void modifyMate(MateUpdateRequestDTO requestDTO) {
-        // 회원 조회하기
-        Member member = memberMapper.selectMemberDetail(requestDTO.getMemberId())
-                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        log.info("[MateServiceImpl] - member : {}", member.toString());
-
         // 채팅방에 참여한 회원인지 확인하기
-        ChatParticipate chatParticipate = chatRoomMapper.selectChatParticipantByChatRoomIdAndMemberId(requestDTO.getChatRoomId(), requestDTO.getMemberId())
+        ChatParticipate chatParticipate = chatRoomMapper.selectChatParticipantByParticipateId(requestDTO.getParticipateId())
                 .orElseThrow(() -> new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
         log.info("[[MateServiceImpl] - chatParticipate : {} ", chatParticipate.toString());
+
+        // 회원 조회하기
+        Member member = memberMapper.selectMemberDetail(chatParticipate.getMemberId())
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+        log.info("[MateServiceImpl] - member : {}", member.toString());
 
         // 이미 처리된 내용에 대해 예외 처리
         if(chatParticipate.getIsClicked() == requestDTO.getIsClicked())
@@ -56,7 +56,7 @@ public class MateServiceImpl implements MateService {
         }
 
         // 메이트 안내 채팅 전송하기
-        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMateActive(requestDTO, member.getNickname());
-        redisPubSubService.pubSendMessageChannel(redisDTO);
+        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMate(requestDTO);
+        chatMessageService.createMessage(redisDTO);
     }
 }

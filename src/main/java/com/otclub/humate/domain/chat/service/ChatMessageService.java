@@ -19,7 +19,8 @@ import java.util.List;
  * </pre>
  */
 public interface ChatMessageService {
-    ChatMessage createMessage(String roomId, ChatMessageRedisDTO requestDTO);
+    void createMessage(ChatMessageRequestDTO requestDTO);
+    void createMessage(ChatMessageRedisDTO redisDTO);
 
     List<ChatMessage> getListMessage(String roomId);
 }
