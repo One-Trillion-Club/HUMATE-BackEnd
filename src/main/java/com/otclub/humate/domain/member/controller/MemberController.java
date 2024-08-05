@@ -2,14 +2,17 @@ package com.otclub.humate.domain.member.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
+import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
 import com.otclub.humate.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -65,10 +68,12 @@ public class MemberController {
      *
      * @author 조영욱
      */
-    @PutMapping("/profile")
+    @PutMapping(value = "/profile", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<CommonResponseDTO> modifyMyProfile(
-            @RequestBody ModifyProfileRequestDTO dto, @MemberId String memberId) {
-        return service.modifyMyProfile(dto, memberId) ?
+            @RequestPart("modifyProfileRequestDTO") ModifyProfileRequestDTO dto,
+            @RequestPart(value="image", required=false) MultipartFile image,
+            @MemberId String memberId) {
+        return service.modifyMyProfile(dto, image, memberId) ?
                 ResponseEntity.ok(new CommonResponseDTO(true, "수정에 성공하였습니다.")) :
                 ResponseEntity.ok(new CommonResponseDTO(false, "수정에 실패하였습니다."));
     }

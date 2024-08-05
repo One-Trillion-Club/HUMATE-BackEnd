@@ -3,6 +3,7 @@ package com.otclub.humate.domain.member.service;
 import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ import java.util.List;
 public interface MemberService {
     boolean checkAvailableNickname(String nickname);
     ProfileResponseDTO getMemberProfile(String memberId);
-    boolean modifyMyProfile(ModifyProfileRequestDTO dto, String memberId);
+    boolean modifyMyProfile(ModifyProfileRequestDTO dto, MultipartFile image, String memberId);
     List<MateDetailResponseDTO> getMyMates(String memberId);
 }

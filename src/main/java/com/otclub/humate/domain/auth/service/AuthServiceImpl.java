@@ -46,6 +46,7 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService {
 
     private final MemberMapper mapper;
