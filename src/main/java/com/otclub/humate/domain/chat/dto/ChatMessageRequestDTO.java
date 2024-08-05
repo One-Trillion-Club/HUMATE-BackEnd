@@ -27,7 +27,7 @@ import lombok.ToString;
 @ToString
 public class ChatMessageRequestDTO {
     private String chatRoomId;
-    private String senderId;
+    private String participateId;
     private String content;
     private MessageType messageType;
 }

@@ -25,11 +25,17 @@ import org.apache.ibatis.annotations.Param;
 public interface ChatRoomMapper {
     int insertChatRoom(ChatRoom chatRoom);
     int insertChatParticipant(ChatParticipate chatParticipate);
-    Optional<ChatParticipate> selectChatParticipantByChatRoomIdAndMemberId(
-            @Param("chatRoomId") String chatRoomId,
-            @Param("memberId") String memberId);
+    Optional<ChatParticipate> selectChatParticipantByParticipateId(
+            @Param("participateId") String participateId);
 
     List<ChatRoomDetailDTO> selectChatList(
             @Param("memberId") String memberId,
             @Param("isMatched") int isMatched);
+
+    List<String> selectChatParticipateIdListByParticipateId(
+            @Param("participateId") String participateId);
+
+    Optional<Integer> selectChatRoomIdByParticipateId(
+            @Param("participateId") String participateId);
+
 }

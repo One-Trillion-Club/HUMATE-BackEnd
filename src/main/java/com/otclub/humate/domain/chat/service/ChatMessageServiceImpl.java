@@ -1,12 +1,12 @@
 package com.otclub.humate.domain.chat.service;
 
+import com.otclub.humate.common.service.RedisPubSubService;
 import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -30,15 +30,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChatMessageServiceImpl implements ChatMessageService{
     private final MongoTemplate mongoTemplate;
+    private final RedisPubSubService redisPubSubService;
 
     @Override
-    public ChatMessage createMessage(String chatRoomId, ChatMessageRedisDTO requestDTO) {
-        ChatMessage chatMessage = ChatMessage.of(chatRoomId, requestDTO);
+    public void createMessage(ChatMessageRequestDTO requestDTO) {
+        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.from(requestDTO);
+        sendMessage(redisDTO);
+    }
 
-        // 몽고디비 저장하기
-        mongoTemplate.insert(chatMessage);
 
-        return chatMessage;
+    @Override
+    public void createMessage(ChatMessageRedisDTO redisDTO) {
+        sendMessage(redisDTO);
     }
 
     @Override
@@ -50,5 +53,15 @@ public class ChatMessageServiceImpl implements ChatMessageService{
         );
 
         return chatMessageList;
+    }
+
+    private void sendMessage(ChatMessageRedisDTO redisDTO){
+        ChatMessage chatMessage = ChatMessage.of(redisDTO);
+
+        // 몽고디비 저장하기
+        mongoTemplate.insert(chatMessage);
+
+        //Message 전송
+        redisPubSubService.publish(chatMessage.getChatRoomId(), chatMessage);
     }
 }

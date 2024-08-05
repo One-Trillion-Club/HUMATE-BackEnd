@@ -161,9 +161,9 @@ public class AuthServiceImpl implements AuthService {
         Member member = mapper.selectMemberById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
-        if (!refreshToken.equals(member.getRefreshToken())) {
-            throw new Exception();
-        }
+//        if (!refreshToken.equals(member.getRefreshToken())) {
+//            throw new Exception();
+//        }
 
         try {
             JwtDTO jwtDTO = jwtGenerator.generateToken(member);
