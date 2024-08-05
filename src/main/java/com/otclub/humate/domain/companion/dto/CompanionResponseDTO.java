@@ -15,6 +15,7 @@ public class CompanionResponseDTO {
     private String mateProfileImgUrl;  // 상대방 프로필 이미지
     private String mateNickname;  // 상대방 이름
     private String matchDate;  // 동행 날짜
+    private String matchBranch;
     private String status;  // 동행 상태
 
     public static List<CompanionResponseDTO> ofList(
@@ -26,6 +27,7 @@ public class CompanionResponseDTO {
             CompanionResponseDTOBuilder responseBuilder = CompanionResponseDTO.builder()
                     .companionId(companionDetailsDTO.getCompanionId())
                     .matchDate(companionDetailsDTO.getMatchDate())
+                    .matchBranch(companionDetailsDTO.getMatchBranch())
                     .postTitle(companionDetailsDTO.getPostTitle())
                     .status(
                             companionDetailsDTO.getFinishedAt() != null ?
