@@ -1,6 +1,7 @@
 package com.otclub.humate.domain.chat.controller;
 
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.service.ChatRoomService;
 import java.util.List;
@@ -38,10 +39,10 @@ public class ChatRoomController {
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity<Integer> chatRoomCreate(@RequestBody ChatRoomCreateRequestDTO requestDTO){
-        Integer chatRoomId = chatRoomService.createChatRoom(requestDTO);
+    public ResponseEntity<ChatRoomCreateResponseDTO> chatRoomCreate(@RequestBody ChatRoomCreateRequestDTO requestDTO){
+        ChatRoomCreateResponseDTO responseDTO = chatRoomService.createChatRoom(requestDTO);
 
-        return ResponseEntity.ok(chatRoomId);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @ResponseBody

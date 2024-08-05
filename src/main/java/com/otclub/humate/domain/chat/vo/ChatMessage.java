@@ -40,17 +40,17 @@ public class ChatMessage {
     private String _id;
     @Indexed
     private String chatRoomId;
-    private String senderId;
+    private String participateId;
     private String content;
     private Date createdAt;
     private int readCount;
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
 
-    public static ChatMessage of(String chatRoomId, ChatMessageRedisDTO requestDTO){
+    public static ChatMessage of(ChatMessageRedisDTO requestDTO){
         ChatMessage chatMessage = ChatMessage.builder()
-                .chatRoomId(chatRoomId)
-                .senderId(requestDTO.getSenderId())
+                .chatRoomId(requestDTO.getChatRoomId())
+                .participateId(requestDTO.getParticipateId())
                 .content(requestDTO.getContent())
                 .createdAt(getDate())
                 .readCount(1)

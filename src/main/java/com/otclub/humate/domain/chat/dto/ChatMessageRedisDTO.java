@@ -1,6 +1,7 @@
 package com.otclub.humate.domain.chat.dto;
 
 import com.otclub.humate.domain.chat.vo.MessageType;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,26 +27,27 @@ import lombok.ToString;
 @ToString
 public class ChatMessageRedisDTO {
     private String chatRoomId;
-    private String senderId;
+    private String participateId;
     private String content;
     private MessageType messageType;
+    private Date createdAt;
 
     public static ChatMessageRedisDTO from(ChatMessageRequestDTO requestDTO){
         return ChatMessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
-                .senderId(requestDTO.getSenderId())
+                .participateId(requestDTO.getParticipateId())
                 .content(requestDTO.getContent())
                 .messageType(requestDTO.getMessageType())
                 .build();
     }
 
-    public static ChatMessageRedisDTO ofMateActive(MateUpdateRequestDTO requestDTO, String nickname){
+    public static ChatMessageRedisDTO ofMate(MateUpdateRequestDTO requestDTO){
         MessageType messageType = (requestDTO.getIsClicked()==1 ? MessageType.MATE_ACTIVE : MessageType.MATE_INACTIVE);
 
         return ChatMessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
-                .senderId(requestDTO.getMemberId())
-                .content(nickname + messageType.getMsg())
+                .participateId(requestDTO.getParticipateId())
+                .content(messageType.getMsg())
                 .messageType(messageType.MATE_ACTIVE)
                 .build();
     }
