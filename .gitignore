@@ -40,3 +40,4 @@ application-db.yml
 application-s3.yml
 application-jwt.yml
 application-api.yml
+application-value.yml

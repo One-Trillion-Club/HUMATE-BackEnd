@@ -25,7 +25,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ChatParticipate {
-    private int participantId;
+    private int participateId;
     private String memberId;
     private int chatRoomId;
     private Date createdAt;

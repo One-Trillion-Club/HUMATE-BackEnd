@@ -25,6 +25,6 @@ import lombok.ToString;
 @ToString
 public class MateUpdateRequestDTO {
     private String chatRoomId;
-    private String memberId;
+    private String participateId;
     private int isClicked;
 }

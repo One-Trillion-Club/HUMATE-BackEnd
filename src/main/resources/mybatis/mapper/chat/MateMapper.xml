@@ -6,7 +6,7 @@
     <update id="updateMate" parameterType="com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO">
         update chat_participate
         set is_clicked = #{isClicked}
-        where chat_room_id = #{chatRoomId} and member_id = #{memberId}
+        where participate_id = #{participateId}
     </update>
 
 <!--    <insert id="insertChatParticipant" parameterType="com.otclub.humate.common.entity.ChatParticipate">-->

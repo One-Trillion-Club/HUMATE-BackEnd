@@ -1,6 +1,7 @@
 package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,6 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 public interface ChatRoomService {
-    int createChatRoom(ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
+    ChatRoomCreateResponseDTO createChatRoom(ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
     List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched);
 }
