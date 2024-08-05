@@ -57,19 +57,33 @@
         where companion_activity_id = #{companionActivityId}
     </select>
 
-    <select id="countCompanionActivityHistoryByIds" resultType="java.lang.Integer">
-        select
-            count(ca.companion_activity_id)
-        from
-            companion_activity_history ca
-        join
-            companion c
-        on
-            ca.companion_id = c.companion_id
-        where
-            c.companion_id = #{companionId}
-            and ca.activity_id = #{activityId}
-            and c.finished_at is null
+    <select id="validateInsertCompanionActivity" resultType="java.lang.Integer">
+        SELECT
+            CASE
+        WHEN EXISTS(
+                SELECT
+                    1
+                FROM
+                    companion c
+                WHERE
+                    c.companion_id = 4
+                      AND c.finished_at IS NOT NULL
+            ) THEN 1
+        WHEN EXISTS(
+                SELECT
+                    1
+                FROM
+                    companion_activity_history ca
+                JOIN
+                    companion c
+                ON
+                    ca.companion_id = c.companion_id
+               WHERE
+                   c.companion_id = 4
+                 AND ca.activity_id = 1
+            ) THEN 1
+        ELSE 0 END AS validate_companion
+        from dual
     </select>
 
     <insert id="insertCompanionActivityHistory" parameterType="com.otclub.humate.common.entity.CompanionActivityHistory"

@@ -25,7 +25,7 @@ public interface ActivityMapper {
 
     List<String> selectImgUrlListById(int companionActivityId);
 
-    int countCompanionActivityHistoryByIds(@Param("companionId") int companionId,
+    int validateInsertCompanionActivity(@Param("companionId") int companionId,
                                         @Param("activityId") int activityId);
     int insertCompanionActivityHistory(CompanionActivityHistory companionActivityHistory);
 
