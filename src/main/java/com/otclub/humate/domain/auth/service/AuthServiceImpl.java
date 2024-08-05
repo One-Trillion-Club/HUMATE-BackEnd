@@ -90,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ErrorCode.NOT_VALID_INPUT);
         }
 
-        String verifyRedisKey = "verification:"+dto.getPhone();
+        String verifyRedisKey = "verification:"+ (dto.getNationality() == 1 ? dto.getPhone() : dto.getPassportNo());
         String verificationCode = operations.get(verifyRedisKey);
 
         if (!dto.getVerifyCode().equals(verificationCode)) {
@@ -281,6 +281,8 @@ public class AuthServiceImpl implements AuthService {
                     .block(); // 동기식으로 처리
 
             String r = URLDecoder.decode(response, "UTF-8");
+
+            log.info("\n\n여권인증 결과\n" + r + "\n");
 
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> mapResult = mapper.readValue(r, Map.class);
