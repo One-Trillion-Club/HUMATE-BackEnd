@@ -37,7 +37,9 @@ public class ReviewServiceImpl implements ReviewService {
                 .selectCompanionByIds(reviewRequestDTO.getCompanionId(), memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_COMPANION));
 
-        if (reviewMapper.insertReview(Review.of(reviewRequestDTO, companion, memberId)) != 1) {
+        Review review = Review.of(reviewRequestDTO, companion, memberId);
+        reviewMapper.insertReviewAndUpdateManner(review);
+        if (review.getStatus().equals("Failure")) {
             throw new CustomException(ErrorCode.REVIEW_FAIL);
         }
     }

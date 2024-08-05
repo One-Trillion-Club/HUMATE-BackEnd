@@ -14,8 +14,9 @@ public class Review {
     private String reviewerId;
     private String revieweeId;
     private String content;
-    private int score;
+    private double score;
     private Date createdAt;
+    private String status;
 
     public static Review of(ReviewRequestDTO reviewRequestDTO, Companion companion, String memberId) {
         ReviewBuilder reviewBuilder = Review.builder()
