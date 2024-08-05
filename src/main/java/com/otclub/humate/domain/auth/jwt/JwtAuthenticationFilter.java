@@ -154,6 +154,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .message(errorCode.getMessage())
                 .build();
 
+        log.error("토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n");
         // 토큰 에러 시 로그아웃 시킴
         Cookie accessTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("ajt");
         Cookie refreshTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("rjt");
