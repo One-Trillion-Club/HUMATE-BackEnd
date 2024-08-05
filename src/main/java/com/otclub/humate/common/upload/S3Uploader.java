@@ -36,7 +36,7 @@ public class S3Uploader {
         return amazonS3.getUrl(bucket, uploadName).toString();
     }
 
-    @Async
+    @Async("S3ImageUploadExecutor")
     public void uploadToS3(MultipartFile imageFile, String uploadName) throws IOException {
         amazonS3.putObject(new PutObjectRequest(
                 bucket,
