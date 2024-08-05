@@ -42,7 +42,7 @@ public class ChatMessage {
     private String chatRoomId;
     private String participateId;
     private String content;
-    private Date createdAt;
+    private Long createdAt;
     private int readCount;
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
@@ -59,13 +59,16 @@ public class ChatMessage {
         return chatMessage;
     }
 
-    private static Date getDate(){
+    private static long getDate(){
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTime(date);
         calendar.add(Calendar.HOUR, 9);
 
-        return new Date(calendar.getTimeInMillis());
+        Date futureTime = calendar.getTime();
+
+        // 유닉스 타임스탬프로 변환 (밀리초 단위)
+        return futureTime.getTime() / 1000;
     }
 }
