@@ -9,6 +9,7 @@ import com.otclub.humate.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,22 +27,24 @@ public class S3Uploader {
     public String uploadImage(MultipartFile imageFile) {
         String originName = imageFile.getOriginalFilename();
         String uploadName = changeRandomImageName(originName);
-
         try {
-            log.info(bucket);
-            amazonS3.putObject(new PutObjectRequest(
-                    bucket,
-                    uploadName,
-                    imageFile.getInputStream(),
-                    createObjectMetadata(imageFile.getSize(), imageFile.getContentType())
-                    )
-            );
-
+            uploadToS3(imageFile, uploadName);
         } catch (IOException e) {
             throw new CustomException(ErrorCode.UPLOAD_FAIL);
         }
 
         return amazonS3.getUrl(bucket, uploadName).toString();
+    }
+
+    @Async
+    public void uploadToS3(MultipartFile imageFile, String uploadName) throws IOException {
+        amazonS3.putObject(new PutObjectRequest(
+                bucket,
+                uploadName,
+                imageFile.getInputStream(),
+                createObjectMetadata(imageFile.getSize(), imageFile.getContentType())
+                )
+        );
     }
 
     private String changeRandomImageName(String originName) {
