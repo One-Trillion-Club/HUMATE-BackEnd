@@ -39,11 +39,19 @@ public class RedisPubSubService {
 
     public void subscribe(String participateId) {
         log.info("[RedisPubSubService] subscribe {} ", participateId);
-        Integer channel = chatRoomMapper.selectChatRoomIdByParticipateId(participateId)
-                .orElseThrow(()->new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
+        try{
+            Integer channel = chatRoomMapper.selectChatRoomIdByParticipateId(participateId)
+                    .orElseThrow(()->new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
+            log.info("[RedisPubSubService] channel-1 {} ", channel);
+            log.info("[RedisPubSubService] getChannelName {} ", getChannelName(String.valueOf(channel)));
+            // 요청한 Channel 을 구독
+            listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
+            log.info("[RedisPubSubService] channel-2 {} ", channel);
+        }
+        catch (CustomException e){
+            log.error("[ERROR] [RedisPubSubService] subscribe {} ", e.getMessage());
+        }
 
-        // 요청한 Channel 을 구독
-        listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
     }
 
     // 이벤트 발행
