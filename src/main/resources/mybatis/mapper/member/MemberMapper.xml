@@ -141,38 +141,21 @@
             deleted_at is null
     </update>
 
-    <select id="selectMatesByMemberIdKorean">
+    <select id="selectMatesByMemberId">
         select
             m2.member_id as member_id,
             m2.profile_img_url as profile_img_url,
             m2.nickname as nickname,
             m2.gender as gender,
-            min(c.created_at) as matching_date
+            min(c.CREATED_AT) as matching_date
         from member m
-                 inner join companion c on c.first_member_id = m.member_id
-                 inner join member m2 on m2.member_id = c.second_member_id
-        where
-            m.member_id = #{memberId}
-        group by
-            m2.member_id,
-            m2.profile_img_url,
-            m2.nickname,
-            m2.gender
-        order by matching_date desc
-    </select>
-    <select id="selectMatesByMemberIdForeigner">
-        select
-            m2.member_id as member_id,
-            m2.profile_img_url as profile_img_url,
-            m2.nickname as nickname,
-            m2.gender as gender,
-            min(c.created_at) as matching_date
-
-        from member m
-                 inner join companion c on c.second_member_id = m.member_id
-                 inner join member m2 on m2.member_id = c.first_member_id
-
-        where m.member_id = #{memberId}
+             inner join companion c
+                on m.member_id = c.first_member_id or
+                   m.member_id = c.second_member_id
+             inner join member m2
+                on (m.member_id = c.first_member_id and c.second_member_id = m2.member_id) or
+                   (m.member_id = c.second_member_id and c.first_member_id = m2.member_id)
+        where m.member_id=#{memberId}
         group by
             m2.member_id,
             m2.profile_img_url,

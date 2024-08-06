@@ -95,8 +95,6 @@ public class MemberServiceImpl implements MemberService {
      * @author 조영욱
      */
     public List<MateDetailResponseDTO> getMyMates(String memberId) {
-        return memberId.charAt(0) == 'K' ?
-            mapper.selectMatesByMemberIdKorean(memberId) :
-            mapper.selectMatesByMemberIdForeigner(memberId);
+        return mapper.selectMatesByMemberId(memberId);
     }
 }
