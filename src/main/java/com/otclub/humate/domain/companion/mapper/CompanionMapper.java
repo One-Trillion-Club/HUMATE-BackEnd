@@ -2,6 +2,7 @@ package com.otclub.humate.domain.companion.mapper;
 
 import com.otclub.humate.common.entity.Companion;
 import com.otclub.humate.domain.activity.dto.CompanionInfoDTO;
+import com.otclub.humate.domain.companion.dto.CompanionDTO;
 import com.otclub.humate.domain.companion.dto.CompanionDetailsDTO;
 import com.otclub.humate.domain.companion.dto.CompanionPostDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,4 +29,6 @@ public interface CompanionMapper {
 
     int countCompanionByMemberIdAndCompanionId(@Param("memberId") String memberId,
                                                @Param("companionId") int companionId);
+
+    int insertCompanion(CompanionDTO companionDTO);
 }
