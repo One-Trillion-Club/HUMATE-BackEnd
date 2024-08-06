@@ -11,8 +11,10 @@ import java.util.List;
 @Builder
 public class NewMissionDTO {
     private int activityId;
-    private String title;
-    private String content;
+    private String titleKo;
+    private String titleEn;
+    private String contentKo;
+    private String contentEn;
     private int point;
     private String imgUrl;
 
@@ -21,7 +23,8 @@ public class NewMissionDTO {
         for (Activity activity : activities) {
             newActivitiesResponseDTO.add(NewMissionDTO.builder()
                     .activityId(activity.getActivityId())
-                    .title(activity.getTitle())
+                    .titleKo(activity.getTitleKo())
+                    .titleEn(activity.getTitleEn())
                     .imgUrl(activity.getImgUrl())
                     .build()
             );

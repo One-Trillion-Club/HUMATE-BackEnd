@@ -27,6 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final S3Uploader s3Uploader;
 
     @Override
+    @Transactional(readOnly = true)
     public MissionResponseDTO findActivities(int companionId, String memberId) {
 
         // 유효한 회원인지 검증
@@ -43,8 +44,9 @@ public class ActivityServiceImpl implements ActivityService {
 
         for (ClearedMissionDTO companionActivityHistory : companionActivityHistories) {
             for (Activity activity : activities) {
-                if (companionActivityHistory.getTitle().equals(activity.getTitle())) {
-                    companionActivityHistory.setTitle(activity.getTitle());
+                if (companionActivityHistory.getTitleKo().equals(activity.getTitleKo())) {
+                    companionActivityHistory.setTitleKo((activity.getTitleKo()));
+                    companionActivityHistory.setTitleEn((activity.getTitleEn()));
                     activities.remove(activity);
                     break;
                 }
@@ -60,8 +62,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId,
-                                                                                   String memberId) {
+    public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId, String memberId) {
         return activityMapper.selectCompanionActivityHistoryById(companionActivityId, memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.FORBIDDEN_REQUEST));
     }

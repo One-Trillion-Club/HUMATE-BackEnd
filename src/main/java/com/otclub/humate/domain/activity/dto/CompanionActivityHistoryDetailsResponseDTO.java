@@ -14,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanionActivityHistoryDetailsResponseDTO {
-    private String activityTitle;
+    private String activityTitleKo;
+    private String activityTitleEn;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
     private Date createdAt;
     private List<String> imgUrls;

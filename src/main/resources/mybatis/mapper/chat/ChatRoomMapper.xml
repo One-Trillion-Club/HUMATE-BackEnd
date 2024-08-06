@@ -106,4 +106,23 @@
             participate_id=#{participateId} and
             deleted_at is null
     </select>
+    <select id="selectChatRoomMemberById" resultType="java.lang.String">
+        select
+            p.member_id
+        from
+            chat_room r
+        join
+            chat_participate p
+        on
+            r.chat_room_id = p.chat_room_id
+        left join
+            companion c
+        on
+            r.chat_room_id = c.chat_room_id
+        where
+            r.chat_room_id = #{chatRoomId}
+            and r.is_matched = 1
+            and c.companion_id is null
+        order by p.member_id desc
+    </select>
 </mapper>

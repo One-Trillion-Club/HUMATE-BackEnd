@@ -38,4 +38,6 @@ public interface ChatRoomMapper {
     Optional<Integer> selectChatRoomIdByParticipateId(
             @Param("participateId") String participateId);
 
+    List<String> selectChatRoomMemberById(int chatRoomId);
+
 }
