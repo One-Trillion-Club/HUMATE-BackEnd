@@ -9,7 +9,8 @@ import lombok.Setter;
 @Builder
 public class ClearedMissionDTO {
     private int companionActivityId;
-    private String title;
+    private String titleKo;
+    private String titleEn;
     private int status;
     private String imgUrl;
 

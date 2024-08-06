@@ -2,6 +2,7 @@ package com.otclub.humate.domain.activity.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
+import com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO;
 import com.otclub.humate.domain.activity.dto.MissionResponseDTO;
 import com.otclub.humate.domain.activity.dto.NewMissionDTO;
 import com.otclub.humate.domain.activity.dto.UploadActivityRequestDTO;
@@ -52,8 +53,7 @@ public class ActivityController {
      * @author : 손승완
      */
     @GetMapping("/histories/{companionActivityId}")
-    public ResponseEntity<Object> finishedActivityDetails(@PathVariable("companionActivityId") int companionActivityId,
-                                                          @MemberId String memberId) {
+    public ResponseEntity<CompanionActivityHistoryDetailsResponseDTO> finishedActivityDetails(@PathVariable("companionActivityId") int companionActivityId, @MemberId String memberId) {
         return ResponseEntity.ok(activityService.findCompanionActivityHistory(companionActivityId, memberId));
     }
 

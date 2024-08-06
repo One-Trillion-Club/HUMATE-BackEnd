@@ -6,29 +6,50 @@
     <select id="selectCompanionActivityHistoryList"
             resultType="com.otclub.humate.domain.activity.dto.ClearedMissionDTO">
 
-        select c.companion_activity_id, a.title, c.status, min(i.img_url)
-        from companion_activity_history c
+        select
+            c.companion_activity_id,
+            a.title_ko,
+            a.title_en,
+            c.status,
+            min(i.img_url)
+        from
+            companion_activity_history c
                  left join activity a on a.activity_id = c.activity_id
                  left join companion_activity_img i on c.companion_activity_id = i.companion_activity_id
-        where c.companion_id = #{companionId}
-        group by c.companion_activity_id, a.title, c.status
-        order by c.status
+        where
+            c.companion_id = #{companionId}
+        group by
+            c.companion_activity_id, a.title_ko, a.title_en, c.status
+        order by
+            c.status
     </select>
 
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
-        select *
-        from activity
+        select
+            *
+        from
+            activity
     </select>
 
     <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewMissionDTO">
-        select activity_id, title, content, point, img_url
-        from activity
-        where activity_id = #{activityId}
+        select
+            activity_id,
+            title_ko,
+            title_en,
+            content_ko,
+            content_en,
+            point,
+            img_url
+        from
+            activity
+        where
+            activity_id = #{activityId}
     </select>
 
     <resultMap id="companionActivityHistoryDetails"
                type="com.otclub.humate.domain.activity.dto.CompanionActivityHistoryDetailsResponseDTO">
-        <result property="activityTitle" column="activity_title"/>
+        <result property="activityTitleKo" column="activity_title_ko"/>
+        <result property="activityTitleEn" column="activity_title_en"/>
         <result property="createdAt" column="created_at"/>
         <collection property="imgUrls" javaType="java.util.ArrayList" ofType="string"
                     column="companion_activity_id" select="selectImgUrlListById"/>
@@ -37,7 +58,8 @@
     <select id="selectCompanionActivityHistoryById"
             resultMap="companionActivityHistoryDetails">
         select
-            ca.activity_title,
+            a.title_ko activity_title_ko,
+            a.title_en activity_title_en,
             ca.created_at,
             companion_activity_id
         from
@@ -46,9 +68,13 @@
             companion c
         on
             ca.companion_id = c.companion_id
+        join
+            activity a
+        on
+            ca.activity_id = a.activity_id
         where
             ca.companion_activity_id = #{companionActivityId}
-            and (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
+          and (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
     </select>
 
     <select id="selectImgUrlListById" resultType="string">
@@ -58,31 +84,18 @@
     </select>
 
     <select id="validateInsertCompanionActivity" resultType="java.lang.Integer">
-        SELECT
-            CASE
-            WHEN EXISTS(
-                SELECT
-                    1
-                FROM
-                    companion c
-                WHERE
-                    c.companion_id = 4
-                      AND c.finished_at IS NOT NULL
-            ) THEN 1
-            WHEN EXISTS(
-                SELECT
-                    1
-                FROM
-                    companion_activity_history ca
-                JOIN
-                    companion c
-                ON
-                    ca.companion_id = c.companion_id
-               WHERE
-                   c.companion_id = 4
-                 AND ca.activity_id = 1
-            ) THEN 1
-            ELSE 0 END AS validate_companion
+        SELECT CASE
+                   WHEN EXISTS(SELECT 1
+                               FROM companion c
+                               WHERE c.companion_id = #{companionId}
+                                 AND c.finished_at IS NOT NULL) THEN 1
+                   WHEN EXISTS(SELECT 1
+                               FROM companion_activity_history ca
+                                        JOIN companion c ON ca.companion_id = c.companion_id
+                               WHERE c.companion_id = #{companionId}
+                                 AND ca.activity_id = #{activityId}) THEN
+                       1
+                   ELSE 0 END AS validate_companion
         from dual
     </select>
 
@@ -93,14 +106,8 @@
         </selectKey>
 
         <![CDATA[
-            insert into companion_activity_history (companion_activity_id, companion_id, activity_id, status, activity_title)
-            values (#{companionActivityId}, #{companionId}, #{activityId}, #{status},
-                    (
-                    select title
-                    from activity
-                    where activity_id = #{activityId}
-                    )
-                )
+            insert into companion_activity_history (companion_activity_id, companion_id, activity_id, status)
+            values (#{companionActivityId}, #{companionId}, #{activityId}, #{status})
         ]]>
     </insert>
 

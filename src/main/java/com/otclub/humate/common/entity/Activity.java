@@ -11,8 +11,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class Activity {
     private int activityId;
-    private String title;
-    private String content;
+    private String titleKo;
+    private String titleEn;
+    private String contentKo;
+    private String contentEn;
     private int point;
     private String imgUrl;
     private Date createdAt;
