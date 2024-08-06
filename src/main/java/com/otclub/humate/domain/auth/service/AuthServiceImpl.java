@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
+import com.otclub.humate.common.service.SmsService;
 import com.otclub.humate.common.upload.S3Uploader;
 import com.otclub.humate.domain.auth.dto.*;
 import com.otclub.humate.domain.auth.jwt.JwtDTO;
@@ -41,6 +42,7 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.*;
  * 2024.07.30   조영욱        JWT 토큰 리프레시 추가
  * 2024.07.31   조영욱        휴대폰 인증 추가
  * 2024.07.31   조영욱        여권 인증 추가
+ * 2024.08.05   조영욱        SMS 연동 추가
  * </pre>
  */
 @Service
@@ -54,6 +56,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtGenerator jwtGenerator;
     private final StringRedisTemplate redisTemplate;
     private final S3Uploader s3Uploader;
+    private final SmsService smsService;
+
     // CODEF 액세스 토큰 발급을 위한 요청 URL
     @Value("${codef.accessTokenIssuanceUrl}")
     private String accessTokenIssuanceUrl;
@@ -86,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
             throw new CustomException(ErrorCode.NOT_VALID_INPUT);
         }
 
-        String verifyRedisKey = "verification:"+dto.getPhone();
+        String verifyRedisKey = "verification:"+ (dto.getNationality() == 1 ? dto.getPhone() : dto.getPassportNo());
         String verificationCode = operations.get(verifyRedisKey);
 
         if (!dto.getVerifyCode().equals(verificationCode)) {
@@ -201,6 +205,9 @@ public class AuthServiceImpl implements AuthService {
         // 레디스에 저장되는 구조: { "code:01012341234" : "012345" }
         operations.set(redisCodeKey, code, Duration.ofSeconds(REDIS_PHONE_CODE_KEY_TTL));
 
+        // SMS 메시지 전송
+        smsService.sendPhoneVerifySMS(phone, code);
+
         return code;
     }
 
@@ -274,6 +281,8 @@ public class AuthServiceImpl implements AuthService {
                     .block(); // 동기식으로 처리
 
             String r = URLDecoder.decode(response, "UTF-8");
+
+            log.info("\n\n여권인증 결과\n" + r + "\n");
 
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> mapResult = mapper.readValue(r, Map.class);

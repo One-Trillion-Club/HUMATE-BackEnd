@@ -91,7 +91,9 @@
         select
             member_id,
             refresh_token,
-            is_admin
+            is_admin,
+            profile_img_url,
+            introduction
         from
             member
         where

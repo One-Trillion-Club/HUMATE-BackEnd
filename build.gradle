@@ -63,6 +63,9 @@ dependencies {
 
 	// webflux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// cool sms
+	implementation 'net.nurigo:sdk:4.2.7'
 }
 
 tasks.named('test') {
