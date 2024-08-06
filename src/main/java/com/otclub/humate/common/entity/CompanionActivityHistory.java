@@ -13,7 +13,6 @@ public class CompanionActivityHistory {
     private int activityId;
     private int status; // 0 : 대기, 1 : 완료
     private Date createdAt;
-    private String activityTitle;
     private static final int PENDING_STATUS = 0;
 
     public static CompanionActivityHistory of(int companionId, int activityId) {

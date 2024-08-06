@@ -87,4 +87,18 @@
             companion_id = #{companionId}
             and (first_member_id = #{memberId} or second_member_id = #{memberId})
     </select>
+
+    <insert id="insertCompanion" parameterType="com.otclub.humate.domain.companion.dto.CompanionDTO"
+            useGeneratedKeys="true" keyProperty="companionId">
+        <selectKey keyProperty="companionId" resultType="int" order="BEFORE">
+            SELECT seq_companion.nextval FROM dual
+        </selectKey>
+
+        <![CDATA[
+            insert into
+                companion (companion_id, chat_room_id, first_member_id, second_member_id)
+            values
+                (#{companionId}, #{chatRoomId}, #{firstMemberId}, #{secondMemberId})
+        ]]>
+    </insert>
 </mapper>

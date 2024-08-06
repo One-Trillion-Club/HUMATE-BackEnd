@@ -10,6 +10,7 @@ public enum ErrorCode {
     UPLOAD_FAIL(400, "사진 업로드에 실패했습니다."),
     ALREADY_EXISTS_ACTIVITY(409, "이미 등록한 활동이거나 동행이 종료되었습니다. 다른 활동을 등록해 주세요."),
     CANCEL_COMPANION_FAIL(400, "동행 취소에 실패했습니다."),
+    FAILED_COMPANION_START(400, "동행을 시작할 수 없습니다"),
     NOT_EXISTS_COMPANION(400, "존재하지 않는 동행입니다."),
     REVIEW_FAIL(400, "리뷰 등록에 실패했습니다."),
     POST_NOT_FOUND(404, "해당 매칭글을 찾을 수 없습니다."),

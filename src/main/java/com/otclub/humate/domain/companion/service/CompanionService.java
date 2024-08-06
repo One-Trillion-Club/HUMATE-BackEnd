@@ -8,4 +8,6 @@ public interface CompanionService {
     void endCompanion(int companionId, String memberId);
 
     List<CompanionResponseDTO> findCompanionList(String memberId);
+
+    void startCompanion(String chatRoomId, String memberId);
 }
