@@ -71,9 +71,14 @@ public class ActivityServiceImpl implements ActivityService {
     public void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO,
                                              List<MultipartFile> images,
                                              String memberId) {
+
         int companionId = uploadActivityRequestDTO.getCompanionId();
         int activityId = uploadActivityRequestDTO.getActivityId();
-        isAlreadyUploadedCompanionActivityHistory(companionId, activityId);
+
+        // 동행이 종료되었거나, 이미 등록한 활동인지 검증
+        if (activityMapper.validateInsertCompanionActivity(companionId, activityId) != 0) {
+            throw new CustomException(ErrorCode.ALREADY_EXISTS_ACTIVITY);
+        }
 
         // 유효한 회원인지 검증
         if (companionMapper.countCompanionByMemberIdAndCompanionId(memberId, companionId) == 0) {
@@ -97,12 +102,6 @@ public class ActivityServiceImpl implements ActivityService {
         // bulk insert
         if (activityMapper.insertCompanionActivityImgList(companionActivityImgList) != companionActivityImgList.size()) {
             throw new CustomException(ErrorCode.UPLOAD_FAIL);
-        }
-    }
-
-    private void isAlreadyUploadedCompanionActivityHistory(int companionId, int activityId) {
-        if (activityMapper.countCompanionActivityHistoryByIds(companionId, activityId) != 0) {
-            throw new CustomException(ErrorCode.ALREADY_EXISTS_ACTIVITY);
         }
     }
 }

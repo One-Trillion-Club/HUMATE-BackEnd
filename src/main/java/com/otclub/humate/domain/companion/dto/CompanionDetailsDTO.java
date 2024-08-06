@@ -20,4 +20,5 @@ public class CompanionDetailsDTO {
     private String secondMemberNickname;
     private String postTitle;
     private String matchDate;
+    private String matchBranch;
 }

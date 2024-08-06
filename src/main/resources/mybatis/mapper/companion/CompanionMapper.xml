@@ -55,7 +55,8 @@
             sm.profile_img_url second_member_profile_img_url,
             sm.nickname second_member_nickname,
             cr.post_title,
-            cr.match_date
+            cr.match_date,
+            cr.match_branch
         from companion c
                  join member fm
                       on c.first_member_id = fm.member_id
