@@ -8,6 +8,8 @@ import com.otclub.humate.domain.companion.dto.CompanionDetailsDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.mapper.CompanionMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CompanionServiceImpl implements CompanionService {
     private final CompanionMapper companionMapper;
     private final ChatRoomMapper chatRoomMapper;
@@ -43,17 +46,20 @@ public class CompanionServiceImpl implements CompanionService {
     @Transactional
     public void startCompanion(String chatRoomId, String memberId) {
         List<String> members = chatRoomMapper.selectChatRoomMemberById(Integer.parseInt(chatRoomId));
+        log.info("[startCompanion] - {}" , memberId);
         if (!members.contains(memberId)) {
+            log.error(ErrorCode.FORBIDDEN_REQUEST.getMessage());
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
         }
+
 
         CompanionDTO companion = CompanionDTO.of(Integer.parseInt(chatRoomId),
                                                 members.get(0),
                                                 members.get(1));
 
         if (companionMapper.insertCompanion(companion) != 1) {
+            log.error(ErrorCode.FAILED_COMPANION_START.getMessage());
             throw new CustomException(ErrorCode.FAILED_COMPANION_START);
         }
-
     }
 }

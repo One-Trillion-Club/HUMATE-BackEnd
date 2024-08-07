@@ -40,4 +40,6 @@ public interface PostMapper {
 
     // 매칭글 삭제
     int deletePost(int postId);
+
+    Post selectPostByPostId(int postId);
 }

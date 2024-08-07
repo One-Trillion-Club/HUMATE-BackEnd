@@ -2,6 +2,7 @@ package com.otclub.humate.domain.companion.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
+import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomRequestDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.service.CompanionService;
@@ -23,6 +24,7 @@ public class CompanionController {
     public ResponseEntity<CommonResponseDTO> companionStart(@RequestBody ChatRoomRequestDTO chatRoomId,
                                                             @MemberId String memberId) {
         companionService.startCompanion(chatRoomId.getChatRoomId(), memberId);
+        log.error("[companionStart] {}", "완료");
         return ResponseEntity.ok(new CommonResponseDTO(true, "동행이 시작되었습니다."));
     }
 

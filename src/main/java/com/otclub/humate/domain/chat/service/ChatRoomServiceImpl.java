@@ -2,11 +2,12 @@ package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.common.entity.ChatParticipate;
 import com.otclub.humate.common.entity.ChatRoom;
+import com.otclub.humate.common.entity.Post;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
 import java.util.List;
@@ -38,19 +39,22 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     @Transactional
-    public ChatRoomCreateResponseDTO createChatRoom(ChatRoomCreateRequestDTO requestDTO) {
+    public ChatRoomCreateResponseDTO createChatRoom(String memberId, ChatRoomCreateRequestDTO requestDTO) {
         // postId가 유효한지 확인 후, 정보 가져오기
         int postId = requestDTO.getPostId();
+        log.info("[createChatRoom] - {}", postId);
         if (!postMapper.selectPostCountById(postId)) {
             throw new CustomException(ErrorCode.POST_NOT_FOUND);
         }
+        Post post = postMapper.selectPostByPostId(postId);
 
         // 채팅방 생성하기
-        ChatRoom chatRoom = ChatRoom.from(requestDTO.getPostId());
+        ChatRoom chatRoom = ChatRoom.from(post);
         chatRoomMapper.insertChatRoom(chatRoom);
 
+        log.info("[createChatRoom] - {}", chatRoom.toString());
         // 채팅방 참여 유저 설정하기
-        ChatParticipate applicant = ChatParticipate.of(chatRoom, requestDTO.getApplicantId());
+        ChatParticipate applicant = ChatParticipate.of(chatRoom, memberId);
         ChatParticipate writer = ChatParticipate.of(chatRoom, requestDTO.getWriterId());
 
         // 채팅방에 참여시키기
@@ -61,8 +65,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched) {
-        List<ChatRoomDetailDTO> roomList = chatRoomMapper.selectChatList(memberId, isMatched);
+    public List<ChatRoomDetailResponseDTO> findChatRoomList(String memberId, int isMatched) {
+        List<ChatRoomDetailResponseDTO> roomList = chatRoomMapper.selectChatList(memberId, isMatched);
         return roomList;
     }
 }
