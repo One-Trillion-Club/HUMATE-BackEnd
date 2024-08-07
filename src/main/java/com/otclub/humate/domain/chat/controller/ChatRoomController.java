@@ -1,5 +1,6 @@
 package com.otclub.humate.domain.chat.controller;
 
+import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
@@ -39,23 +40,23 @@ public class ChatRoomController {
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity<ChatRoomCreateResponseDTO> chatRoomCreate(@RequestBody ChatRoomCreateRequestDTO requestDTO){
-        ChatRoomCreateResponseDTO responseDTO = chatRoomService.createChatRoom(requestDTO);
+    public ResponseEntity<ChatRoomCreateResponseDTO> chatRoomCreate(@MemberId String memberId, @RequestBody ChatRoomCreateRequestDTO requestDTO){
+        ChatRoomCreateResponseDTO responseDTO = chatRoomService.createChatRoom(memberId, requestDTO);
 
         return ResponseEntity.ok(responseDTO);
     }
 
     @ResponseBody
-    @GetMapping("/list/{memberId}") // {memberId} 임시
-    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomList(@PathVariable("memberId") String memberId){
+    @GetMapping("/list") // {memberId} 임시
+    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomList(@MemberId String memberId){
         List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
 
         return ResponseEntity.ok(roomList);
     }
 
     @ResponseBody
-    @GetMapping("/list/pending/{memberId}") // {memberId} 임시
-    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomPendingList(@PathVariable("memberId") String memberId){
+    @GetMapping("/list/pending") // {memberId} 임시
+    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomPendingList(@MemberId String memberId){
         List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
 
         return ResponseEntity.ok(roomList);

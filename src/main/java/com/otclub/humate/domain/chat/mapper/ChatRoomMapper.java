@@ -40,4 +40,8 @@ public interface ChatRoomMapper {
 
     List<String> selectChatRoomMemberById(int chatRoomId);
 
+    int selectParticipatesClickCount(@Param("chatRoomId") String chatRoomId);
+
+
+    int updateChatRoomStatus(@Param("chatRoomId")String chatRoomId);
 }

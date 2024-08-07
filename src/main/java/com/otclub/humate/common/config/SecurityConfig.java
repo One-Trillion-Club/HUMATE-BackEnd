@@ -60,11 +60,6 @@ public class SecurityConfig {
                 "/auth/signup","/auth/login",
                 "/auth/**",
                 "/members/check-nickname",
-                "/posts/**",
-                "/rooms/**",
-                "/redis/**",
-                "/chat/**",
-                "/ws/**",
-                "/mate/**");
+                "/posts/**");
     }
 }

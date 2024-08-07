@@ -20,6 +20,6 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 public interface ChatRoomService {
-    ChatRoomCreateResponseDTO createChatRoom(ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
+    ChatRoomCreateResponseDTO createChatRoom(String memberId, ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
     List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched);
 }

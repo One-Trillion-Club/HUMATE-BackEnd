@@ -26,6 +26,6 @@ import lombok.ToString;
 @ToString
 public class ChatRoomCreateRequestDTO {
     private int postId;
-    private String applicantId;
+    //private String applicantId;
     private String writerId;
 }

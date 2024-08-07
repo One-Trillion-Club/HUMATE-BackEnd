@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 채팅방 Entity
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class ChatRoom {
     private int chatRoomId;
     private int postId;
@@ -32,9 +34,12 @@ public class ChatRoom {
     private int isMatched;
     private Date createdAt;
 
-    public static ChatRoom from(int postId){
+    public static ChatRoom from(Post post){
         return ChatRoom.builder()
-                .postId(postId)
+                .postId(post.getPostId())
+                .postTitle(post.getTitle() == null ? "-" : post.getTitle())
+                .matchDate(post.getMatchDate() == null ? "-" : post.getMatchDate())
+                .matchBranch(post.getMatchBranch() == null ? "-" : post.getMatchBranch())
                 .build();
     }
 }
