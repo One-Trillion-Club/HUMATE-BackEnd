@@ -2,7 +2,7 @@ package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import java.util.List;
 
 /**
@@ -20,5 +20,5 @@ import java.util.List;
  */
 public interface ChatRoomService {
     ChatRoomCreateResponseDTO createChatRoom(String memberId, ChatRoomCreateRequestDTO requestDTO); // 채팅방 생성
-    List<ChatRoomDetailResponseDTO> findChatRoomList(String memberId, int isMatched);
+    List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched);
 }

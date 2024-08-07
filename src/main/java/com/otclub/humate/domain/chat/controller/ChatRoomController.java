@@ -3,7 +3,7 @@ package com.otclub.humate.domain.chat.controller;
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.service.ChatRoomService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,16 +46,16 @@ public class ChatRoomController {
 
     @ResponseBody
     @GetMapping("/list")
-    public ResponseEntity<List<ChatRoomDetailResponseDTO>> chatRoomList(@MemberId String memberId){
-        List<ChatRoomDetailResponseDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
+    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomList(@MemberId String memberId){
+        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
 
         return ResponseEntity.ok(roomList);
     }
 
     @ResponseBody
     @GetMapping("/list/pending")
-    public ResponseEntity<List<ChatRoomDetailResponseDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
-        List<ChatRoomDetailResponseDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
+    public ResponseEntity<List<ChatRoomDetailDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
+        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
 
         return ResponseEntity.ok(roomList);
     }
