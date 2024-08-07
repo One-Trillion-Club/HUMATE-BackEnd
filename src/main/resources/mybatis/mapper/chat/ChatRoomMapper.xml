@@ -36,7 +36,7 @@
             deleted_at is null
     </select>
 
-    <select id="selectChatList" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO">
+    <select id="selectChatList" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO">
         <![CDATA[
             with chat_room_list as (
                 select
@@ -60,6 +60,7 @@
 
             select
                 me.chat_room_id,
+                me.member_id,
                 me.participate_id,
                 me.post_id,
                 me.post_title,
@@ -68,6 +69,7 @@
                 me.is_clicked,
                 me.is_matched,
                 nvl2(m.deleted_at, '(알수없음)', m.nickname) as target_nickname,
+                target.member_id as target_member_id,
                 target.participate_id as target_participate_id,
                 m.profile_img_url as target_profile_img_url,
                 target.is_clicked as target_is_clicked

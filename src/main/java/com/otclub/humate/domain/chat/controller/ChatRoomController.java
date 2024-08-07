@@ -3,15 +3,13 @@ package com.otclub.humate.domain.chat.controller;
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
 import com.otclub.humate.domain.chat.service.ChatRoomService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,17 +45,17 @@ public class ChatRoomController {
     }
 
     @ResponseBody
-    @GetMapping("/list") // {memberId} 임시
-    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomList(@MemberId String memberId){
-        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
+    @GetMapping("/list")
+    public ResponseEntity<List<ChatRoomDetailResponseDTO>> chatRoomList(@MemberId String memberId){
+        List<ChatRoomDetailResponseDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
 
         return ResponseEntity.ok(roomList);
     }
 
     @ResponseBody
-    @GetMapping("/list/pending") // {memberId} 임시
-    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomPendingList(@MemberId String memberId){
-        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
+    @GetMapping("/list/pending")
+    public ResponseEntity<List<ChatRoomDetailResponseDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
+        List<ChatRoomDetailResponseDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
 
         return ResponseEntity.ok(roomList);
     }
