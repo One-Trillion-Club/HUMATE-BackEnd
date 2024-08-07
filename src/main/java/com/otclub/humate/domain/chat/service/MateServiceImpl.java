@@ -55,8 +55,18 @@ public class MateServiceImpl implements MateService {
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
         }
 
+        int cnt = chatRoomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId());
+        log.info("[MateServiceImpl] - selectParticipatesClickCount {} ", cnt);
+
+        if(chatRoomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId())==2){
+            log.info("[MateServiceImpl] - 들어옴  ");
+            int status = chatRoomMapper.updateChatRoomStatus(requestDTO.getChatRoomId());
+            log.info("[MateServiceImpl] - updateChatRoomStatus {} ", status);
+        }
+
         // 메이트 안내 채팅 전송하기
-        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMate(requestDTO);
+        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMate(requestDTO, member.getNickname());
         chatMessageService.createMessage(redisDTO);
+
     }
 }

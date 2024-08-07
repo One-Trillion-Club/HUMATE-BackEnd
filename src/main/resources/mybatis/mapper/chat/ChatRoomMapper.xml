@@ -8,8 +8,8 @@
             SELECT seq_chat_room.nextval FROM dual
         </selectKey>
         <![CDATA[
-            insert into chat_room (chat_room_id, post_id)
-            values (#{chatRoomId}, #{postId})
+            insert into chat_room (chat_room_id, post_id, post_title, match_date, match_branch )
+            values (#{chatRoomId}, #{postId}, #{postTitle}, #{matchDate}, #{matchBranch})
         ]]>
     </insert>
 
@@ -36,7 +36,7 @@
             deleted_at is null
     </select>
 
-    <select id="selectChatList" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO">
+    <select id="selectChatList" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO">
         <![CDATA[
             with chat_room_list as (
                 select
@@ -60,6 +60,7 @@
 
             select
                 me.chat_room_id,
+                me.member_id,
                 me.participate_id,
                 me.post_id,
                 me.post_title,
@@ -68,6 +69,7 @@
                 me.is_clicked,
                 me.is_matched,
                 nvl2(m.deleted_at, '(알수없음)', m.nickname) as target_nickname,
+                target.member_id as target_member_id,
                 target.participate_id as target_participate_id,
                 m.profile_img_url as target_profile_img_url,
                 target.is_clicked as target_is_clicked
@@ -125,4 +127,24 @@
             and c.companion_id is null
         order by p.member_id desc
     </select>
+
+
+
+    <select id="selectParticipatesClickCount">
+        select
+            count(participate_id)
+        from
+            chat_participate
+        where
+            chat_room_id = #{chatRoomId} and
+            is_clicked = 1 and
+            deleted_at is null
+    </select>
+
+
+    <update id="updateChatRoomStatus">
+        update chat_room
+        set is_matched = 1
+        where chat_room_id = #{chatRoomId}
+    </update>
 </mapper>

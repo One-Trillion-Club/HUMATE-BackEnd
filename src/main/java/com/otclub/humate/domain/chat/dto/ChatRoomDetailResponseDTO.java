@@ -23,8 +23,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatRoomDetailDTO {
+public class ChatRoomDetailResponseDTO {
     private int chatRoomId;
+    private String memberId;
     private int participateId;
     private int postId;
     private String postTitle;
@@ -35,6 +36,7 @@ public class ChatRoomDetailDTO {
 //    private String latestContent; // 마지막 메시지
 //    private String latestContentTime; // 마지막 메시지 전송 시간
     private String targetNickname; // 상대방 닉네임
+    private String targetMemberId;
     private String targetParticipateId;
     private String targetProfileImgUrl; // 상대방 프로필
     private int targetIsClicked; // 상대방 메이트 맺기 클릭 여부
