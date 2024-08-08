@@ -12,6 +12,18 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * 활동 매퍼 인터페이스
+ * @author 손승완
+ * @since 2024.07.28
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.28  	손승완        최초 생성
+ * </pre>
+ */
 @Mapper
 public interface ActivityMapper {
     List<ClearedMissionDTO> selectCompanionActivityHistoryList(int companionId);
