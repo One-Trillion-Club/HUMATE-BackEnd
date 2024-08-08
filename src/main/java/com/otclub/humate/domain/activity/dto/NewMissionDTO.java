@@ -7,6 +7,19 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 새로운 활동 상세 페이지에 보여지는 dto
+ * @author 손승완
+ * @since 2024.07.28
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.28  	손승완        최초 생성
+ * 2024.08.06   손승완        title, content 언어별로 추가
+ * </pre>
+ */
 @Getter
 @Builder
 public class NewMissionDTO {
