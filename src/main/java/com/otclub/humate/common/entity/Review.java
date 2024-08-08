@@ -6,6 +6,19 @@ import lombok.Getter;
 
 import java.util.Date;
 
+/**
+ * 활동 Entity
+ * @author 손승완
+ * @since 2024.07.27
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30   손승완        최초 생성
+ * 2024.08.05   손승완        score double 처리
+ * </pre>
+ */
 @Getter
 @Builder
 public class Review {

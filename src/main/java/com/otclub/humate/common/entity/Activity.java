@@ -5,7 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+/**
+ * 활동 Entity
+ * @author 손승완
+ * @since 2024.07.27
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.27   손승완        최초 생성
+ * </pre>
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
