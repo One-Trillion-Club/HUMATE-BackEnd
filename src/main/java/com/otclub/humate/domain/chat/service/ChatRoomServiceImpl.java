@@ -7,7 +7,7 @@ import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
 import java.util.List;
@@ -65,8 +65,8 @@ public class ChatRoomServiceImpl implements ChatRoomService{
     }
 
     @Override
-    public List<ChatRoomDetailResponseDTO> findChatRoomList(String memberId, int isMatched) {
-        List<ChatRoomDetailResponseDTO> roomList = chatRoomMapper.selectChatList(memberId, isMatched);
+    public List<ChatRoomDetailDTO> findChatRoomList(String memberId, int isMatched) {
+        List<ChatRoomDetailDTO> roomList = chatRoomMapper.selectChatRoomDetailDTOListByMemberId(memberId, isMatched);
         return roomList;
     }
 }

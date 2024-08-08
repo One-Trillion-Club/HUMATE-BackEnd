@@ -39,7 +39,15 @@ public class ChatController {
     private final ChatMessageService chatMessageService;
 
     @GetMapping("/chat/{chatRoomId}")
-    public ResponseEntity<List<ChatMessage>> chatMessageList(@PathVariable("chatRoomId") String chatRoomId){
+    public ResponseEntity<List<ChatMessage>> chatHistoryList(@PathVariable("chatRoomId") String chatRoomId){
+        log.info("[채팅내역조회] - {}", chatRoomId);
+        List<ChatMessage> chatMessageList = chatMessageService.getListMessage(chatRoomId);
+
+        return ResponseEntity.ok(chatMessageList);
+    }
+
+    @GetMapping("/chat/history/{chatRoomId}")
+    public ResponseEntity<List<ChatMessage>> chatMessageHistoryList(@PathVariable("chatRoomId") String chatRoomId){
         log.info("[채팅내역조회] - {}", chatRoomId);
         List<ChatMessage> chatMessageList = chatMessageService.getListMessage(chatRoomId);
 

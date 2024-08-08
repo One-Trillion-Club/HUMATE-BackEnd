@@ -2,7 +2,7 @@ package com.otclub.humate.domain.chat.mapper;
 
 import com.otclub.humate.common.entity.ChatParticipate;
 import com.otclub.humate.common.entity.ChatRoom;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailResponseDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import java.util.List;
 import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,7 +28,7 @@ public interface ChatRoomMapper {
     Optional<ChatParticipate> selectChatParticipantByParticipateId(
             @Param("participateId") String participateId);
 
-    List<ChatRoomDetailResponseDTO> selectChatList(
+    List<ChatRoomDetailDTO> selectChatRoomDetailDTOListByMemberId(
             @Param("memberId") String memberId,
             @Param("isMatched") int isMatched);
 
@@ -44,4 +44,6 @@ public interface ChatRoomMapper {
 
 
     int updateChatRoomStatus(@Param("chatRoomId")String chatRoomId);
+
+    ChatRoomDetailDTO selectChatRoomDetailDTOByParticipateId(@Param("participateId") String participateId);
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
+import com.otclub.humate.domain.chat.dto.ChatMessageWebSocketResponseDTO;
+import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
 import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
 import com.otclub.humate.domain.chat.vo.ChatMessage;
 import com.otclub.humate.domain.chat.vo.MessageType;
@@ -54,13 +56,15 @@ public class RedisSubscriber implements MessageListener {
             log.info("[RedisSubscriber] Redis Subscribe Channel : " + chatMessage.getContent());
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
+            ChatRoomDetailDTO chatRoomDetailDTO = chatRoomMapper.selectChatRoomDetailDTOByParticipateId(chatMessage.getParticipateId());
             List<String> participateList = chatRoomMapper.selectChatParticipateIdListByParticipateId(chatMessage.getParticipateId());
             log.info("[RedisSubscriber] participateList size : {}", participateList.size());
             // 공지 관련 글 (입장, 퇴장, 메이트 신청, 메이트 취소)은 구독한 모두에게 전송
             if(isNotice(chatMessage.getMessageType())){
                 for(String p : participateList){
                     if(sessionManager.isUserConnected(p)){
-                        String jsonMessage = objectMapper.writeValueAsString(chatMessage);
+                        ChatMessageWebSocketResponseDTO webSocketResponseDTO = ChatMessageWebSocketResponseDTO.of(chatRoomDetailDTO, chatMessage);
+                        String jsonMessage = objectMapper.writeValueAsString(webSocketResponseDTO);
                         sendMessage(p,jsonMessage);
                     }
                 }
@@ -71,7 +75,8 @@ public class RedisSubscriber implements MessageListener {
                     log.info("[RedisSubscriber] participateList {}", p);
                     //if(!p.equals(chatMessage.getParticipateId())){
                         if(sessionManager.isUserConnected(p)){
-                            String jsonMessage = objectMapper.writeValueAsString(chatMessage);
+                            ChatMessageWebSocketResponseDTO webSocketResponseDTO = ChatMessageWebSocketResponseDTO.of(chatRoomDetailDTO, chatMessage);
+                            String jsonMessage = objectMapper.writeValueAsString(webSocketResponseDTO);
                             sendMessage(p,jsonMessage);
                         }
                     //}
