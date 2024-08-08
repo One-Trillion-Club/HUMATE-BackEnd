@@ -10,7 +10,7 @@ import java.util.Date;
  * 활동 Entity
  * @author 손승완
  * @since 2024.07.27
- * @version 1.0
+ * @version 1.1
  *
  * <pre>
  * 수정일        	수정자        수정내용
