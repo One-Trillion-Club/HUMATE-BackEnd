@@ -1,16 +1,13 @@
 package com.otclub.humate.domain.chat.vo;
 
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import java.time.LocalDateTime;
-import java.util.Calendar;
+import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -34,7 +31,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @ToString
-public class ChatMessage {
+public class Message {
 
     @Id
     private String _id;
@@ -42,13 +39,13 @@ public class ChatMessage {
     private String chatRoomId;
     private String participateId;
     private String content;
-    private Long createdAt;
+    private String createdAt;
     private int readCount;
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
     private String imgUrl;
 
-    public static ChatMessage of(ChatMessageRedisDTO requestDTO){
-        ChatMessage chatMessage = ChatMessage.builder()
+    public static Message of(MessageRedisDTO requestDTO){
+        Message message = Message.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .participateId(requestDTO.getParticipateId())
                 .content(requestDTO.getContent())
@@ -56,19 +53,24 @@ public class ChatMessage {
                 .readCount(1)
                 .messageType(requestDTO.getMessageType())
                 .build();
-        return chatMessage;
+        return message;
     }
 
-    private static long getDate(){
+    private static String getDate() {
         Date date = new Date();
-        Calendar calendar = Calendar.getInstance();
 
-        calendar.setTime(date);
-        calendar.add(Calendar.HOUR, 9);
+        // 날짜 형식을 지정 (예: "hh:mm" - 12시간 형식)
+        SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedTime = timeFormat.format(date);
 
-        Date futureTime = calendar.getTime();
+        // Calendar 객체를 사용하여 AM/PM 값 추출
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(date);
+//        int amPm = calendar.get(Calendar.AM_PM);
+//        String amPmString = (amPm == Calendar.AM) ? "am" : "pm";
 
-        // 유닉스 타임스탬프로 변환 (밀리초 단위)
-        return futureTime.getTime() / 1000;
+        // 최종 결과를 조합하여 출력
+//        String finalFormattedTime = formattedTime + " " + amPmString;
+        return formattedTime; // finalFormattedTime
     }
 }

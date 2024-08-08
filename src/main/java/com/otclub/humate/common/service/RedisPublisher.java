@@ -1,7 +1,7 @@
 package com.otclub.humate.common.service;
 
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.vo.ChatMessage;
+import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
+import com.otclub.humate.domain.chat.vo.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,13 +21,13 @@ public class RedisPublisher implements MessagePublisher {
     }
 
     @Override
-    public void publish(String channel, ChatMessageRedisDTO dto){
+    public void publish(String channel, MessageRedisDTO dto){
         log.info("[RedisPublisher] - publish topic full path : {} ", channel);
         redisTemplate.convertAndSend(channel, dto);
     }
 
     @Override
-    public void publish(String channel, ChatMessage dto){
+    public void publish(String channel, Message dto){
         log.info("[RedisPublisher] - publish topic full path : {} ", channel);
         redisTemplate.convertAndSend(channel, dto);
     }

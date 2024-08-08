@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatMessageRequestDTO {
+public class MessageRequestDTO {
     private String chatRoomId;
     private String participateId;
     private String content;

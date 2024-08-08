@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.otclub.humate.domain.chat.mapper.ChatRoomMapper">
+<mapper namespace="com.otclub.humate.domain.chat.mapper.RoomMapper">
 
     <insert id="insertChatRoom" parameterType="com.otclub.humate.common.entity.ChatRoom" useGeneratedKeys="true" keyProperty="chatRoomId">
         <selectKey keyProperty="chatRoomId" resultType="int" order="BEFORE">
@@ -36,7 +36,7 @@
             deleted_at is null
     </select>
 
-    <select id="selectChatRoomDetailDTOListByMemberId" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO">
+    <select id="selectChatRoomDetailDTOListByMemberId" resultType="com.otclub.humate.domain.chat.dto.RoomDetailDTO">
         <![CDATA[
             with chat_room_list as (
                 select
@@ -149,7 +149,7 @@
     </update>
 
 
-    <select id="selectChatRoomDetailDTOByParticipateId" resultType="com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO">
+    <select id="selectChatRoomDetailDTOByParticipateId" resultType="com.otclub.humate.domain.chat.dto.RoomDetailDTO">
         <![CDATA[
         with chat_room_list as (
             select

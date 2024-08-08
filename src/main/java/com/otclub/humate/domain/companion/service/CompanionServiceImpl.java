@@ -2,13 +2,12 @@ package com.otclub.humate.domain.companion.service;
 
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
+import com.otclub.humate.domain.chat.mapper.RoomMapper;
 import com.otclub.humate.domain.companion.dto.CompanionDTO;
 import com.otclub.humate.domain.companion.dto.CompanionDetailsDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.mapper.CompanionMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class CompanionServiceImpl implements CompanionService {
     private final CompanionMapper companionMapper;
-    private final ChatRoomMapper chatRoomMapper;
+    private final RoomMapper roomMapper;
 
     @Override
     public void endCompanion(int companionId, String memberId) {
@@ -45,7 +44,7 @@ public class CompanionServiceImpl implements CompanionService {
     @Override
     @Transactional
     public void startCompanion(String chatRoomId, String memberId) {
-        List<String> members = chatRoomMapper.selectChatRoomMemberById(Integer.parseInt(chatRoomId));
+        List<String> members = roomMapper.selectChatRoomMemberById(Integer.parseInt(chatRoomId));
         log.info("[startCompanion] - {}" , memberId);
         if (!members.contains(memberId)) {
             log.error(ErrorCode.FORBIDDEN_REQUEST.getMessage());

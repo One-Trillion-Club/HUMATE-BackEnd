@@ -25,15 +25,15 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatMessageRedisDTO {
+public class MessageRedisDTO {
     private String chatRoomId;
     private String participateId;
     private String content;
     private MessageType messageType;
     private Date createdAt;
 
-    public static ChatMessageRedisDTO from(ChatMessageRequestDTO requestDTO){
-        return ChatMessageRedisDTO.builder()
+    public static MessageRedisDTO from(MessageRequestDTO requestDTO){
+        return MessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .participateId(requestDTO.getParticipateId())
                 .content(requestDTO.getContent())
@@ -41,10 +41,10 @@ public class ChatMessageRedisDTO {
                 .build();
     }
 
-    public static ChatMessageRedisDTO ofMate(MateUpdateRequestDTO requestDTO, String nickname){
+    public static MessageRedisDTO ofMate(MateUpdateRequestDTO requestDTO, String nickname){
         MessageType messageType = (requestDTO.getIsClicked()==1 ? MessageType.MATE_ACTIVE : MessageType.MATE_INACTIVE);
 
-        return ChatMessageRedisDTO.builder()
+        return MessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .participateId(requestDTO.getParticipateId())
                 .content(nickname)

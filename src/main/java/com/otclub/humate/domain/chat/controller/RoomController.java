@@ -1,10 +1,10 @@
 package com.otclub.humate.domain.chat.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
-import com.otclub.humate.domain.chat.dto.ChatRoomCreateRequestDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomCreateResponseDTO;
-import com.otclub.humate.domain.chat.dto.ChatRoomDetailDTO;
-import com.otclub.humate.domain.chat.service.ChatRoomService;
+import com.otclub.humate.domain.chat.dto.RoomCreateRequestDTO;
+import com.otclub.humate.domain.chat.dto.RoomCreateResponseDTO;
+import com.otclub.humate.domain.chat.dto.RoomDetailDTO;
+import com.otclub.humate.domain.chat.service.RoomService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,29 +33,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
 @Slf4j
-public class ChatRoomController {
-    private final ChatRoomService chatRoomService;
+public class RoomController {
+    private final RoomService roomService;
 
     @ResponseBody
     @PostMapping("/create")
-    public ResponseEntity<ChatRoomCreateResponseDTO> chatRoomCreate(@MemberId String memberId, @RequestBody ChatRoomCreateRequestDTO requestDTO){
-        ChatRoomCreateResponseDTO responseDTO = chatRoomService.createChatRoom(memberId, requestDTO);
+    public ResponseEntity<RoomCreateResponseDTO> chatRoomCreate(@MemberId String memberId, @RequestBody RoomCreateRequestDTO requestDTO){
+        RoomCreateResponseDTO responseDTO = roomService.createChatRoom(memberId, requestDTO);
 
         return ResponseEntity.ok(responseDTO);
     }
 
     @ResponseBody
     @GetMapping("/list")
-    public ResponseEntity<List<ChatRoomDetailDTO>> chatRoomList(@MemberId String memberId){
-        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 1);
+    public ResponseEntity<List<RoomDetailDTO>> chatRoomList(@MemberId String memberId){
+        List<RoomDetailDTO> roomList = roomService.findChatRoomList(memberId, 1);
 
         return ResponseEntity.ok(roomList);
     }
 
     @ResponseBody
     @GetMapping("/list/pending")
-    public ResponseEntity<List<ChatRoomDetailDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
-        List<ChatRoomDetailDTO> roomList = chatRoomService.findChatRoomList(memberId, 0);
+    public ResponseEntity<List<RoomDetailDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
+        List<RoomDetailDTO> roomList = roomService.findChatRoomList(memberId, 0);
 
         return ResponseEntity.ok(roomList);
     }

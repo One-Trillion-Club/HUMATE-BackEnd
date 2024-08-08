@@ -1,9 +1,9 @@
 package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.common.service.RedisPubSubService;
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import com.otclub.humate.domain.chat.vo.ChatMessage;
+import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
+import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
+import com.otclub.humate.domain.chat.vo.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,40 +28,40 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ChatMessageServiceImpl implements ChatMessageService{
+public class MessageServiceImpl implements MessageService {
     private final MongoTemplate mongoTemplate;
     private final RedisPubSubService redisPubSubService;
 
     @Override
-    public void createMessage(ChatMessageRequestDTO requestDTO) {
-        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.from(requestDTO);
+    public void createMessage(MessageRequestDTO requestDTO) {
+        MessageRedisDTO redisDTO = MessageRedisDTO.from(requestDTO);
         sendMessage(redisDTO);
     }
 
 
     @Override
-    public void createMessage(ChatMessageRedisDTO redisDTO) {
+    public void createMessage(MessageRedisDTO redisDTO) {
         sendMessage(redisDTO);
     }
 
     @Override
-    public List<ChatMessage> getListMessage(String chatRoomId) {
+    public List<Message> getListMessage(String chatRoomId) {
         // 목록 조회
-        List<ChatMessage> chatMessageList = mongoTemplate.find(
+        List<Message> messageList = mongoTemplate.find(
                 Query.query(Criteria.where("chatRoomId").is(chatRoomId)),
-                ChatMessage.class
+                Message.class
         );
 
-        return chatMessageList;
+        return messageList;
     }
 
-    private void sendMessage(ChatMessageRedisDTO redisDTO){
-        ChatMessage chatMessage = ChatMessage.of(redisDTO);
+    private void sendMessage(MessageRedisDTO redisDTO){
+        Message message = Message.of(redisDTO);
 
         // 몽고디비 저장하기
-        mongoTemplate.insert(chatMessage);
+        mongoTemplate.insert(message);
 
         //Message 전송
-        redisPubSubService.publish(chatMessage.getChatRoomId(), chatMessage);
+        redisPubSubService.publish(message.getChatRoomId(), message);
     }
 }

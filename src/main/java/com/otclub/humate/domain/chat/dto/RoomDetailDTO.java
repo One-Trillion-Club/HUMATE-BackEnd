@@ -23,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatRoomDetailDTO {
+public class RoomDetailDTO {
     private int chatRoomId;
     private String memberId;
     private int participateId;

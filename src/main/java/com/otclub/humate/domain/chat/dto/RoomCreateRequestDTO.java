@@ -2,7 +2,6 @@ package com.otclub.humate.domain.chat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -24,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatRoomCreateRequestDTO {
+public class RoomCreateRequestDTO {
     private int postId;
     //private String applicantId;
     private String writerId;

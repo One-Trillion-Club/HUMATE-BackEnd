@@ -4,9 +4,9 @@ import com.otclub.humate.common.entity.ChatParticipate;
 import com.otclub.humate.common.entity.Member;
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
+import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO;
-import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
+import com.otclub.humate.domain.chat.mapper.RoomMapper;
 import com.otclub.humate.domain.chat.mapper.MateMapper;
 import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +30,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MateServiceImpl implements MateService {
     private final MateMapper mateMapper;
-    private final ChatRoomMapper chatRoomMapper;
+    private final RoomMapper roomMapper;
     private final MemberMapper memberMapper;
-    private final ChatMessageService chatMessageService;
+    private final MessageService messageService;
 
     @Override
     public void modifyMate(MateUpdateRequestDTO requestDTO) {
         // 채팅방에 참여한 회원인지 확인하기
-        ChatParticipate chatParticipate = chatRoomMapper.selectChatParticipantByParticipateId(requestDTO.getParticipateId())
+        ChatParticipate chatParticipate = roomMapper.selectChatParticipantByParticipateId(requestDTO.getParticipateId())
                 .orElseThrow(() -> new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
         log.info("[[MateServiceImpl] - chatParticipate : {} ", chatParticipate.toString());
 
@@ -55,18 +55,18 @@ public class MateServiceImpl implements MateService {
             throw new CustomException(ErrorCode.FORBIDDEN_REQUEST);
         }
 
-        int cnt = chatRoomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId());
+        int cnt = roomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId());
         log.info("[MateServiceImpl] - selectParticipatesClickCount {} ", cnt);
 
-        if(chatRoomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId())==2){
+        if(roomMapper.selectParticipatesClickCount(requestDTO.getChatRoomId())==2){
             log.info("[MateServiceImpl] - 들어옴  ");
-            int status = chatRoomMapper.updateChatRoomStatus(requestDTO.getChatRoomId());
+            int status = roomMapper.updateChatRoomStatus(requestDTO.getChatRoomId());
             log.info("[MateServiceImpl] - updateChatRoomStatus {} ", status);
         }
 
         // 메이트 안내 채팅 전송하기
-        ChatMessageRedisDTO redisDTO = ChatMessageRedisDTO.ofMate(requestDTO, member.getNickname());
-        chatMessageService.createMessage(redisDTO);
+        MessageRedisDTO redisDTO = MessageRedisDTO.ofMate(requestDTO, member.getNickname());
+        messageService.createMessage(redisDTO);
 
     }
 }

@@ -2,9 +2,9 @@ package com.otclub.humate.common.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.otclub.humate.common.service.RedisWebSocketSessionManager;
-import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
+import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
 import com.otclub.humate.common.service.RedisPubSubService;
-import com.otclub.humate.domain.chat.service.ChatMessageService;
+import com.otclub.humate.domain.chat.service.MessageService;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequiredArgsConstructor
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler {
-    private final ChatMessageService chatMessageService;
+    private final MessageService messageService;
     private final RedisPubSubService redisPubSubService;
     private final RedisWebSocketSessionManager sessionManager;
     private final ObjectMapper objectMapper;
@@ -49,10 +49,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         log.info("[WebSocketHandler] - handleTextMessage id : {}, payload : {}" , id, payload);
 
-        ChatMessageRequestDTO requestDTO = objectMapper.readValue(payload, ChatMessageRequestDTO.class);
+        MessageRequestDTO requestDTO = objectMapper.readValue(payload, MessageRequestDTO.class);
         log.info("[WebSocketHandler] - requestDTO {}" , requestDTO.toString());
 
-        chatMessageService.createMessage(requestDTO); // 메시지를 Redis 에 publish
+        messageService.createMessage(requestDTO); // 메시지를 Redis 에 publish
     }
 
     private String extractMemberId(WebSocketSession session){

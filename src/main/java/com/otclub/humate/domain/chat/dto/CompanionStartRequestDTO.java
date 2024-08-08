@@ -6,6 +6,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ChatRoomRequestDTO {
+public class CompanionStartRequestDTO {
     private String chatRoomId;
 }

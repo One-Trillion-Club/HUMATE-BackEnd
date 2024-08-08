@@ -1,8 +1,8 @@
 package com.otclub.humate.domain.chat.service;
 
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.dto.ChatMessageRequestDTO;
-import com.otclub.humate.domain.chat.vo.ChatMessage;
+import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
+import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
+import com.otclub.humate.domain.chat.vo.Message;
 import java.util.List;
 
 /**
@@ -18,9 +18,9 @@ import java.util.List;
  * 2024.07.29  	최유경        최초 생성
  * </pre>
  */
-public interface ChatMessageService {
-    void createMessage(ChatMessageRequestDTO requestDTO);
-    void createMessage(ChatMessageRedisDTO redisDTO);
+public interface MessageService {
+    void createMessage(MessageRequestDTO requestDTO);
+    void createMessage(MessageRedisDTO redisDTO);
 
-    List<ChatMessage> getListMessage(String roomId);
+    List<Message> getListMessage(String roomId);
 }
