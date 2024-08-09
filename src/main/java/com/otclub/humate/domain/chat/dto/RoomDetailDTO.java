@@ -1,9 +1,11 @@
 package com.otclub.humate.domain.chat.dto;
 
+import com.otclub.humate.domain.chat.vo.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -42,9 +44,10 @@ public class RoomDetailDTO {
     private int isClicked;
     // 매칭 여부
     private int isMatched;
-//    private String latestContent; // 마지막 메시지
-//    private String latestContentTime; // 마지막 메시지 전송 시간
-
+    // 마지막 메시지
+    private String latestContent;
+    // 마지막 메시지 전송 시간
+    private String latestContentTime;
     // 상대방 닉네임
     private String targetNickname;
     // 상대방 회원 ID
@@ -55,5 +58,13 @@ public class RoomDetailDTO {
     private String targetProfileImgUrl;
     // 상대방 메이트 맺기 클릭 여부
     private int targetIsClicked;
+
+    public void setLatestContent(String latestContent) {
+        this.latestContent = latestContent;
+    }
+
+    public void setLatestContentTime(String latestContentTime) {
+        this.latestContentTime = latestContentTime;
+    }
 }
 

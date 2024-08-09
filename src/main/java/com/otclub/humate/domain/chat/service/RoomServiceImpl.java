@@ -9,6 +9,7 @@ import com.otclub.humate.domain.chat.dto.RoomCreateRequestDTO;
 import com.otclub.humate.domain.chat.dto.RoomCreateResponseDTO;
 import com.otclub.humate.domain.chat.dto.RoomDetailDTO;
 import com.otclub.humate.domain.chat.mapper.RoomMapper;
+import com.otclub.humate.domain.chat.vo.Message;
 import com.otclub.humate.domain.mate.mapper.PostMapper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomServiceImpl implements RoomService {
     private final RoomMapper roomMapper;
     private final PostMapper postMapper;
+    private final MessageServiceImpl messageService;
 
     /**
      * 채팅방 생성
@@ -84,6 +86,18 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDetailDTO> findChatRoomDetailList(String memberId, int isMatched) {
         List<RoomDetailDTO> roomList = roomMapper.selectChatRoomDetailDTOListByMemberId(memberId, isMatched);
+        for(RoomDetailDTO detailDTO : roomList){
+            Message message = messageService.getLatestMessage(String.valueOf(detailDTO.getChatRoomId()));
+            if(message == null){
+                detailDTO.setLatestContent("");
+                detailDTO.setLatestContentTime("");
+            }
+            else{
+                detailDTO.setLatestContent(message.getContent());
+                detailDTO.setLatestContentTime(message.getCreatedAt());
+            }
+
+        }
         return roomList;
     }
 

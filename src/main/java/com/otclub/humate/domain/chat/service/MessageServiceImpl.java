@@ -3,12 +3,12 @@ package com.otclub.humate.domain.chat.service;
 import com.otclub.humate.common.service.RedisPubSubService;
 import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
-import com.otclub.humate.domain.chat.dto.RoomHistoryMessageResponseDTO;
 import com.otclub.humate.domain.chat.mapper.RoomMapper;
 import com.otclub.humate.domain.chat.vo.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -89,5 +89,19 @@ public class MessageServiceImpl implements MessageService {
 
         //Message 전송
         redisPubSubService.publish(message.getChatRoomId(), message);
+    }
+
+
+    @Override
+    public Message getLatestMessage(String chatRoomId){
+        Query query = new Query();
+
+        query.addCriteria(Criteria.where("chatRoomId").is(chatRoomId));
+
+        query.with(Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        query.limit(1);
+
+        return mongoTemplate.findOne(query, Message.class);
     }
 }
