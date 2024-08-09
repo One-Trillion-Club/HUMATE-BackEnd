@@ -34,6 +34,13 @@ public class ReviewServiceImpl implements ReviewService {
     private final CompanionMapper companionMapper;
     private final ReviewMapper reviewMapper;
 
+    /**
+     * 동행 정보 조회
+     *
+     * @param companionId
+     * @param memberId
+     * @return
+     */
     @Override
     public ReviewResponseDTO findCompanionInfo(int companionId, String memberId) {
         CompanionPostDTO companionPostDTO = companionMapper
@@ -43,6 +50,12 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewResponseDTO.of(companionPostDTO, memberId);
     }
 
+    /**
+     * 후기 등록
+     *
+     * @param reviewRequestDTO
+     * @param memberId
+     */
     @Override
     @Transactional
     public void saveReview(ReviewRequestDTO reviewRequestDTO, String memberId) {
