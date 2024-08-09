@@ -7,6 +7,18 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 동행 응답 dto
+ * @author 손승완
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	손승완        최초 생성
+ * </pre>
+ */
 @Getter
 @Builder
 public class CompanionResponseDTO {

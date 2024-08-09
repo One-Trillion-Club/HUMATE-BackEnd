@@ -13,6 +13,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 동행 controller
+ * @author 손승완
+ * @since 2024.07.29
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.29  	손승완        최초 생성
+ * 2024.08.06   손승완        동행 시작 기능 추가
+ * </pre>
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/companions")
@@ -20,6 +33,28 @@ import java.util.List;
 public class CompanionController {
     private final CompanionService companionService;
 
+    /**
+     *
+     * 동행 목록 조회
+     *
+     * @author 손승완
+     * @param memberId
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity<List<CompanionResponseDTO>> companionList(@MemberId String memberId) {
+        return ResponseEntity.ok(companionService.findCompanionList(memberId));
+    }
+
+    /**
+     * 동행 시작
+     *
+     *
+     * @author 손승완
+     * @param chatRoomId
+     * @param memberId
+     * @return
+     */
     @PostMapping("/start")
     public ResponseEntity<CommonResponseDTO> companionStart(@RequestBody ChatRoomRequestDTO chatRoomId,
                                                             @MemberId String memberId) {
@@ -28,25 +63,21 @@ public class CompanionController {
         return ResponseEntity.ok(new CommonResponseDTO(true, "동행이 시작되었습니다."));
     }
 
+    /**
+     * 동행 종료
+     *
+     * @author 손승완
+     * @param companionId
+     * @param memberId
+     * @return
+     */
     @DeleteMapping ("/finish")
     public ResponseEntity<CommonResponseDTO> companionFinish(@RequestParam("companionId") int companionId,
                                                              @MemberId String memberId) {
-        // 접속한 회원이 참여 중인 동행에 한해서 종료가능해야한다.(검증 로직 추가 필요)
-
         // 동행 종료 -> 종료일 현재 시간으로 갱신
         companionService.endCompanion(companionId, memberId);
 
         return ResponseEntity.ok(new CommonResponseDTO(true, "동행이 종료되었습니다."));
-    }
-
-    /**
-     * 동행 목록 조회
-     * @author : 손승완
-     *
-     * */
-    @GetMapping
-    public ResponseEntity<List<CompanionResponseDTO>> companionList(@MemberId String memberId) {
-        return ResponseEntity.ok(companionService.findCompanionList(memberId));
     }
 
 }
