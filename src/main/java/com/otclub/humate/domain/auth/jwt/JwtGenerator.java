@@ -17,13 +17,13 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.REFRESH_TOKEN_EXPIRE_T
 /**
  * JWT 토큰 생성 클래스
  * @author 조영욱
- * @since 2024.07.29
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * </pre>
  */
 @Component

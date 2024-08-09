@@ -1,5 +1,6 @@
 package com.otclub.humate.common.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
 import net.nurigo.sdk.message.model.Message;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
  * </pre>
  */
 @Component
+@Slf4j
 public class SmsService {
 
     @Value("${coolsms.apiKey}")
@@ -29,7 +31,13 @@ public class SmsService {
     @Value("${coolsms.fromNumber}")
     private String fromNumber;
 
-    // 인증번호 전송하기
+    /**
+     * 휴대전화 인증 메시지 전송
+     *
+     * @author 조영욱
+     * @param phoneNumber 전화번호
+     * @param code 인증 코드
+     */
     public void sendPhoneVerifySMS(String phoneNumber, String code) {
         DefaultMessageService messageService =
                 NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
@@ -42,10 +50,10 @@ public class SmsService {
         try {
             messageService.send(message);
         } catch (NurigoMessageNotReceivedException exception) {
-            System.out.println(exception.getFailedMessageList());
-            System.out.println(exception.getMessage());
+            log.error(exception.getFailedMessageList().toString());
+            log.error(exception.getMessage());
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            log.error(exception.getMessage());
         }
     }
 }

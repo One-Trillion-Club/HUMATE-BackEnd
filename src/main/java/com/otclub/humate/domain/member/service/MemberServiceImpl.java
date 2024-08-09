@@ -20,13 +20,13 @@ import java.util.List;
 /**
  * 회원 서비스 구현체
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.08.04   조영욱        마이페이지 메소드 추가
  * </pre>
  */
@@ -90,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
-     * 내 메이트 조회
+     * 메이트 프로필 조회
      *
      * @author 조영욱
      */

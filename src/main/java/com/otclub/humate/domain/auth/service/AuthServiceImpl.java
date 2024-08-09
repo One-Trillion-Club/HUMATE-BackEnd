@@ -13,6 +13,7 @@ import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -32,13 +33,13 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.*;
 /**
  * 인증/인가 서비스 구현체
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.07.30   조영욱        JWT 토큰 리프레시 추가
  * 2024.07.31   조영욱        휴대폰 인증 추가
  * 2024.07.31   조영욱        여권 인증 추가
@@ -165,6 +166,7 @@ public class AuthServiceImpl implements AuthService {
         Member member = mapper.selectMemberById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
+        // 이부분 주석 풀 시 한 클라이언트에서만 접속 가능
 //        if (!refreshToken.equals(member.getRefreshToken())) {
 //            throw new Exception();
 //        }
@@ -184,6 +186,7 @@ public class AuthServiceImpl implements AuthService {
      * 휴대폰 인증 번호 생성
      *
      * @author 조영욱
+     * @return 인증 코드
      */
     public String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto) {
         String phone = dto.getPhone();
@@ -323,7 +326,8 @@ public class AuthServiceImpl implements AuthService {
                 .uri(accessTokenIssuanceUrl)
                 .header("Authorization", accessTokenIssuanceAuthValue)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                })
                 .block(); // 동기식으로 처리
 
         String accessToken = "Bearer " + response.get("access_token");
@@ -335,5 +339,4 @@ public class AuthServiceImpl implements AuthService {
         log.info("\n\n**여권인증 액세스키 발급 완료**\n\n");
         return accessToken;
     }
-
 }

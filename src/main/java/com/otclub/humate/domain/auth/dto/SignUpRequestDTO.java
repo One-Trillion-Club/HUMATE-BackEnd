@@ -7,13 +7,13 @@ import lombok.ToString;
 /**
  * 사용자 회원가입 Request DTO
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * </pre>
  */
 @Getter
@@ -32,5 +32,6 @@ public class SignUpRequestDTO {
     private String language;
     private String phone;
     private String passportNo;
+    // 핸드폰/여권 인증 성공 시 반환한 성공보증코드
     private String verifyCode;
 }
