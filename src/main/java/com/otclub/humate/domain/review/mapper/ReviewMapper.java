@@ -18,5 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ReviewMapper {
+    // 후기 등록 및 멤버 매너 온도 변경
     void insertReviewAndUpdateManner(Review review);
 }

@@ -45,6 +45,7 @@ public class ActivityServiceImpl implements ActivityService {
      *
      * @param companionId
      * @param memberId
+     * @exception CustomException NOT_EXISTS_COMPANION
      * @return
      */
     @Override
@@ -93,6 +94,7 @@ public class ActivityServiceImpl implements ActivityService {
      *
      * @param companionActivityId
      * @param memberId
+     * @exception CustomException FORBIDDEN_REQUEST
      * @return
      */
     @Override
@@ -107,6 +109,7 @@ public class ActivityServiceImpl implements ActivityService {
      * @param uploadActivityRequestDTO
      * @param images
      * @param memberId
+     * @exception CustomException ALREADY_EXISTS_ACTIVITY, NOT_EXISTS_COMPANION, UPLOAD_FAIL
      */
     @Override
     @Transactional

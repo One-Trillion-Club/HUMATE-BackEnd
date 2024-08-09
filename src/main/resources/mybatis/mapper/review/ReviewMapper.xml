@@ -17,6 +17,7 @@
  * </pre>
  -->
 <mapper namespace="com.otclub.humate.domain.review.mapper.ReviewMapper">
+    <!-- 후기 등록 및 멤버 매너 온도 변경 -->
     <select id="insertReviewAndUpdateManner"
             statementType="CALLABLE"
             parameterType="com.otclub.humate.common.entity.Review">

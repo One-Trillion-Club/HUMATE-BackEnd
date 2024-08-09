@@ -25,22 +25,29 @@ import java.util.Optional;
  */
 @Mapper
 public interface CompanionMapper {
+    // 동행 상태 변경
     int updateCompanionStatusById(int companionId);
 
+    // 동행 매칭 정보 조회
     Optional<CompanionPostDTO> selectCompanionAndPost(
             @Param("companionId") int companionId,
             @Param("memberId") String memberId);
 
+    // 동행 정보 조회
     Optional<Companion> selectCompanionByIds(
             @Param("companionId") int companionId,
             @Param("memberId") String memberId);
 
+    // 동행 목록 조회
     List<CompanionDetailsDTO> selectCompanionListByMemberId(String memberId);
 
+    // 동행 id로 매칭 제목 조회
     CompanionInfoDTO selectPostTitleById(int companionId);
 
+    // 해당 동행에 대해 참여하고 있는 동행인지 조회
     int countCompanionByMemberIdAndCompanionId(@Param("memberId") String memberId,
                                                @Param("companionId") int companionId);
 
+    // 동행 생성
     int insertCompanion(CompanionDTO companionDTO);
 }

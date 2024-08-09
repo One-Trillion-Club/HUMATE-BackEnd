@@ -39,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
      *
      * @param companionId
      * @param memberId
+     * @exception CustomException NOT_EXISTS_COMPANION
      * @return
      */
     @Override
@@ -55,6 +56,8 @@ public class ReviewServiceImpl implements ReviewService {
      *
      * @param reviewRequestDTO
      * @param memberId
+     * @exception CustomException NOT_EXISTS_COMPANION, REVIEW_FAIL
+     *
      */
     @Override
     @Transactional

@@ -18,7 +18,9 @@
  *
  * </pre>
  -->
+
 <mapper namespace="com.otclub.humate.domain.activity.mapper.ActivityMapper">
+    <!-- 완료된 활동 목록 조회 -->
     <select id="selectCompanionActivityHistoryList"
             resultType="com.otclub.humate.domain.activity.dto.ClearedMissionDTO">
 
@@ -40,13 +42,23 @@
             c.status
     </select>
 
+    <!-- 새로운 활동 목록 조회 -->
     <select id="selectActivityList" resultType="com.otclub.humate.common.entity.Activity">
         select
-            *
+            activity_id,
+            title_ko,
+            title_en,
+            content_ko,
+            content_en,
+            point,
+            img_url,
+            created_at,
+            deleted_at
         from
             activity
     </select>
 
+    <!-- 새로운 활동 상세 조회 -->
     <select id="selectActivityById" resultType="com.otclub.humate.domain.activity.dto.NewMissionDTO">
         select
             activity_id,
@@ -55,7 +67,8 @@
             content_ko,
             content_en,
             point,
-            img_url
+            img_url,
+            created_at
         from
             activity
         where
@@ -71,6 +84,7 @@
                     column="companion_activity_id" select="selectImgUrlListById"/>
     </resultMap>
 
+    <!-- 완료된 활동 상세 조회 -->
     <select id="selectCompanionActivityHistoryById"
             resultMap="companionActivityHistoryDetails">
         select
@@ -93,6 +107,7 @@
           and (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
     </select>
 
+    <!-- 완료된 활동 이미지 url 목록 조회 -->
     <select id="selectImgUrlListById" resultType="string">
         select
             img_url
@@ -102,6 +117,7 @@
             companion_activity_id = #{companionActivityId}
     </select>
 
+    <!-- 동행 검증 -->
     <select id="validateInsertCompanionActivity" resultType="java.lang.Integer">
         SELECT CASE
                    WHEN EXISTS(SELECT 1
@@ -118,6 +134,7 @@
         from dual
     </select>
 
+    <!-- 수행한 활동 저장 -->
     <insert id="insertCompanionActivityHistory" parameterType="com.otclub.humate.common.entity.CompanionActivityHistory"
             useGeneratedKeys="true" keyProperty="companionActivityId">
         <selectKey keyProperty="companionActivityId" resultType="int" order="BEFORE">
@@ -133,6 +150,7 @@
             (#{companionActivityId}, #{companionId}, #{activityId}, #{status})
     </insert>
 
+    <!-- 수행한 활동 이미지 목록 저장 -->
     <insert id="insertCompanionActivityImgList" parameterType="java.util.List">
         insert into
             companion_activity_img(companion_activity_img_id, companion_activity_id, img_url)

@@ -41,6 +41,7 @@ public class CompanionServiceImpl implements CompanionService {
      * @author 손승완
      * @param companionId
      * @param memberId
+     * @exception CustomException NOT_EXISTS_COMPANION, CANCEL_COMPANION_FAIL
      */
     @Override
     @Transactional(readOnly = true)
@@ -76,6 +77,7 @@ public class CompanionServiceImpl implements CompanionService {
      * @author 손승완
      * @param chatRoomId
      * @param memberId
+     * @exception CustomException FORBIDDEN_REQUEST, FAILED_COMPANION_START
      */
     @Override
     @Transactional
