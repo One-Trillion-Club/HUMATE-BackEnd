@@ -25,6 +25,4 @@ import lombok.ToString;
 @ToString
 public class RoomCreateRequestDTO {
     private int postId;
-    //private String applicantId;
-    private String writerId;
 }

@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoomController {
     private final RoomService roomService;
 
-    @ResponseBody
     @PostMapping("/create")
     public ResponseEntity<RoomCreateResponseDTO> chatRoomCreate(@MemberId String memberId, @RequestBody RoomCreateRequestDTO requestDTO){
         RoomCreateResponseDTO responseDTO = roomService.createChatRoom(memberId, requestDTO);
@@ -44,10 +43,9 @@ public class RoomController {
         return ResponseEntity.ok(responseDTO);
     }
 
-    @ResponseBody
     @GetMapping("/list")
     public ResponseEntity<List<RoomDetailDTO>> chatRoomList(@MemberId String memberId){
-        List<RoomDetailDTO> roomList = roomService.findChatRoomList(memberId, 1);
+        List<RoomDetailDTO> roomList = roomService.findChatRoomDetailList(memberId, 1);
 
         return ResponseEntity.ok(roomList);
     }
@@ -55,7 +53,7 @@ public class RoomController {
     @ResponseBody
     @GetMapping("/list/pending")
     public ResponseEntity<List<RoomDetailDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
-        List<RoomDetailDTO> roomList = roomService.findChatRoomList(memberId, 0);
+        List<RoomDetailDTO> roomList = roomService.findChatRoomDetailList(memberId, 0);
 
         return ResponseEntity.ok(roomList);
     }

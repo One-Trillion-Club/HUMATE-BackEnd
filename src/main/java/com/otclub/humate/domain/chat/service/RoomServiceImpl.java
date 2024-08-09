@@ -55,7 +55,7 @@ public class RoomServiceImpl implements RoomService {
         log.info("[createChatRoom] - {}", chatRoom.toString());
         // 채팅방 참여 유저 설정하기
         ChatParticipate applicant = ChatParticipate.of(chatRoom, memberId);
-        ChatParticipate writer = ChatParticipate.of(chatRoom, requestDTO.getWriterId());
+        ChatParticipate writer = ChatParticipate.of(chatRoom, post.getMemberId());
 
         // 채팅방에 참여시키기
         roomMapper.insertChatParticipant(applicant);
@@ -65,8 +65,15 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomDetailDTO> findChatRoomList(String memberId, int isMatched) {
+    public List<RoomDetailDTO> findChatRoomDetailList(String memberId, int isMatched) {
         List<RoomDetailDTO> roomList = roomMapper.selectChatRoomDetailDTOListByMemberId(memberId, isMatched);
         return roomList;
+    }
+
+    @Override
+    public RoomDetailDTO findChatRoomDetail(String participateId) {
+        RoomDetailDTO detailDTO = roomMapper.selectChatRoomDetailDTOByParticipateId(participateId);
+
+        return detailDTO;
     }
 }

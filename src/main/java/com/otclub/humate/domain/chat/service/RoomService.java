@@ -20,5 +20,7 @@ import java.util.List;
  */
 public interface RoomService {
     RoomCreateResponseDTO createChatRoom(String memberId, RoomCreateRequestDTO requestDTO); // 채팅방 생성
-    List<RoomDetailDTO> findChatRoomList(String memberId, int isMatched);
+    List<RoomDetailDTO> findChatRoomDetailList(String memberId, int isMatched);
+
+    RoomDetailDTO findChatRoomDetail(String participateId);
 }

@@ -1,5 +1,7 @@
 package com.otclub.humate.domain.chat.controller;
 
+import com.otclub.humate.domain.chat.dto.RoomDetailDTO;
+import com.otclub.humate.domain.chat.service.RoomService;
 import com.otclub.humate.domain.chat.vo.Message;
 import com.otclub.humate.domain.chat.service.MessageService;
 import java.util.List;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 채팅 메세지 컨트롤러
@@ -26,11 +29,13 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/chat")
 @Slf4j
 public class MessageController {
     private final MessageService messageService;
+    private final RoomService roomService;
 
-    @GetMapping("/chat/{chatRoomId}")
+    @GetMapping("/{chatRoomId}")
     public ResponseEntity<List<Message>> chatHistoryList(@PathVariable("chatRoomId") String chatRoomId){
         log.info("[채팅내역조회] - {}", chatRoomId);
         List<Message> messageList = messageService.getListMessage(chatRoomId);
@@ -38,10 +43,11 @@ public class MessageController {
         return ResponseEntity.ok(messageList);
     }
 
-    @GetMapping("/chat/history/{chatRoomId}")
-    public ResponseEntity<List<Message>> chatMessageHistoryList(@PathVariable("chatRoomId") String chatRoomId){
-        log.info("[채팅내역조회] - {}", chatRoomId);
-        List<Message> messageList = messageService.getListMessage(chatRoomId);
+    @GetMapping("/history/{participateId}")
+    public ResponseEntity<List<Message>> chatMessageHistoryList(@PathVariable("participateId") String participateId){
+        log.info("[채팅내역조회] - {}", participateId);
+        RoomDetailDTO detailDTO = roomService.findChatRoomDetail(participateId);
+        List<Message> messageList = messageService.getListMessage(String.valueOf(detailDTO.getChatRoomId()));
 
         return ResponseEntity.ok(messageList);
     }

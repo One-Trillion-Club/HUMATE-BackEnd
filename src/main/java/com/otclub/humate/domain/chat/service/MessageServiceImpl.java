@@ -3,6 +3,8 @@ package com.otclub.humate.domain.chat.service;
 import com.otclub.humate.common.service.RedisPubSubService;
 import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
+import com.otclub.humate.domain.chat.dto.RoomHistoryMessageResponseDTO;
+import com.otclub.humate.domain.chat.mapper.RoomMapper;
 import com.otclub.humate.domain.chat.vo.Message;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
+    private final RoomMapper roomMapper;
     private final MongoTemplate mongoTemplate;
     private final RedisPubSubService redisPubSubService;
 

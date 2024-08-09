@@ -2,6 +2,7 @@ package com.otclub.humate.domain.chat.service;
 
 import com.otclub.humate.domain.chat.dto.MessageRedisDTO;
 import com.otclub.humate.domain.chat.dto.MessageRequestDTO;
+import com.otclub.humate.domain.chat.dto.RoomHistoryMessageResponseDTO;
 import com.otclub.humate.domain.chat.vo.Message;
 import java.util.List;
 
