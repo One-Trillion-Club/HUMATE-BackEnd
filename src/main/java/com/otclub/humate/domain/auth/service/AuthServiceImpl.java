@@ -71,9 +71,9 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 새 사용자 회원 가입
-     * 로그인 id, 닉네임 중복 시 실패한다.
      *
      * @author 조영욱
+     * @apiNote 로그인 id, 닉네임 중복 시 실패한다.
      * @param dto 회원가입 사용자 정보
      */
     @Transactional
@@ -155,9 +155,9 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * JWT 토큰 리프레시
-     * 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
      *
      * @author 조영욱
+     * @apiNote 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
      * @param memberId 유저 id
      * @param refreshToken validate 된 리프레시 토큰 값
      */

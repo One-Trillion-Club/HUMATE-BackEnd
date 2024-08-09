@@ -38,9 +38,9 @@ public class AuthController {
 
     /**
      * 새 사용자 회원가입
-     * 로그인 id, 닉네임 중복 시 실패한다.
      *
      * @author 조영욱
+     * @apiNote 로그인 id, 닉네임 중복 시 실패한다.
      * @param dto 회원가입 사용자 정보
      *
      */
@@ -70,11 +70,10 @@ public class AuthController {
 
     /**
      * 회원 로그인
-     * JWT 토큰을 발급하고 클라이언트의 쿠키에 저장
      *
      * @author 조영욱
+     * @apiNote JWT 토큰을 발급하고 클라이언트의 쿠키에 저장
      * @param dto 회원 로그인 아이디, 비밀번호
-     * @param response
      */
     @PostMapping("/login")
     public ResponseEntity<CommonResponseDTO> logIn(@RequestBody LogInRequestDTO dto, HttpServletResponse response) {
@@ -95,9 +94,9 @@ public class AuthController {
 
     /**
      * 회원 로그아웃
-     * JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
      *
      * @author 조영욱
+     * @apiNote JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
      */
     @PostMapping("/logout")
     public ResponseEntity<CommonResponseDTO> logOut(HttpServletResponse response) {
