@@ -10,6 +10,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 후기 controller
+ * @author 손승완
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	손승완        최초 생성
+ * </pre>
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reviews")
@@ -18,10 +30,11 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     /**
-     * 후기 남기기 페이지 조회
-     * @author : 손승완
-     * @param : 동행 ID
+     * 후기 등록 페이지 조회
      *
+     * @param companionId
+     * @param memberId
+     * @return
      */
     @GetMapping
     public ResponseEntity<ReviewResponseDTO> reviewAddPage(@RequestParam("companionId") int companionId,
@@ -31,7 +44,10 @@ public class ReviewController {
 
     /**
      * 후기 등록
-     * @author : 손승완
+     *
+     * @param reviewRequestDTO
+     * @param memberId
+     * @return
      */
     @PostMapping
     public ResponseEntity<CommonResponseDTO> reviewAdd(@RequestBody ReviewRequestDTO reviewRequestDTO,

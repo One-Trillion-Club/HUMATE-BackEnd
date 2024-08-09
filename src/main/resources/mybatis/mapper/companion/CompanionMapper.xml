@@ -2,7 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--
+ * 동행 mapper.xml
+ * @author 손승완
+ * @since 2024.07.30
+ * @version 1.1
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  =========    =========
+ * 2024.07.30  	손승완        동행 종료 쿼리 추가
+ * 2024.08.01   손승완        동행에 대한 매칭 정보 및 회원 정보 조회 쿼리 추가
+ *
+ * </pre>
+ -->
 <mapper namespace="com.otclub.humate.domain.companion.mapper.CompanionMapper">
+    <!--동행 상태 변경-->
     <update id="updateCompanionStatusById">
         update companion
         set finished_at = sysdate
@@ -18,31 +33,45 @@
             f.nickname first_member_nickname,
             s.member_id second_member_id,
             s.nickname second_member_nickname
-        from companion c
-            join chat_room r
-                on c.chat_room_id = r.chat_room_id
-            join member f
-                on c.first_member_id = f.member_id
-            join member s
-                on c.second_member_id = s.member_id
-        where c.companion_id = #{companionId}
+        from
+            companion c
+        join
+            chat_room r
+        on
+            c.chat_room_id = r.chat_room_id
+        join
+            member f
+        on
+            c.first_member_id = f.member_id
+        join
+            member s
+        on
+            c.second_member_id = s.member_id
+        where
+            c.companion_id = #{companionId}
             and (f.MEMBER_ID = #{memberId} or s.member_id = #{memberId})
     </select>
 
+    <!-- 동행 정보 조회 -->
     <select id="selectCompanionByIds" resultType="com.otclub.humate.common.entity.Companion">
         select
             c.companion_id,
             c.first_member_id,
             c.second_member_id
-        from companion c
-            left join review r
-                on c.companion_id = r.companion_id
-        where c.companion_id = #{companionId}
+        from
+            companion c
+        left join
+            review r
+        on
+            c.companion_id = r.companion_id
+        where
+            c.companion_id = #{companionId}
             and (c.first_member_id = #{memberId} OR c.second_member_id = #{memberId})
             and c.finished_at is not null
             and (r.reviewer_id is null or r.reviewer_id != #{memberId})
     </select>
 
+    <!-- 동행 목록 조회 -->
     <select id="selectCompanionListByMemberId"
             resultType="com.otclub.humate.domain.companion.dto.CompanionDetailsDTO">
         select
@@ -57,27 +86,41 @@
             cr.post_title,
             cr.match_date,
             cr.match_branch
-        from companion c
-                 join member fm
-                      on c.first_member_id = fm.member_id
-                 join member sm
-                      on c.second_member_id = sm.member_id
-                 join chat_room cr
-                      on c.chat_room_id = cr.chat_room_id
-        where (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
-        order by c.finished_at desc
+        from
+            companion c
+         join
+            member fm
+          on
+              c.first_member_id = fm.member_id
+         join
+            member sm
+          on
+              c.second_member_id = sm.member_id
+         join
+            chat_room cr
+          on
+            c.chat_room_id = cr.chat_room_id
+        where
+            (c.first_member_id = #{memberId} or c.second_member_id = #{memberId})
+        order by
+            c.finished_at desc
     </select>
 
+    <!-- 동행 id로 매칭 제목 조회 -->
     <select id="selectPostTitleById" resultType="com.otclub.humate.domain.activity.dto.CompanionInfoDTO">
         select
             r.post_title,
-           NVL2(c.FINISHED_AT, 1, 0) is_finished
-        from companion c
-             join chat_room r
-                on c.chat_room_id = r.chat_room_id
+            NVL2(c.FINISHED_AT, 1, 0) is_finished
+        from
+            companion c
+        join
+            chat_room r
+        on
+            c.chat_room_id = r.chat_room_id
         where c.companion_id = #{companionId}
     </select>
 
+    <!-- 해당 동행에 대해 참여하고 있는 동행인지 조회 -->
     <select id="countCompanionByMemberIdAndCompanionId" resultType="int">
         select
             count(companion_id)
@@ -88,10 +131,14 @@
             and (first_member_id = #{memberId} or second_member_id = #{memberId})
     </select>
 
+    <!-- 동행 생성 -->
     <insert id="insertCompanion" parameterType="com.otclub.humate.domain.companion.dto.CompanionDTO"
             useGeneratedKeys="true" keyProperty="companionId">
         <selectKey keyProperty="companionId" resultType="int" order="BEFORE">
-            SELECT seq_companion.nextval FROM dual
+            SELECT
+                seq_companion.nextval
+            FROM
+                dual
         </selectKey>
 
         <![CDATA[

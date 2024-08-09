@@ -18,6 +18,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 활동 service 인터페이스
+ * @author 손승완
+ * @since 2024.07.30
+ * @version 1.2
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	손승완        최초 생성
+ * 2024.08.01   손승완        업로드 메서드 추가
+ * 2024.08.04   손승완        검증 로직 추가
+ * </pre>
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -26,6 +40,14 @@ public class ActivityServiceImpl implements ActivityService {
     private final CompanionMapper companionMapper;
     private final S3Uploader s3Uploader;
 
+    /**
+     * 활동 목록 조회
+     *
+     * @param companionId
+     * @param memberId
+     * @exception CustomException NOT_EXISTS_COMPANION
+     * @return
+     */
     @Override
     @Transactional(readOnly = true)
     public MissionResponseDTO findActivities(int companionId, String memberId) {
@@ -56,17 +78,39 @@ public class ActivityServiceImpl implements ActivityService {
         return MissionResponseDTO.of(companionActivityHistories, activities, companionInfoDTO);
     }
 
+    /**
+     * 새로운 활동 조회
+     *
+     * @param activityId
+     * @return
+     */
     @Override
     public NewMissionDTO findActivity(int activityId) {
         return activityMapper.selectActivityById(activityId);
     }
 
+    /**
+     * 완료된 활동 목록 조회
+     *
+     * @param companionActivityId
+     * @param memberId
+     * @exception CustomException FORBIDDEN_REQUEST
+     * @return
+     */
     @Override
     public CompanionActivityHistoryDetailsResponseDTO findCompanionActivityHistory(int companionActivityId, String memberId) {
         return activityMapper.selectCompanionActivityHistoryById(companionActivityId, memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.FORBIDDEN_REQUEST));
     }
 
+    /**
+     * 수행한 활동 기록
+     *
+     * @param uploadActivityRequestDTO
+     * @param images
+     * @param memberId
+     * @exception CustomException ALREADY_EXISTS_ACTIVITY, NOT_EXISTS_COMPANION, UPLOAD_FAIL
+     */
     @Override
     @Transactional
     public void saveCompanionActivityHistory(UploadActivityRequestDTO uploadActivityRequestDTO,
