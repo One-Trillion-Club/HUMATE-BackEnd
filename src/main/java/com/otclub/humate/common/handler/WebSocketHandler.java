@@ -15,6 +15,20 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+/**
+ * WebSocketHandler
+ *
+ * @author 최유경
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	최유경        최초 생성
+ * 2024.08.05  	최유경        participateId로
+ * </pre>
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -24,25 +38,50 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private final RedisWebSocketSessionManager sessionManager;
     private final ObjectMapper objectMapper;
 
+    /**
+     * 웹 소켓 handshake 직후 실행되는 함수
+     * @apiNote participateId로 채팅방 구독
+     *
+     * @author 최유경
+     * @param session
+     * @throws Exception connection 오류
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("[afterConnectionEstablished] session : {}", session.toString());
-        String participateId = extractMemberId(session);
+        String participateId = extractParticipateId(session);
         log.info("[afterConnectionEstablished] participateId : {} ", participateId);
         sessionManager.addSession(participateId, session);
         redisPubSubService.subscribe(participateId);
     }
 
+    /**
+     * 웹 소켓 연결 해체 이후 실행되는 함수
+     * @apiNote participateId로 채팅방 구독 취소
+     *
+     * @author 최유경
+     * @param session
+     * @param status
+     * @throws Exception connection 오류
+     */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.info("[afterConnectionClosed] session : {}", session.toString());
         log.info("[afterConnectionClosed] CloseStatus {} ", status.toString());
-        String participateId = extractMemberId(session);
+        String participateId = extractParticipateId(session);
         log.info("[afterConnectionClosed] participateId : {} ", participateId);
         redisPubSubService.cancelSubChannel(participateId);
         sessionManager.removeSession(participateId);
     }
 
+    /**
+     * 메시지 전송 받는 함수
+     *
+     * @author 최유경
+     * @param session
+     * @param message
+     * @throws Exception
+     */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String id = session.getId();
@@ -55,7 +94,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
         messageService.createMessage(requestDTO); // 메시지를 Redis 에 publish
     }
 
-    private String extractMemberId(WebSocketSession session){
+    /**
+     * header 에서 participateId 추출
+     *
+     * @author 최유경
+     * @param session
+     * @return String participateId
+     */
+    private String extractParticipateId(WebSocketSession session){
         Map<String, List<String>> headers = session.getHandshakeHeaders();
         List<String> authorizationHeaders = headers.get("Authorization");
         log.info("[getHandshakeHeaders] - authorization : {}",  headers.get("Authorization").toString());

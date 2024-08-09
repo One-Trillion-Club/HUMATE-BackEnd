@@ -3,17 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.otclub.humate.domain.chat.mapper.MateMapper">
 
+    <!-- 메이트 맺기 신청/취소 -->
     <update id="updateMate" parameterType="com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO">
         update chat_participate
         set is_clicked = #{isClicked}
         where participate_id = #{participateId}
     </update>
-
-<!--    <insert id="insertChatParticipant" parameterType="com.otclub.humate.common.entity.ChatParticipate">-->
-<!--        <![CDATA[-->
-<!--            insert into chat_participate (participate_id, member_id, chat_room_id)-->
-<!--            values (seq_chat_participate.nextval, #{memberId}, #{chatRoomId})-->
-<!--        ]]>-->
-<!--    </insert>-->
 
 </mapper>

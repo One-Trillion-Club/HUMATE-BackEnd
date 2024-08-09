@@ -26,8 +26,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class MessageRequestDTO {
+    // 채팅방 ID
     private String chatRoomId;
+    // 참여자 ID
     private String participateId;
+    // 채팅 내용
     private String content;
+    // 채팅 유형
     private MessageType messageType;
 }

@@ -15,13 +15,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * 채팅메세지 MongoDB Document
  * @author 최유경
- * @since 2024.07.29
+ * @since 2024.08.01
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29  	최유경        최초 생성
+ * 2024.08.01   	최유경        최초 생성
  * </pre>
  */
 
@@ -34,14 +34,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Message {
 
     @Id
+    // mongoDB 고유 ID
     private String _id;
     @Indexed
+    // 채팅방 ID
     private String chatRoomId;
+    // 참여 ID
     private String participateId;
+    // 채팅 내용
     private String content;
+    // 보낸 날짜
     private String createdAt;
+    // 읽음 여부
     private int readCount;
+    // 채팅 유형
     private MessageType messageType; // 채팅 타입 필드 추가('TEXT', 'IMAGE')
+    // 채팅 이미지 내용
     private String imgUrl;
 
     public static Message of(MessageRedisDTO requestDTO){
@@ -63,14 +71,6 @@ public class Message {
         SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedTime = timeFormat.format(date);
 
-        // Calendar 객체를 사용하여 AM/PM 값 추출
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date);
-//        int amPm = calendar.get(Calendar.AM_PM);
-//        String amPmString = (amPm == Calendar.AM) ? "am" : "pm";
-
-        // 최종 결과를 조합하여 출력
-//        String finalFormattedTime = formattedTime + " " + amPmString;
-        return formattedTime; // finalFormattedTime
+        return formattedTime;
     }
 }

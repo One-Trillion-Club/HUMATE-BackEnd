@@ -18,6 +18,20 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import redis.clients.jedis.Jedis;
 
+/**
+ * RedisSubscriber 구독 관련 메세지 전송
+ *
+ * @author 최유경
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.03  	최유경        최초 생성
+ * 2024.08.05   최유경        구독한 모두에게 메시지 전송
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -33,15 +47,11 @@ public class RedisSubscriber implements MessageListener {
     @Value("${spring.data.redis.port}")
     private int redisPort;
 
-    public int getSubscriberCount(String channel) {
-        try (Jedis jedis = new Jedis(redisHost, redisPort)) {
-            return jedis.pubsubNumSub(channel).get(channel).intValue();
-        } catch (Exception e) {
-            log.error("Failed to get subscriber count: " + e.getMessage());
-            return 0;
-        }
-    }
-
+    /**
+     * redis subscribe 처리
+     * @param message message must not be {@literal null}.
+     * @param pattern pattern matching the channel (if specified) - can be {@literal null}.
+     */
     @Override
     public void onMessage(org.springframework.data.redis.connection.Message message, byte[] pattern) {
         try{
@@ -53,8 +63,7 @@ public class RedisSubscriber implements MessageListener {
             log.info("[RedisSubscriber] Redis SUB Message : {}", publishMessage);
 
             List<String> participateList = roomMapper.selectChatParticipateIdListByParticipateId(chatMessage.getParticipateId());
-            log.info("[RedisSubscriber] participateList size : {}", participateList.size());
-            // 공지 관련 글 (입장, 퇴장, 메이트 신청, 메이트 취소)은 구독한 모두에게 전송
+            // 구독한 모두에게 전송
             for(String p : participateList){
                 if(sessionManager.isUserConnected(p)){
                     RoomDetailDTO roomDetailDTO = roomMapper.selectChatRoomDetailDTOByParticipateId(p);
@@ -63,46 +72,20 @@ public class RedisSubscriber implements MessageListener {
                     sendMessage(p,jsonMessage);
                 }
             }
-
-//            if(isNotice(chatMessage.getMessageType())){
-//                for(String p : participateList){
-//                    if(sessionManager.isUserConnected(p)){
-//                        ChatRoomDetailDTO chatRoomDetailDTO = chatRoomMapper.selectChatRoomDetailDTOByParticipateId(p);
-//                        ChatMessageWebSocketResponseDTO webSocketResponseDTO = ChatMessageWebSocketResponseDTO.of(chatRoomDetailDTO, chatMessage);
-//                        String jsonMessage = objectMapper.writeValueAsString(webSocketResponseDTO);
-//                        sendMessage(p,jsonMessage);
-//                    }
-//                }
-//            }
-//            // 채팅 글 (텍스트, 이미지)은 나를 제외한 구독한 모두에게 전송
-//            else {
-//                for(String p : participateList){
-//                    log.info("[RedisSubscriber] participateList {}", p);
-//                        if(sessionManager.isUserConnected(p)){
-//                            ChatRoomDetailDTO chatRoomDetailDTO = chatRoomMapper.selectChatRoomDetailDTOByParticipateId(p);
-//                            ChatMessageWebSocketResponseDTO webSocketResponseDTO = ChatMessageWebSocketResponseDTO.of(chatRoomDetailDTO, chatMessage);
-//                            String jsonMessage = objectMapper.writeValueAsString(webSocketResponseDTO);
-//                            sendMessage(p,jsonMessage);
-//                        }
-//                }
-//            }
         }
         catch (JsonProcessingException e){
             log.error(e.getMessage());
         }
     }
 
-//    private boolean isNotice(MessageType messageType){
-//        if(MessageType.TEXT.equals(messageType) || MessageType.IMAGE.equals(messageType))
-//            return false;
-//        return true;
-//    }
-
+    /**
+     * 메세지 전송
+     *
+     * @param participateId 참여자 ID
+     * @param jsonMessage 보낼 메세지 json
+     */
     private void sendMessage(String participateId, String jsonMessage){
         WebSocketSession session = sessionManager.getSession(participateId);
-        log.info("[RedisSubscriber session : {}", session.toString());
-
-        log.info("[RedisSubscriber] jsonMessage : {}", jsonMessage);
         try {
             session.sendMessage(new TextMessage(jsonMessage));
         } catch (IOException e) {

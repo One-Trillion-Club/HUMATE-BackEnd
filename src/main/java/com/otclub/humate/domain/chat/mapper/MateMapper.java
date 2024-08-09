@@ -18,6 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MateMapper {
+    // 메이트 맺기 신청/취소
     int updateMate(MateUpdateRequestDTO requestDTO);
 
 }

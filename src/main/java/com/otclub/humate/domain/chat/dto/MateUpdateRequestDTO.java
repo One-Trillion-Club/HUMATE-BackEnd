@@ -24,7 +24,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class MateUpdateRequestDTO {
+    // 채팅방 ID
     private String chatRoomId;
+    // 참여자 ID
     private String participateId;
+    // 메이트 맺기 여부
     private int isClicked;
 }

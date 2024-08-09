@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * redis common DTO
+ * redis 공통 DTO
  * @author 최유경
  * @since 2024.08.03
  * @version 1.0
@@ -26,10 +26,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class MessageRedisDTO {
+    // 채팅방 ID
     private String chatRoomId;
+    // 참여자 ID
     private String participateId;
+    // 채팅 내용
     private String content;
+    // 채팅 유형
     private MessageType messageType;
+    // 보낸 시간
     private Date createdAt;
 
     public static MessageRedisDTO from(MessageRequestDTO requestDTO){

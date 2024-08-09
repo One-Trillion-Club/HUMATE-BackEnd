@@ -20,8 +20,9 @@ import org.springframework.stereotype.Service;
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.03  	최유경        메이트 신청/취소 공지 전송
  * 2024.07.31  	최유경        최초 생성
+ * 2024.08.03  	최유경        메이트 신청/취소 공지 전송
+ * 2024.08.05   최유경        메이트 subscribe 리팩토링, PREFIX 지정
  * </pre>
  */
 @Service
@@ -42,10 +43,9 @@ public class RedisPubSubService {
             Integer channel = roomMapper.selectChatRoomIdByParticipateId(participateId)
                     .orElseThrow(()->new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
             log.info("[RedisPubSubService] channel-1 {} ", channel);
-            log.info("[RedisPubSubService] getChannelName {} ", getChannelName(String.valueOf(channel)));
+
             // 요청한 Channel 을 구독
             listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
-            log.info("[RedisPubSubService] channel-2 {} ", channel);
         }
         catch (CustomException e){
             log.error("[ERROR] [RedisPubSubService] subscribe {} ", e.getMessage());

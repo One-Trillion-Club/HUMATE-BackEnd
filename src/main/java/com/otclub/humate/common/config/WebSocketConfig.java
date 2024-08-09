@@ -14,13 +14,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 /**
  * 웹소켓 config 설정
  * @author 최유경
- * @since 2024.07.27
+ * @since 2024.07.31
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.27  	최유경        최초 생성
+ * 2024.07.31  	최유경        최초 생성
  * </pre>
  */
 @Configuration
@@ -28,6 +28,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
     private final WebSocketHandler webSocketHandler;
+
+    /**
+     * 웹소켓 config 설정
+     *
+     * @author 최유경
+     * @param registry
+     */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(webSocketHandler, "/ws/chat").setAllowedOrigins("*");

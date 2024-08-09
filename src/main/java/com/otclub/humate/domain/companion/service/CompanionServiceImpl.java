@@ -44,7 +44,7 @@ public class CompanionServiceImpl implements CompanionService {
     @Override
     @Transactional
     public void startCompanion(String chatRoomId, String memberId) {
-        List<String> members = roomMapper.selectChatRoomMemberById(Integer.parseInt(chatRoomId));
+        List<String> members = roomMapper.selectChatRoomMemberByChatRoomId(Integer.parseInt(chatRoomId));
         log.info("[startCompanion] - {}" , memberId);
         if (!members.contains(memberId)) {
             log.error(ErrorCode.FORBIDDEN_REQUEST.getMessage());

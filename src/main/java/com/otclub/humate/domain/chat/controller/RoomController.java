@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 채팅방 컨트롤러
  * @author 최유경
- * @since 2024.07.29
+ * @since 2024.07.31
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.03  	최유경        채팅방 리스트 내역 조회
  * 2024.07.29  	최유경        최초 생성
+ * 2024.08.03  	최유경        채팅방 리스트 내역 조회
  * </pre>
  */
 @RestController
@@ -36,6 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoomController {
     private final RoomService roomService;
 
+    /**
+     * 채팅방 생성
+     * @author 최유경
+     * @param memberId 회원 ID
+     * @return 채팅방 리스트
+     */
     @PostMapping("/create")
     public ResponseEntity<RoomCreateResponseDTO> chatRoomCreate(@MemberId String memberId, @RequestBody RoomCreateRequestDTO requestDTO){
         RoomCreateResponseDTO responseDTO = roomService.createChatRoom(memberId, requestDTO);
@@ -43,6 +49,12 @@ public class RoomController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    /**
+     * 채팅방 조회
+     * @author 최유경
+     * @param memberId 회원 ID
+     * @return 채팅방 리스트
+     */
     @GetMapping("/list")
     public ResponseEntity<List<RoomDetailDTO>> chatRoomList(@MemberId String memberId){
         List<RoomDetailDTO> roomList = roomService.findChatRoomDetailList(memberId, 1);
@@ -50,9 +62,15 @@ public class RoomController {
         return ResponseEntity.ok(roomList);
     }
 
+    /**
+     * 대기 채팅방 조회
+     * @author 최유경
+     * @param memberId 회원 ID
+     * @return 채팅방 리스트
+     */
     @ResponseBody
     @GetMapping("/list/pending")
-    public ResponseEntity<List<RoomDetailDTO>> ㄲchatRoomPendingList(@MemberId String memberId){
+    public ResponseEntity<List<RoomDetailDTO>> chatRoomPendingList(@MemberId String memberId){
         List<RoomDetailDTO> roomList = roomService.findChatRoomDetailList(memberId, 0);
 
         return ResponseEntity.ok(roomList);

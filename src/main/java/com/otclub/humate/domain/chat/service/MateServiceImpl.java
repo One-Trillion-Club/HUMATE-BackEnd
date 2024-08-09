@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.03  	최유경        최초 생성
+ * 2024.08.05   최유경        회원 조회 추가
  * </pre>
  */
 @Service
@@ -34,6 +35,14 @@ public class MateServiceImpl implements MateService {
     private final MemberMapper memberMapper;
     private final MessageService messageService;
 
+    /**
+     * 메이트 맺기 신청/취소
+     *
+     * @author 최유경
+     * @param requestDTO 메이트 신청 참여자 정보
+     *
+     * @exception CustomException CHAT_PARTICIPATE_NOT_FOUND, MEMBER_NOT_FOUND, CHAT_MATE_CLICK_CONFLICT, FORBIDDEN_REQUEST
+     */
     @Override
     public void modifyMate(MateUpdateRequestDTO requestDTO) {
         // 채팅방에 참여한 회원인지 확인하기

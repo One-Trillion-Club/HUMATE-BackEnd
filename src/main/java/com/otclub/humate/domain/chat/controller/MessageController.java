@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * 채팅 메세지 컨트롤러
  * @author 최유경
- * @since 2024.07.28
+ * @since 2024.07.31
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.30   최유경        채팅 조회
- * 2024.07.29   최유경        MongoDB 연결
- * 2024.07.28  	최유경        최초 생성
+ * 2024.07.31  	최유경        최초 생성
+ * 2024.08.01   최유경        MongoDB 연결
+ * 2024.08.02   최유경        채팅 조회
  * </pre>
  */
 @Controller
@@ -35,6 +35,12 @@ public class MessageController {
     private final MessageService messageService;
     private final RoomService roomService;
 
+    /**
+     * 과거 채팅 메세지 내역 조회
+     * @author 최유경
+     * @param chatRoomId
+     * @return 채팅 내역 리스트
+     */
     @GetMapping("/{chatRoomId}")
     public ResponseEntity<List<Message>> chatHistoryList(@PathVariable("chatRoomId") String chatRoomId){
         log.info("[채팅내역조회] - {}", chatRoomId);
@@ -43,6 +49,12 @@ public class MessageController {
         return ResponseEntity.ok(messageList);
     }
 
+    /**
+     * 과거 채팅 메세지 내역 조회
+     * @author 최유경
+     * @param participateId
+     * @return 채팅 내역 리스트
+     */
     @GetMapping("/history/{participateId}")
     public ResponseEntity<List<Message>> chatMessageHistoryList(@PathVariable("participateId") String participateId){
         log.info("[채팅내역조회] - {}", participateId);

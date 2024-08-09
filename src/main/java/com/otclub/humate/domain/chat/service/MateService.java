@@ -15,5 +15,12 @@ import com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO;
  * </pre>
  */
 public interface MateService {
+
+    /**
+     * 메이트 맺기 신청/취소
+     *
+     * @author 최유경
+     * @param requestDTO 메이트 신청 참여자 정보
+     */
     void modifyMate(MateUpdateRequestDTO requestDTO) ;
 }

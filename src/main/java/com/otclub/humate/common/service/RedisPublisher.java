@@ -8,24 +8,32 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * MessagePublisher
+ *
+ * @author 최유경
+ * @since 2024.08.02
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.02  	최유경        최초 생성
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class RedisPublisher implements MessagePublisher {
     private final RedisTemplate<String, Object> redisTemplate;
 
-    @Override
-    public void publish(String channel, String data){
-        log.info("[RedisPublisher] - publish topic full path : {} ", channel);
-        redisTemplate.convertAndSend(channel, data);
-    }
-
-    @Override
-    public void publish(String channel, MessageRedisDTO dto){
-        log.info("[RedisPublisher] - publish topic full path : {} ", channel);
-        redisTemplate.convertAndSend(channel, dto);
-    }
-
+    /**
+     * Redis 메시지 발행
+     *
+     * @author 최유경
+     * @param channel 구독한 채널
+     * @param dto 보낼 메세지
+     */
     @Override
     public void publish(String channel, Message dto){
         log.info("[RedisPublisher] - publish topic full path : {} ", channel);

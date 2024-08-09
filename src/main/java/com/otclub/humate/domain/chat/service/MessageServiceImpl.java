@@ -17,14 +17,14 @@ import org.springframework.stereotype.Service;
 /**
  * 채팅 메세지 서비스
  * @author 최유경
- * @since 2024.07.29
+ * @since 2024.08.01
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.30   최유경        채팅메세지 내역 조회
- * 2024.07.29  	최유경        최초 생성
+ * 2024.07.31  	최유경        최초 생성
+ * 2024.08.01   최유경        채팅메세지 내역 조회
  * </pre>
  */
 @Service
@@ -35,18 +35,35 @@ public class MessageServiceImpl implements MessageService {
     private final MongoTemplate mongoTemplate;
     private final RedisPubSubService redisPubSubService;
 
+    /**
+     * 메세지 생성
+     *
+     * @author 최유경
+     * @param requestDTO 메세지 전송 요청 정보
+     */
     @Override
     public void createMessage(MessageRequestDTO requestDTO) {
         MessageRedisDTO redisDTO = MessageRedisDTO.from(requestDTO);
         sendMessage(redisDTO);
     }
 
-
+    /**
+     * 메세지 생성
+     *
+     * @author 최유경
+     * @param redisDTO 메세지 전송 요청 정보
+     */
     @Override
     public void createMessage(MessageRedisDTO redisDTO) {
         sendMessage(redisDTO);
     }
 
+    /**
+     * 과거 메세지 리스트 조회
+     *
+     * @param chatRoomId 채팅방 ID
+     * @return List 채팅 메세지 조회
+     */
     @Override
     public List<Message> getListMessage(String chatRoomId) {
         // 목록 조회
@@ -58,6 +75,12 @@ public class MessageServiceImpl implements MessageService {
         return messageList;
     }
 
+    /**
+     * 메세지 전송
+     * @apiNote 몽고디비에 저장하고 redis로 메세지 전송
+     * @param redisDTO redis용 dto
+     * @return List 채팅 메세지 조회
+     */
     private void sendMessage(MessageRedisDTO redisDTO){
         Message message = Message.of(redisDTO);
 
