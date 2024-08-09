@@ -16,12 +16,35 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 매칭글 서비스 구현체
+ * @author 김지현
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ----------------------------------------
+ * 2024.07.30  	김지현        최초 생성
+ * 2024.07.31   김지현        매칭글 전체 목록 조회 메서드 추가
+ * 2024.08.02   김지현        매칭글 전체 목록 조회 메서드에서 국적 필터링 추가
+ * 2024.08.03   김지현        매칭글 상세 정보 조회 메서드에서 이미지 프로필 추가
+ * </pre>
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostMapper postMapper;
+
+    /**
+     * 전체 매칭글 조회
+     *
+     * @author 김지현
+     * @param request 검색 및 필터링 정보를 담은 객체
+     * @return 조회한 매칭글 목록을 담은 list
+     */
     @Override
     @Transactional
     public List<PostListResponseDTO> getAllPosts(PostSearchFilterRequestDTO request) {
@@ -84,6 +107,13 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
+    /**
+     * 매칭글 등록
+     *
+     * @author 김지현
+     * @param request 등록될 매칭글 정보를 담은 객체
+     * @return 등록된 매칭글 postId
+     */
     @Override
     @Transactional
     public int addPost(PostRegisterRequestDTO request) {
@@ -154,6 +184,13 @@ public class PostServiceImpl implements PostService {
         return postId;
     }
 
+    /**
+     * 매칭글 상세 정보 조회
+     *
+     * @author 김지현
+     * @param postId 조회할 postId
+     * @return 조회한 매칭글 정보
+     */
     @Override
     public PostDetailResponseDTO findPost(int postId) {
         PostBasicDetailResponseDTO postBasic = postMapper.selectPostById(postId);
@@ -179,6 +216,13 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
+    /**
+     * 매칭글 검색
+     *
+     * @author 김지현
+     * @param keyword 검색할 keyword
+     * @return 검색한 매칭글 목록을 담은 list
+     */
     @Override
     public List<PostListResponseDTO> findPostByKeyword(String keyword) {
         List<PostListResponseDTO> result = postMapper.selectPostByKeyword(keyword);
@@ -186,6 +230,14 @@ public class PostServiceImpl implements PostService {
         return result;
     }
 
+    /**
+     * 매칭글 삭제
+     *
+     * @author 김지현
+     * @param postId 삭제할 매칭글 postId
+     * @return 삭제된 매칭글 postId
+     * @exception CustomException FAIL_TO_DELETE_POST
+     */
     @Override
     @Transactional
     public int removePost(int postId) {

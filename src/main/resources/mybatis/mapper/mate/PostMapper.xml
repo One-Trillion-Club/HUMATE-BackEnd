@@ -246,9 +246,12 @@
         ]]>
     </update>
 
+    <!-- postId로 매칭글 조회 -->
     <select id="selectPostByPostId">
         select
-            *
+            post_id, member_id, title, content,
+            match_date, match_branch, match_gender, match_language,
+            created_at, deleted_at, is_matched
         from
             post
         where
