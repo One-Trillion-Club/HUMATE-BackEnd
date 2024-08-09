@@ -9,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 /**
- * aws s3 연동 config
+ * 비동기 로직을 위한 스레드풀 생성 config
  * @author 손승완
  * @since 2024.08.05
  * @version 1.0
