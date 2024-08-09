@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 활동 Entity
  * @author 손승완
- * @since 2024.07.27
+ * @since 2024.07.30
  * @version 1.1
  *
  * <pre>
