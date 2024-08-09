@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
- * 채팅 메세지 서비스
+ * 채팅 메세지 서비스 구현체
  * @author 최유경
  * @since 2024.08.01
  * @version 1.0

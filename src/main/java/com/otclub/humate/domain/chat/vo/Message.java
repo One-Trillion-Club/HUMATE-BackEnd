@@ -24,7 +24,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 2024.08.01   	최유경        최초 생성
  * </pre>
  */
-
 @Document(collection = "chatMessage")
 @Getter
 @AllArgsConstructor

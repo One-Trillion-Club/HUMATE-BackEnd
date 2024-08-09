@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ * 메이트 맺기 Mapper
+ * @author 최유경
+ * @since 2024.08.03
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.08.03   최유경        최초 생성
+ * </pre>
+-->
 <mapper namespace="com.otclub.humate.domain.chat.mapper.MateMapper">
 
     <!-- 메이트 맺기 신청/취소 -->

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 채팅방 서비스
+ * 채팅방 서비스 구현체
  * @author 최유경
  * @since 2024.07.31
  * @version 1.0

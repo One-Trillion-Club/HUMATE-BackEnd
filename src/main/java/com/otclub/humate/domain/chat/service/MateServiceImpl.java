@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * 메이트 관련 서비스
+ * 메이트 관련 서비스 구현체
  * @author 최유경
  * @since 2024.08.03
  * @version 1.0

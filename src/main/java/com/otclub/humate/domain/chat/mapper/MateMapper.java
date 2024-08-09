@@ -5,7 +5,7 @@ import com.otclub.humate.domain.chat.dto.MateUpdateRequestDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 메이트 Mapper
+ * 메이트 맺기 Mapper
  * @author 최유경
  * @since 2024.08.03
  * @version 1.0

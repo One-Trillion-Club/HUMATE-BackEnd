@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ * 메이트 맺기 Mapper
+ * @author 최유경
+ * @since 2024.08.05
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ==========  ========    =============================
+ * 2024.07.31  	최유경        최초 생성
+ * 2024.08.03   최유경        채팅방 리스트 조회
+ * 2024.08.05   최유경        동행 시작, 매칭 상태 업데이트
+ * 2024.08.07   최유경        매칭 상태 업데이트
+ * </pre>
+-->
 <mapper namespace="com.otclub.humate.domain.chat.mapper.RoomMapper">
 
     <!-- 채팅방 생성 -->
