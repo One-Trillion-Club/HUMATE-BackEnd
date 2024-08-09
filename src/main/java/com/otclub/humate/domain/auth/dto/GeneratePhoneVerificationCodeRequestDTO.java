@@ -18,6 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GeneratePhoneVerificationCodeRequestDTO {
-
+    // 전화번호
     private String phone;
 }

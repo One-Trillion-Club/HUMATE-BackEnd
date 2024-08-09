@@ -13,6 +13,7 @@ import com.otclub.humate.domain.member.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -32,13 +33,13 @@ import static com.otclub.humate.domain.auth.util.AuthUtil.*;
 /**
  * 인증/인가 서비스 구현체
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.07.30   조영욱        JWT 토큰 리프레시 추가
  * 2024.07.31   조영욱        휴대폰 인증 추가
  * 2024.07.31   조영욱        여권 인증 추가
@@ -70,10 +71,11 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 새 사용자 회원 가입
-     * 로그인 id, 닉네임 중복 시 실패한다.
      *
      * @author 조영욱
+     * @apiNote 로그인 id, 닉네임 중복 시 실패한다.
      * @param dto 회원가입 사용자 정보
+     * @exception CustomException VERIFICATION_INVALID, NOT_VALID_INPUT, DUPLICATE_KEY
      */
     @Transactional
     @Override
@@ -132,6 +134,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @author 조영욱
      * @param dto 아이디, 패스워드
+     * @exception CustomException NOT_VALID_USER_INFORMATION, UNEXPECTED_EXCEPTION
      */
     @Override
     public JwtDTO logIn(LogInRequestDTO dto) {
@@ -154,20 +157,22 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * JWT 토큰 리프레시
-     * 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
      *
      * @author 조영욱
+     * @apiNote 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
      * @param memberId 유저 id
      * @param refreshToken validate 된 리프레시 토큰 값
+     * @exception CustomException NOT_EXISTS_MEMBER, UNEXPECTED_EXCEPTION
      */
     @Override
     public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
         Member member = mapper.selectMemberById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
-//        if (!refreshToken.equals(member.getRefreshToken())) {
-//            throw new Exception();
-//        }
+        // RTR 전략 사용 (한 디바이스에서만 접속 가능)
+        if (!refreshToken.equals(member.getRefreshToken())) {
+            throw new Exception();
+        }
 
         try {
             JwtDTO jwtDTO = jwtGenerator.generateToken(member);
@@ -184,6 +189,8 @@ public class AuthServiceImpl implements AuthService {
      * 휴대폰 인증 번호 생성
      *
      * @author 조영욱
+     * @return 인증 코드
+     * @exception CustomException ALREADY_EXISTS_PHONE
      */
     public String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto) {
         String phone = dto.getPhone();
@@ -323,7 +330,8 @@ public class AuthServiceImpl implements AuthService {
                 .uri(accessTokenIssuanceUrl)
                 .header("Authorization", accessTokenIssuanceAuthValue)
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {
+                })
                 .block(); // 동기식으로 처리
 
         String accessToken = "Bearer " + response.get("access_token");
@@ -335,5 +343,4 @@ public class AuthServiceImpl implements AuthService {
         log.info("\n\n**여권인증 액세스키 발급 완료**\n\n");
         return accessToken;
     }
-
 }

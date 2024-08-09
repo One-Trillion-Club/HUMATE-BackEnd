@@ -16,6 +16,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * 활동 컨트롤러
+ * @author 손승완
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	손승완        최초 생성
+ * 2024.08.01   손승완        활동 업로드 기능 추가
+ * 2024.08.04   손승완        쿠키에 담긴 회원 아이디 불러오도록 수정
+ * </pre>
+ */
 @RequestMapping("/activities")
 @RestController
 @RequiredArgsConstructor
