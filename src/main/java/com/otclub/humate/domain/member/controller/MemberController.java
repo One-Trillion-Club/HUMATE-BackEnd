@@ -2,7 +2,6 @@ package com.otclub.humate.domain.member.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.domain.auth.dto.SignUpRequestDTO;
 import com.otclub.humate.domain.member.dto.MateDetailResponseDTO;
 import com.otclub.humate.domain.member.dto.ModifyProfileRequestDTO;
 import com.otclub.humate.domain.member.dto.ProfileResponseDTO;
@@ -19,13 +18,13 @@ import java.util.List;
 /**
  * 회원 컨트롤러
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.08.04   조영욱        마이페이지 메소드 추가
  * </pre>
  */
@@ -93,20 +92,11 @@ public class MemberController {
      * 상대방 프로필 조회
      *
      * @author 조영욱
-     * @param memberId
+     * @param memberId 회원 ID
      */
     @GetMapping("/{memberId}")
     public ResponseEntity<ProfileResponseDTO> getSpecificMemberProfile(
             @PathVariable("memberId") String memberId){
         return ResponseEntity.ok(service.getMemberProfile(memberId));
     }
-
-    // 글 작성 내역 조회
-//    @GetMapping("/my-posts")
-
-    // 포인트 사용 내역 조회
-//    @GetMapping("/my-points")
-
-    // 회원 탈퇴
-//    @DeleteMapping("/")
 }

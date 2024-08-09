@@ -22,13 +22,13 @@ import java.util.Collection;
 /**
  * JWT 토큰 프로바이더 클래스
  * @author 조영욱
- * @since 2024.07.29
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * </pre>
  */
 @Slf4j
@@ -55,6 +55,7 @@ public class JwtProvider {
      * @author 조영욱
      * @param token
      * @return Authentication
+     * @exception RuntimeException
      */
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
@@ -62,13 +63,12 @@ public class JwtProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        // 클레임에서 권한 정보 가져오기
+        // 클레임에서 권한 정보 가져옴
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .toList();
 
-        // UserDetails 객체를 만들어서 Authentication return
-        // UserDetails: interface, User: UserDetails를 구현한 class
+        // UserDetails 객체를 생성해 Authentication 반환
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
@@ -78,6 +78,7 @@ public class JwtProvider {
      *
      * @author 조영욱
      * @param token
+     * @exception  ExpiredJwtException, AccessDeniedException
      */
     public boolean validateToken(String token) {
         try {
@@ -90,7 +91,7 @@ public class JwtProvider {
             log.info("Invalid JWT Token");
         } catch (ExpiredJwtException expiredJwtException) {
             log.info("Expired JWT Token\n**Refresh Access Token required");
-            throw expiredJwtException; // 토큰 만료 시 만료 예외 따로 반환
+            throw expiredJwtException; // 토큰 만료 시 따로 만료 예외 throw (리프레시 로직으로 이동을 위함)
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token");
         } catch (IllegalArgumentException e) {

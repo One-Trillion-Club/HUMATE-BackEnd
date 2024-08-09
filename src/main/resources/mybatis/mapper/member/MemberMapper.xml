@@ -5,18 +5,18 @@
 <!--
  * 회원 도메인 Mybatis 매퍼
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ==========  =========    =========
- * 2024.07.28  	조영욱        최초 생성
- * 2024.08.04   조영욱        마이페이지 메소드 추가
+ * 2024.07.30  	조영욱        최초 생성
+ * 2024.08.04   조영욱        마이페이지 기능 추가
  * </pre>
  -->
 <mapper namespace="com.otclub.humate.domain.member.mapper.MemberMapper">
-
+    <!-- 회원 추가 -->
     <insert id="insertMember">
         insert into member (
             member_id,
@@ -55,6 +55,7 @@
         )
     </insert>
 
+    <!-- 로그인 아이디로 회원 검색 -->
     <select id="selectMemberByLoginId">
         select
             member_id,
@@ -67,6 +68,7 @@
             deleted_at is null
     </select>
 
+    <!-- 닉네임으로 회원 검색 -->
     <select id="selectMemberByNickname">
         select
             member_id
@@ -77,6 +79,7 @@
             deleted_at is null
     </select>
 
+    <!-- 리프레시 토큰 업데이트 -->
     <update id="updateRefreshToken">
         update
             member
@@ -87,6 +90,7 @@
             deleted_at is null
     </update>
 
+    <!-- 회원 아이디로 회원 검색 -->
     <select id="selectMemberById">
         select
             member_id,
@@ -101,6 +105,7 @@
             deleted_at is null
     </select>
 
+    <!-- 휴대전화 번호로 회원 검색 -->
     <select id="selectMemberByPhone">
         select
             member_id
@@ -111,6 +116,7 @@
             deleted_at is null
     </select>
 
+    <!-- 회원 디테일 조회 -->
     <select id="selectMemberDetail" resultType="com.otclub.humate.common.entity.Member">
         select
             member_id,
@@ -127,6 +133,7 @@
             deleted_at is null
     </select>
 
+    <!-- 회원 수정 -->
     <update id="updateMember">
         update
             member
@@ -141,6 +148,7 @@
             deleted_at is null
     </update>
 
+    <!-- 회원 아이디로 메이트 리스트 검색 -->
     <select id="selectMatesByMemberId">
         select
             m2.member_id as member_id,

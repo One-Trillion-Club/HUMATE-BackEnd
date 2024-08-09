@@ -17,15 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * 인증/인가 컨트롤러
  * @author 조영욱
- * @since 2024.07.28
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.28  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.07.30   조영욱        유틸 모듈 생성을 통한 리팩토링
  * 2024.07.31   조영욱        휴대폰 인증 추가
+ * 2024.08.01   조영욱        여권 인증 추가
  * </pre>
  */
 @RestController
@@ -37,9 +38,9 @@ public class AuthController {
 
     /**
      * 새 사용자 회원가입
-     * 로그인 id, 닉네임 중복 시 실패한다.
      *
      * @author 조영욱
+     * @apiNote 로그인 id, 닉네임 중복 시 실패한다.
      * @param dto 회원가입 사용자 정보
      *
      */
@@ -69,11 +70,10 @@ public class AuthController {
 
     /**
      * 회원 로그인
-     * JWT 토큰을 발급하고 클라이언트의 쿠키에 저장
      *
      * @author 조영욱
+     * @apiNote JWT 토큰을 발급하고 클라이언트의 쿠키에 저장
      * @param dto 회원 로그인 아이디, 비밀번호
-     * @param response
      */
     @PostMapping("/login")
     public ResponseEntity<CommonResponseDTO> logIn(@RequestBody LogInRequestDTO dto, HttpServletResponse response) {
@@ -94,9 +94,9 @@ public class AuthController {
 
     /**
      * 회원 로그아웃
-     * JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
      *
      * @author 조영욱
+     * @apiNote JWT 토큰을 클라이언트 쿠키에서 지워 로그아웃시킨다.
      */
     @PostMapping("/logout")
     public ResponseEntity<CommonResponseDTO> logOut(HttpServletResponse response) {
@@ -126,7 +126,7 @@ public class AuthController {
      * 휴대폰 번호 인증
      *
      * @author 조영욱
-     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
+     * @return 성공 시 인증 성공을 보증하기 위한 코드 리턴, 실패 시 null
      */
     @PostMapping("/phone/verification")
     public ResponseEntity<CommonResponseDTO> verifyPhone(
@@ -141,7 +141,7 @@ public class AuthController {
      * 여권 번호 인증
      *
      * @author 조영욱
-     * @return 성공 시 인증 성공을 보증하기 위한 key 리턴, 실패 시 null
+     * @return 성공 시 인증 성공을 보증하기 위한 코드 리턴, 실패 시 null
      */
     @PostMapping("/passport/verification")
     public ResponseEntity<CommonResponseDTO> verifyPassport(

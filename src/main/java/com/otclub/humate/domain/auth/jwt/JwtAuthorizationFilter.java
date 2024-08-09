@@ -24,19 +24,19 @@ import java.io.IOException;
 /**
  * JWT 필터 클래스
  * @author 조영욱
- * @since 2024.07.29
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * 2024.07.30   조영욱        유틸 모듈 생성을 통한 리팩토링
  * </pre>
  */
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtTokenProvider;
     private final AuthService authService;
@@ -154,7 +154,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .message(errorCode.getMessage())
                 .build();
 
-        log.error("토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n토큰 에러입니다. JWT 토큰 에러입니다.\n\n");
+        log.error("\n\nJWT 토큰 에러입니다. JWT 토큰 에러입니다.\n\n");
         // 토큰 에러 시 로그아웃 시킴
         Cookie accessTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("ajt");
         Cookie refreshTokenDeleteCookie = AuthUtil.createJwtTokenDeleteCookie("rjt");

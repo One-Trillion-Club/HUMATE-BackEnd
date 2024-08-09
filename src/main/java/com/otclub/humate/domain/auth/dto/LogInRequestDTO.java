@@ -6,19 +6,20 @@ import lombok.Setter;
 /**
  * 사용자 로그인 Request DTO
  * @author 조영욱
- * @since 2024.07.29
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29  	조영욱        최초 생성
+ * 2024.07.30  	조영욱        최초 생성
  * </pre>
  */
 @Getter
 @Setter
 public class LogInRequestDTO {
-
+    // 로그인 아이디
     private String loginId;
+    // 비밀번호
     private String password;
 }

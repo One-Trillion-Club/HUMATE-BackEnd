@@ -18,9 +18,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MateDetailResponseDTO {
+    // 회원 ID
     private String memberId;
+    // 프로필 이미지 url
     private String profileImgUrl;
+    // 닉네임
     private String nickname;
+    // 성별
     private String gender;
+    // 매칭된 날짜
     private String matchingDate;
 }
