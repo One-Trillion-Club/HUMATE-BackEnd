@@ -20,18 +20,28 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SignUpRequestDTO {
-
+    // 국적 코드
     private int nationality;
+    // 로그인 아이디
     private String loginId;
+    // 비밀번호
     private String password;
+    // 성별
     private String gender;
+    // 생일
     private String birthdate;
+    // 닉네임
     private String nickname;
+    // 한 줄 소개
     private String introduction;
+    // 프로필 이미지 url
     private String profileImgUrl;
+    // 가능한 언어
     private String language;
+    // 전화번호 (한국인만)
     private String phone;
+    // 여권번호 (외국인만)
     private String passportNo;
-    // 핸드폰/여권 인증 성공 시 반환한 성공보증코드
+    // 핸드폰/여권 인증 성공 시 발급한 인증 성공 보증 코드
     private String verifyCode;
 }

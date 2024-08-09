@@ -20,7 +20,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CommonResponseDTO {
-
+    // 성공 여부
     private boolean success;
+    // 메시지
     private String message;
 }

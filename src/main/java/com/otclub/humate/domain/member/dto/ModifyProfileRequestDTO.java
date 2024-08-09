@@ -18,7 +18,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ModifyProfileRequestDTO {
+    // 닉네임
     private String nickname;
+    // 한 줄 소개
     private String introduction;
+    // 프로필 이미지 url
     private String profileImgUrl;
 }

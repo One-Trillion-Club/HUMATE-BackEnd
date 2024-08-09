@@ -21,12 +21,19 @@ import java.text.SimpleDateFormat;
 @Getter
 @Builder
 public class ProfileResponseDTO {
+    // 회원 ID
     private String memberId;
+    // 닉네임
     private String nickname;
+    // 매너온도
     private double manner;
+    // 한 줄 소개
     private String introduction;
+    // 프로필 이미지 url
     private String profileImgUrl;
+    // 성별
     private String gender;
+    // 생일
     private String birthdate;
 
     public static ProfileResponseDTO from(Member member) {

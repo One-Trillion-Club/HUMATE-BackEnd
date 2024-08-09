@@ -18,7 +18,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LogInRequestDTO {
-
+    // 로그인 아이디
     private String loginId;
+    // 비밀번호
     private String password;
 }

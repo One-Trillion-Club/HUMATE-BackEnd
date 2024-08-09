@@ -16,7 +16,6 @@
  * </pre>
  -->
 <mapper namespace="com.otclub.humate.domain.member.mapper.MemberMapper">
-
     <!-- 회원 추가 -->
     <insert id="insertMember">
         insert into member (
