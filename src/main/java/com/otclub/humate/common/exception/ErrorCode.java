@@ -6,13 +6,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * ErrorCode 관리 Enum 클래스
  * @author 손승완
- * @since 2024.07.26
+ * @since 2024.07.30
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.26   손승완        최초 생성
+ * 2024.07.30   손승완        최초 생성
  * </pre>
  */
 @Getter
