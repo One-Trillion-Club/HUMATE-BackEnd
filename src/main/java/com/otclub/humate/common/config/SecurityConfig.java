@@ -1,6 +1,6 @@
 package com.otclub.humate.common.config;
 
-import com.otclub.humate.domain.auth.jwt.JwtAuthenticationFilter;
+import com.otclub.humate.domain.auth.jwt.JwtAuthorizationFilter;
 import com.otclub.humate.domain.auth.jwt.JwtProvider;
 import com.otclub.humate.domain.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -40,14 +40,14 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests.requestMatchers("/admin/**").hasAuthority("ADMIN") // ADMIN 권한 필요 URL
-                                .requestMatchers("/**").permitAll() // permitAll 해야 JwtAuthenticationFilter에 들어감
-                                .anyRequest().permitAll()) // 이 코드가 있어야 hasAuthority("ADMIN") 한 코드도 JwtAuthenticationFilter에 들어감
+                                .requestMatchers("/**").permitAll() // permitAll 해야 JwtAuthorizationFilter에 들어감
+                                .anyRequest().permitAll()) // 이 코드가 있어야 hasAuthority("ADMIN") 한 코드도 JwtAuthorizationFilter에 들어감
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, authService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider, authService), UsernamePasswordAuthenticationFilter.class)
         ;
 
         return http.build();
