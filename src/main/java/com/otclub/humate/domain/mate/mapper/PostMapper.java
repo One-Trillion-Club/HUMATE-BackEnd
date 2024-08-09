@@ -8,6 +8,20 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 매칭글 매퍼 인터페이스
+ * @author 김지현
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	김지현        최초 생성
+ * 2024.07.31   김지현        매칭글 전체 목록 조회 메서드 추가
+ * 2024.08.07   최유경        postId를 사용한 매칭글 검색 메서드 추가
+ * </pre>
+ */
 @Mapper
 public interface PostMapper {
 
@@ -41,5 +55,6 @@ public interface PostMapper {
     // 매칭글 삭제
     int deletePost(int postId);
 
+    // postId를 사용한 매칭글 검색
     Post selectPostByPostId(int postId);
 }

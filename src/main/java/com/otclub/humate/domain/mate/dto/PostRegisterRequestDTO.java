@@ -6,19 +6,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
+
+/**
+ * 매칭글 전체 정보 등록 Request DTO
+ * @author 김지현
+ * @since 2024.07.30
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.30  	김지현        최초 생성
+ * </pre>
+ */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class PostRegisterRequestDTO {
 
-    // 게시글 고유번호
+    // 매칭글 ID
     private int postId;
-    // 회원 고유번호
+    // 회원 ID
     private String memberId;
-    // 게시글 제목
+    // 매칭글 제목
     private String title;
-    // 게시글 내용
+    // 매칭글 내용
     private String content;
     // 매칭 날짜
     private String matchDate;
