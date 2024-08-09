@@ -22,7 +22,7 @@ import java.util.List;
  * 활동 service 인터페이스
  * @author 손승완
  * @since 2024.07.30
- * @version 1.2
+ * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
