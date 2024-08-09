@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--
  * 매칭글 도메인 Mybatis 매퍼
- * @author 조영욱
+ * @author 김지현
  * @since 2024.07.30
  * @version 1.0
  *
