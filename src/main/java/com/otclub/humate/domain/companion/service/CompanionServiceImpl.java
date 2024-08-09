@@ -2,7 +2,7 @@ package com.otclub.humate.domain.companion.service;
 
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
+import com.otclub.humate.domain.chat.mapper.RoomMapper;
 import com.otclub.humate.domain.companion.dto.CompanionDTO;
 import com.otclub.humate.domain.companion.dto.CompanionDetailsDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
@@ -33,7 +33,7 @@ import java.util.List;
 @Slf4j
 public class CompanionServiceImpl implements CompanionService {
     private final CompanionMapper companionMapper;
-    private final ChatRoomMapper chatRoomMapper;
+    private final RoomMapper roomMapper;
 
     /**
      * 동행 종료
@@ -82,7 +82,7 @@ public class CompanionServiceImpl implements CompanionService {
     @Override
     @Transactional
     public void startCompanion(String chatRoomId, String memberId) {
-        List<String> members = chatRoomMapper.selectChatRoomMemberById(Integer.parseInt(chatRoomId));
+        List<String> members = roomMapper.selectChatRoomMemberByChatRoomId(Integer.parseInt(chatRoomId));
         log.info("[startCompanion] - {}" , memberId);
         if (!members.contains(memberId)) {
             log.error(ErrorCode.FORBIDDEN_REQUEST.getMessage());

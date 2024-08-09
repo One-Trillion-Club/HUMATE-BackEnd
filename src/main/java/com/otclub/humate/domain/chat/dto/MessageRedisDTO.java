@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * redis common DTO
+ * redis 공통 DTO
  * @author 최유경
  * @since 2024.08.03
  * @version 1.0
@@ -25,15 +25,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ChatMessageRedisDTO {
+public class MessageRedisDTO {
+    // 채팅방 ID
     private String chatRoomId;
+    // 참여자 ID
     private String participateId;
+    // 채팅 내용
     private String content;
+    // 채팅 유형
     private MessageType messageType;
+    // 보낸 시간
     private Date createdAt;
 
-    public static ChatMessageRedisDTO from(ChatMessageRequestDTO requestDTO){
-        return ChatMessageRedisDTO.builder()
+    public static MessageRedisDTO from(MessageRequestDTO requestDTO){
+        return MessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .participateId(requestDTO.getParticipateId())
                 .content(requestDTO.getContent())
@@ -41,10 +46,10 @@ public class ChatMessageRedisDTO {
                 .build();
     }
 
-    public static ChatMessageRedisDTO ofMate(MateUpdateRequestDTO requestDTO, String nickname){
+    public static MessageRedisDTO ofMate(MateUpdateRequestDTO requestDTO, String nickname){
         MessageType messageType = (requestDTO.getIsClicked()==1 ? MessageType.MATE_ACTIVE : MessageType.MATE_INACTIVE);
 
-        return ChatMessageRedisDTO.builder()
+        return MessageRedisDTO.builder()
                 .chatRoomId(requestDTO.getChatRoomId())
                 .participateId(requestDTO.getParticipateId())
                 .content(nickname)

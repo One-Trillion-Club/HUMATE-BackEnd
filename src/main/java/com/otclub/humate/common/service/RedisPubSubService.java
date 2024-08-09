@@ -2,9 +2,8 @@ package com.otclub.humate.common.service;
 
 import com.otclub.humate.common.exception.CustomException;
 import com.otclub.humate.common.exception.ErrorCode;
-import com.otclub.humate.domain.chat.dto.ChatMessageRedisDTO;
-import com.otclub.humate.domain.chat.mapper.ChatRoomMapper;
-import com.otclub.humate.domain.chat.vo.ChatMessage;
+import com.otclub.humate.domain.chat.mapper.RoomMapper;
+import com.otclub.humate.domain.chat.vo.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +20,9 @@ import org.springframework.stereotype.Service;
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.08.03  	최유경        메이트 신청/취소 공지 전송
  * 2024.07.31  	최유경        최초 생성
+ * 2024.08.03  	최유경        메이트 신청/취소 공지 전송
+ * 2024.08.05   최유경        메이트 subscribe 리팩토링, PREFIX 지정
  * </pre>
  */
 @Service
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 public class RedisPubSubService {
     @Value("${session.prefix.channel}")
     private String CHANNEL_PREFIX;
-    private final ChatRoomMapper chatRoomMapper;
+    private final RoomMapper roomMapper;
 
     private final RedisMessageListenerContainer listenerContainer;
     private final RedisPublisher redisPublisher;
@@ -40,13 +40,12 @@ public class RedisPubSubService {
     public void subscribe(String participateId) {
         log.info("[RedisPubSubService] subscribe {} ", participateId);
         try{
-            Integer channel = chatRoomMapper.selectChatRoomIdByParticipateId(participateId)
+            Integer channel = roomMapper.selectChatRoomIdByParticipateId(participateId)
                     .orElseThrow(()->new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
             log.info("[RedisPubSubService] channel-1 {} ", channel);
-            log.info("[RedisPubSubService] getChannelName {} ", getChannelName(String.valueOf(channel)));
+
             // 요청한 Channel 을 구독
             listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
-            log.info("[RedisPubSubService] channel-2 {} ", channel);
         }
         catch (CustomException e){
             log.error("[ERROR] [RedisPubSubService] subscribe {} ", e.getMessage());
@@ -55,7 +54,7 @@ public class RedisPubSubService {
     }
 
     // 이벤트 발행
-    public void publish(String channel, ChatMessage message) {
+    public void publish(String channel, Message message) {
         listenerContainer.addMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
         redisPublisher.publish(getChannelName(channel), message);
     }
@@ -65,7 +64,7 @@ public class RedisPubSubService {
      * @param participateId
      */
     public void cancelSubChannel(String participateId) {
-        Integer channel = chatRoomMapper.selectChatRoomIdByParticipateId(participateId)
+        Integer channel = roomMapper.selectChatRoomIdByParticipateId(participateId)
                 .orElseThrow(()->new CustomException(ErrorCode.CHAT_PARTICIPATE_NOT_FOUND));
         listenerContainer.removeMessageListener(redisSubscriber, ChannelTopic.of(getChannelName(String.valueOf(channel))));
     }

@@ -31,6 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MateController {
     private final MateService mateService;
 
+    /**
+     * 메이트 맺기 신청/취소
+     *
+     * @author 최유경
+     * @param request 메이트 맺기 위한 정보
+     */
     @PutMapping("/update")
     public ResponseEntity<CommonResponseDTO> mateModify(@RequestBody MateUpdateRequestDTO request) {
 

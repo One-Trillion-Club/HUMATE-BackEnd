@@ -36,7 +36,9 @@ public class RedisConfig {
 
     /**
      * 단일 Topic 사용을 위한 Bean 설정
-     * @return
+     *
+     * @author 최유경
+     * @return RedisConnectionFactory
      */
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
@@ -45,6 +47,8 @@ public class RedisConfig {
 
     /**
      * RedisTemplate 구성하기
+     *
+     * @author 최유경
      * @apiNote Redis는 default로 key-value를 String(Hash)를 저장
      * @return RedisTemplate
      */
@@ -64,8 +68,10 @@ public class RedisConfig {
     /**
      * 발행된 메시지 처리를 위한 리스너 설정
      * @apiNote Redis Channel(Topic)로 부터 메시지를 받고, 메세지 리스너에 대한 비동기 동작을 제공하는 컨테이너
+     *
+     * @author 최유경
      * @param connectionFactory
-     * @return
+     * @return RedisMessageListenerContainer
      */
     @Bean
     public RedisMessageListenerContainer redisMessageListenerContainer(
