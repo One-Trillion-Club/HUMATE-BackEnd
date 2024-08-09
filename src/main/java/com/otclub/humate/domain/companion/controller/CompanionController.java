@@ -5,7 +5,7 @@ import com.otclub.humate.common.dto.CommonResponseDTO;
 
 import com.otclub.humate.domain.chat.dto.CompanionCreateRequestDTO;
 
-import com.otclub.humate.domain.chat.dto.ChatRoomRequestDTO;
+//import com.otclub.humate.domain.chat.dto.ChatRoomRequestDTO;
 
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.service.CompanionService;

@@ -42,4 +42,7 @@ public interface MessageService {
      * @return List 채팅 메세지 조회
      */
     List<Message> getListMessage(String roomId);
+
+
+    Message getLatestMessage(String chatRoomId);
 }
