@@ -20,13 +20,13 @@ import java.util.UUID;
  * AWS S3에 이미지 파일을 업로드하는 컴포넌트 클래스.
  *
  * @author 손승완
- * @since 2024.07.29
+ * @since 2024.08.01
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
- * 2024.07.29   손승완        최초 생성
+ * 2024.08.01   손승완        최초 생성
  * </pre>
  */
 @Component
@@ -38,11 +38,10 @@ public class S3Uploader {
     private String bucket;
 
     /**
-     * 이미지 파일을 S3 버킷에 업로드하고, 업로드된 이미지의 URL을 반환합니다.
+     * 이미지 파일을 S3 버킷에 업로드하고, 업로드된 이미지의 URL을 반환
      *
-     * @param imageFile 업로드할 이미지 파일
-     * @return 업로드된 이미지의 URL
-     * @throws CustomException 업로드 실패 시 발생
+     * @param imageFile
+     * @return aws s3에 upload된 url
      */
     public String uploadImage(MultipartFile imageFile) {
         String originName = imageFile.getOriginalFilename();
@@ -57,11 +56,11 @@ public class S3Uploader {
     }
 
     /**
-     * 이미지 파일을 비동기적으로 S3에 업로드합니다.
+     * 이미지 파일을 비동기적으로 S3에 업로드
      *
-     * @param imageFile 업로드할 이미지 파일
-     * @param uploadName 업로드된 파일의 이름
-     * @throws IOException 업로드 도중 오류 발생 시
+     * @param imageFile
+     * @param uploadName
+     * @throws IOException
      */
     @Async("S3ImageUploadExecutor")
     public void uploadToS3(MultipartFile imageFile, String uploadName) throws IOException {
@@ -79,10 +78,11 @@ public class S3Uploader {
     }
 
     /**
-     * S3에 업로드할 파일의 메타데이터를 생성합니다.
+     * S3에 업로드할 파일의 메타데이터를 생성
      *
-     * @param size 파일 크기
-     * @param contentType 파일의 MIME 타입
+     * @param size
+     * @param contentType
+     * @return ObjectMetadata
      */
     private ObjectMetadata createObjectMetadata(long size, String contentType) {
         ObjectMetadata metadata = new ObjectMetadata();

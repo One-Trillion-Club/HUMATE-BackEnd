@@ -25,9 +25,9 @@ import java.util.concurrent.Executor;
 public class AsyncConfig implements AsyncConfigurer {
 
     /**
-     * S3 이미지 업로드를 위한 스레드 풀을 설정합니다.
+     * S3 이미지 업로드를 위한 스레드 풀 설정
      *
-     * @return 설정된 스레드 풀을 반환합니다.
+     * @return 설정된 스레드 풀 반환
      */
     @Bean("S3ImageUploadExecutor")
     public Executor imageUploadExecutor() {
