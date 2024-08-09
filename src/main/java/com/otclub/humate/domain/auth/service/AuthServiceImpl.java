@@ -169,10 +169,10 @@ public class AuthServiceImpl implements AuthService {
         Member member = mapper.selectMemberById(memberId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXISTS_MEMBER));
 
-        // 이부분 주석 풀 시 한 클라이언트에서만 접속 가능
-//        if (!refreshToken.equals(member.getRefreshToken())) {
-//            throw new Exception();
-//        }
+        // RTR 전략 사용 (한 디바이스에서만 접속 가능)
+        if (!refreshToken.equals(member.getRefreshToken())) {
+            throw new Exception();
+        }
 
         try {
             JwtDTO jwtDTO = jwtGenerator.generateToken(member);
