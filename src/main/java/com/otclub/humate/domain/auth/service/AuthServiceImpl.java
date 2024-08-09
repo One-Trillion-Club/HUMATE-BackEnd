@@ -75,6 +75,7 @@ public class AuthServiceImpl implements AuthService {
      * @author 조영욱
      * @apiNote 로그인 id, 닉네임 중복 시 실패한다.
      * @param dto 회원가입 사용자 정보
+     * @exception CustomException VERIFICATION_INVALID, NOT_VALID_INPUT, DUPLICATE_KEY
      */
     @Transactional
     @Override
@@ -133,6 +134,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @author 조영욱
      * @param dto 아이디, 패스워드
+     * @exception CustomException NOT_VALID_USER_INFORMATION, UNEXPECTED_EXCEPTION
      */
     @Override
     public JwtDTO logIn(LogInRequestDTO dto) {
@@ -160,6 +162,7 @@ public class AuthServiceImpl implements AuthService {
      * @apiNote 액세스 토큰 만료 시 리프레시 토큰을 통한 토큰 리프레시
      * @param memberId 유저 id
      * @param refreshToken validate 된 리프레시 토큰 값
+     * @exception CustomException NOT_EXISTS_MEMBER, UNEXPECTED_EXCEPTION
      */
     @Override
     public JwtDTO refreshJwtToken(String memberId, String refreshToken) throws Exception {
@@ -187,6 +190,7 @@ public class AuthServiceImpl implements AuthService {
      *
      * @author 조영욱
      * @return 인증 코드
+     * @exception CustomException ALREADY_EXISTS_PHONE
      */
     public String generatePhoneVerificationCode(GeneratePhoneVerificationCodeRequestDTO dto) {
         String phone = dto.getPhone();

@@ -55,6 +55,7 @@ public class MemberServiceImpl implements MemberService {
      *
      * @author 조영욱
      * @param memberId 조회할 멤버 아이디
+     * @exception CustomException NOT_EXISTS_MEMBER
      */
     @Override
     public ProfileResponseDTO getMemberProfile(String memberId) {
@@ -68,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
      * 내 정보 수정
      *
      * @author 조영욱
+     * @exception CustomException NOT_EXISTS_MEMBER, DUPLICATE_KEY
      */
     @Transactional
     @Override

@@ -55,6 +55,7 @@ public class JwtProvider {
      * @author 조영욱
      * @param token
      * @return Authentication
+     * @exception RuntimeException
      */
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
@@ -77,6 +78,7 @@ public class JwtProvider {
      *
      * @author 조영욱
      * @param token
+     * @exception  ExpiredJwtException, AccessDeniedException
      */
     public boolean validateToken(String token) {
         try {

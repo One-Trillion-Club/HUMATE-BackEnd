@@ -18,7 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PassportVerificationRequestDTO {
-
     // 0001로 고정
     private String organization = "0001";
     // "yyyymmdd" 형식
