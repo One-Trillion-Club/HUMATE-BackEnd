@@ -23,10 +23,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewResponseDTO {
+    // 동행 ID
     private int companionId;
+    // 매칭글 제목
     private String postTitle;
+    // 매칭 지점
     private String matchBranch;
+    // 매칭 날짜
     private String matchDate;
+    // 메이트 닉네임
     private String mateNickname;
 
     public static ReviewResponseDTO of(CompanionPostDTO companionPostDTO, String memberId) {

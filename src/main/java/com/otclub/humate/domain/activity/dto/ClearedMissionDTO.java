@@ -20,10 +20,15 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ClearedMissionDTO {
+    // 활동 수행 내역 ID
     private int companionActivityId;
+    // 활동 환국어 제목
     private String titleKo;
+    // 활동 영어 제목
     private String titleEn;
+    // 활동 상태
     private int status;
+    // 활동 썸네일 이미지 url
     private String imgUrl;
 
 }

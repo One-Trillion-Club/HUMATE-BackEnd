@@ -22,9 +22,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 public class CompanionDTO {
+    // 동행 ID
     private int companionId;
+    // 채팅방 ID
     private int chatRoomId;
+    // 첫 번째 회원 ID
     private String firstMemberId;
+    // 두 번째 회원 ID
     private String secondMemberId;
 
 

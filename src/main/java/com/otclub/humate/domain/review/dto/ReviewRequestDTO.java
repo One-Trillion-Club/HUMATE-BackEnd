@@ -22,7 +22,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ReviewRequestDTO {
+    // 동행 ID
     private int companionId;
+    // 후기 내용
     private String content;
+    // 후기 점수
     private double score;
 }

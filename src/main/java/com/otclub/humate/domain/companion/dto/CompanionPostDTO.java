@@ -20,13 +20,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanionPostDTO {
+    // 동행 ID
     private int companionId;
+    // 매칭글 제목
     private String postTitle;
+    // 매칭 지점
     private String matchBranch;
+    // 매칭 날짜
     private String matchDate;
+    // 첫 번쨰 회원 ID
     private String firstMemberId;
+    // 첫 번째 회원 닉네임
     private String firstMemberNickname;
+    // 두 번쨰 회원 ID
     private String secondMemberId;
+    // 두 번쨰 회원 닉네임
     private String secondMemberNickname;
 
 }

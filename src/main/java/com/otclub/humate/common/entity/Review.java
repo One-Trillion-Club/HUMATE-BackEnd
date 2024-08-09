@@ -22,12 +22,25 @@ import java.util.Date;
 @Getter
 @Builder
 public class Review {
+    // 리뷰 ID
     private int reviewId;
+
+    // 동행 ID
     private int companionId;
+
+    // 리뷰 작성자 ID
     private String reviewerId;
+
+    // 리뷰 대상자 ID
     private String revieweeId;
+
+    // 리뷰 내용
     private String content;
+
+    // 리뷰 점수
     private double score;
+
+    // 리뷰 생성 날짜
     private Date createdAt;
     private String status;
 

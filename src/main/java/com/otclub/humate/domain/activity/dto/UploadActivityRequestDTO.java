@@ -20,6 +20,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UploadActivityRequestDTO {
+    // 활동 ID
     private int activityId;
+    // 동행 ID
     private int companionId;
 }

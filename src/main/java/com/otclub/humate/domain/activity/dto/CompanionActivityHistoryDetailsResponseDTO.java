@@ -26,9 +26,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanionActivityHistoryDetailsResponseDTO {
+    // 활동 한국어 제목
     private String activityTitleKo;
+    // 활동 영어 제목
     private String activityTitleEn;
+    // 활동 생성일
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd", timezone = "Asia/Seoul")
     private Date createdAt;
+    // 활동 이미지 url 목록
     private List<String> imgUrls;
 }

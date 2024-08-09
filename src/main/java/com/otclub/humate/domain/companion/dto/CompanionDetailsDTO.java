@@ -22,15 +22,26 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanionDetailsDTO {
+    // 동행 ID
     private int companionId;
+    // 동행 종료 상태
     private Date finishedAt;
+    // 첫 번째 회원 ID
     private String firstMemberId;
+    // 첫 번째 회원 프로필 이미지 url
     private String firstMemberProfileImgUrl;
+    // 첫 번째 회원 닉네임
     private String firstMemberNickname;
+    // 두 번째 회원 ID
     private String secondMemberId;
+    // 두 번째 회원 프로필 이미지 url
     private String secondMemberProfileImgUrl;
+    // 두 번째 회원 닉네임
     private String secondMemberNickname;
+    // 매칭글 제목
     private String postTitle;
+    // 매칭 날짜
     private String matchDate;
+    // 매칭 지점
     private String matchBranch;
 }

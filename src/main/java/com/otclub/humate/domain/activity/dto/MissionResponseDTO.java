@@ -23,9 +23,13 @@ import java.util.List;
 @Setter
 @Builder
 public class MissionResponseDTO {
+    // 매칭 종료 상태
     private int isFinished;
+    // 매칭글 제목
     private String postTitle;
+    // 완료된 활동 목록
     private List<ClearedMissionDTO> clearedMissionList;
+    // 새로운 활동 목록
     private List<NewMissionDTO> newMissionList;
 
     public static MissionResponseDTO of(List<ClearedMissionDTO> companionActivityHistories,

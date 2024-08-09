@@ -23,12 +23,19 @@ import java.util.List;
 @Getter
 @Builder
 public class NewMissionDTO {
+    // 활동 ID
     private int activityId;
+    // 매칭 한국어 제목
     private String titleKo;
+    // 매칭 영어 제목
     private String titleEn;
+    // 매칭 한국어 내용
     private String contentKo;
+    // 매칭 영어 내용
     private String contentEn;
+    // 포인트
     private int point;
+    // 이미지 url
     private String imgUrl;
 
     public static List<NewMissionDTO> ofList(List<Activity> activities) {

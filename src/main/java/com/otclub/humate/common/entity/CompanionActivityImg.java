@@ -22,9 +22,16 @@ import java.util.Date;
 @Setter
 @Builder
 public class CompanionActivityImg {
+    // 활동 인증 내역 이미지 ID
     private int companionActivityImgId;
+
+    // 활동 인증 내역 ID
     private int companionActivityId;
+
+    // 이미지 URL
     private String imgUrl;
+
+    // 생성 날짜
     private Date createdAt;
 
     public static CompanionActivityImg of(String imgUrl) {

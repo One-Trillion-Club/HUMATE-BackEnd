@@ -22,10 +22,21 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Companion {
+    // 동행 ID
     private int companionId;
+
+    // 채팅방 ID
     private int chatRoomId;
+
+    // 첫 번째 회원 ID
     private String firstMemberId;
+
+    // 두 번째 회원 ID
     private String secondMemberId;
+
+    // 동행 생성 날짜
     private Date createdAt;
+
+    // 동행 완료 날짜
     private Date finishedAt;
 }

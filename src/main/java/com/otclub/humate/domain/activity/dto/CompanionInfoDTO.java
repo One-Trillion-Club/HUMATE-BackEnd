@@ -20,7 +20,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CompanionInfoDTO {
+    // 매칭 제목
     private String postTitle;
+    // 매칭 종료 상태
     private int isFinished;
 
 }
