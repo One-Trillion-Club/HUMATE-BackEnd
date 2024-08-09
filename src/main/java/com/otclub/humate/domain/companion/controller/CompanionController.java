@@ -2,7 +2,6 @@ package com.otclub.humate.domain.companion.controller;
 
 import com.otclub.humate.common.annotation.MemberId;
 import com.otclub.humate.common.dto.CommonResponseDTO;
-import com.otclub.humate.common.exception.ErrorCode;
 import com.otclub.humate.domain.chat.dto.ChatRoomRequestDTO;
 import com.otclub.humate.domain.companion.dto.CompanionResponseDTO;
 import com.otclub.humate.domain.companion.service.CompanionService;
